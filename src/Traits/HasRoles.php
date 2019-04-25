@@ -52,6 +52,5 @@ trait HasRoles
                 $builder->where('name', $permission);
             })
             ->exists();
-
     }
 }
