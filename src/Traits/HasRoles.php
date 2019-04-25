@@ -13,9 +13,40 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  */
 trait HasRoles
 {
+    use Find;
+
     public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class, 'user_roles');
+    }
+
+    /**
+     * @param string|\Helldar\Roles\Models\Role $role
+     *
+     * @throws \Helldar\Roles\Exceptions\RoleNotFoundException
+     */
+    public function assignRole($role)
+    {
+        $role = $this->findRole($role);
+
+        $this->roles()->attach($role->id);
+    }
+
+    /**
+     * @param string|\Helldar\Roles\Models\Role $role
+     *
+     * @throws \Helldar\Roles\Exceptions\RoleNotFoundException
+     */
+    public function revokeRole($role)
+    {
+        $role = $this->findRole($role);
+
+        $this->roles()->detach($role->id);
+    }
+
+    public function syncRoles(array $roles_ids)
+    {
+        $this->roles()->sync($roles_ids);
     }
 
     public function hasRole(...$roles): bool

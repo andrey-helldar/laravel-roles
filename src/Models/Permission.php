@@ -2,6 +2,7 @@
 
 namespace Helldar\Roles\Models;
 
+use Helldar\Roles\Traits\Find;
 use Helldar\Roles\Traits\SetAttribute;
 use Illuminate\Database\Eloquent\Model;
 
@@ -25,7 +26,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Permission extends Model
 {
-    use SetAttribute;
+    use SetAttribute, Find;
 
     protected $fillable = ['name'];
 
@@ -36,24 +37,24 @@ class Permission extends Model
 
     /**
      * @param string|\Helldar\Roles\Models\Role $role
+     *
+     * @throws \Helldar\Roles\Exceptions\RoleNotFoundException
      */
     public function assignRole($role)
     {
-        if (!($role instanceof Role)) {
-            $role = Role::whereName($role)->firstOrFail();
-        }
+        $role = $this->findRole($role);
 
         $this->roles()->attach($role->id);
     }
 
     /**
      * @param string|\Helldar\Roles\Models\Role $role
+     *
+     * @throws \Helldar\Roles\Exceptions\RoleNotFoundException
      */
     public function revokeRole($role)
     {
-        if (!($role instanceof Role)) {
-            $role = Role::whereName($role)->firstOrFail();
-        }
+        $role = $this->findRole($role);
 
         $this->roles()->detach([$role->id]);
     }
