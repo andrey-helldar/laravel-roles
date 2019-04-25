@@ -32,4 +32,33 @@ class Permission extends Model
     {
         return $this->belongsToMany(Role::class, 'role_permissions');
     }
+
+    /**
+     * @param string|\Helldar\Roles\Models\Role $role
+     */
+    public function assignRole($role)
+    {
+        if (!($role instanceof Role)) {
+            $role = Role::whereName($role)->firstOrFail();
+        }
+
+        $this->roles()->attach($role->id);
+    }
+
+    /**
+     * @param string|\Helldar\Roles\Models\Role $role
+     */
+    public function revokeRole($role)
+    {
+        if (!($role instanceof Role)) {
+            $role = Role::whereName($role)->firstOrFail();
+        }
+
+        $this->roles()->detach([$role->id]);
+    }
+
+    public function syncRoles(array $roles_ids)
+    {
+        $this->roles()->sync($roles_ids);
+    }
 }
