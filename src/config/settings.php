@@ -4,7 +4,7 @@ return [
     /*
      * Default database connection name.
      *
-     * By default, "mysql".
+     * By default, mysql.
      */
 
     'connection' => env('DB_CONNECTION', 'mysql'),
@@ -26,6 +26,8 @@ return [
 
     /*
      * If `true`, then the blade directives `role()` and `permission()` will be specified during initialization.
+     *
+     * By default, false.
      */
 
     'use_blade' => false,
