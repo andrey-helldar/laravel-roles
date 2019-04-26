@@ -93,4 +93,21 @@ class Role extends Model
     {
         $this->permissions()->sync($permissions_ids);
     }
+
+    /**
+     * @param string|int|\Helldar\Roles\Models\Permission $permission
+     *
+     * @return bool
+     */
+    public function hasPermission($permission): bool
+    {
+        if ($permission instanceof Permission) {
+            $permission = $permission->id;
+        }
+
+        return (bool) $this->permissions()
+            ->whereId($permission)
+            ->orWhereName($permission)
+            ->exists();
+    }
 }

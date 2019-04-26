@@ -10,7 +10,7 @@ use Helldar\Roles\Models\Role;
 trait Find
 {
     /**
-     * @param string|\Helldar\Roles\Models\Role $role
+     * @param string|int|\Helldar\Roles\Models\Role $role
      *
      * @throws \Helldar\Roles\Exceptions\RoleNotFoundException
      * @return \Helldar\Roles\Models\Role
@@ -21,7 +21,10 @@ trait Find
             return $role;
         }
 
-        $item = Role::whereName((string) $role)->first();
+        $item = Role::query()
+            ->whereId($role)
+            ->orWhereName($role)
+            ->first();
 
         if (\is_null($item)) {
             throw new RoleNotFoundException($role);
@@ -31,7 +34,7 @@ trait Find
     }
 
     /**
-     * @param string|\Helldar\Roles\Models\Permission $permission
+     * @param string|int|\Helldar\Roles\Models\Permission $permission
      *
      * @throws \Helldar\Roles\Exceptions\PermissionNotFoundException
      * @return \Helldar\Roles\Models\Permission
@@ -42,7 +45,10 @@ trait Find
             return $permission;
         }
 
-        $item = Permission::whereName((string) $permission)->first();
+        $item = Permission::query()
+            ->whereId($permission)
+            ->orWhereName($permission)
+            ->first();
 
         if (\is_null($item)) {
             throw new PermissionNotFoundException($permission);

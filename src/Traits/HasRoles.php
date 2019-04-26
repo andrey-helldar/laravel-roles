@@ -2,6 +2,7 @@
 
 namespace Helldar\Roles\Traits;
 
+use Helldar\Roles\Models\Permission;
 use Helldar\Roles\Models\Role;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -90,27 +91,22 @@ trait HasRoles
         return false;
     }
 
-    public function hasPermissionThroughRole($permission): bool
-    {
-        foreach ($permission->roles as $role) {
-            if ($this->roles->contains($role)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public function hasPermissionTo($permission): bool
-    {
-        return $this->hasPermission($permission) || $this->hasPermissionThroughRole($permission);
-    }
-
+    /**
+     * @param string|int|\Helldar\Roles\Models\Permission $permission
+     *
+     * @return bool
+     */
     public function hasPermission($permission): bool
     {
+        if ($permission instanceof Permission) {
+            $permission = $permission->id;
+        }
+
         return (bool) $this->roles()
             ->whereHas('permissions', function (Builder $builder) use ($permission) {
-                $builder->where('name', $permission);
+                $builder
+                    ->where('id', $permission)
+                    ->orWhere('name', $permission);
             })
             ->exists();
     }
