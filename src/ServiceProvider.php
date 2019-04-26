@@ -2,6 +2,10 @@
 
 namespace Helldar\Roles;
 
+use Helldar\Roles\Console\PermissionCreate;
+use Helldar\Roles\Console\PermissionDelete;
+use Helldar\Roles\Console\RoleCreate;
+use Helldar\Roles\Console\RoleDelete;
 use Helldar\Roles\Helpers\Config;
 use Helldar\Roles\Helpers\Table;
 use Helldar\Roles\Models\Permission;
@@ -23,6 +27,8 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
         $this->blade();
         $this->can();
+
+        $this->bootCommands();
     }
 
     public function register()
@@ -70,5 +76,15 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
                     });
                 });
         }
+    }
+
+    private function bootCommands()
+    {
+        $this->commands([
+            PermissionCreate::class,
+            PermissionDelete::class,
+            RoleCreate::class,
+            RoleDelete::class,
+        ]);
     }
 }

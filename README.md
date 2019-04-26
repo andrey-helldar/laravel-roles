@@ -27,6 +27,7 @@ Basic roles and permissions handling for Laravel 5.5 and up.
         * [Syncing permissions](#syncing-permissions)
     * [Blade](#blade)
     * [Checking for permissions](#checking-for-permissions)
+    * [Artisan commands](#artisan-commands)
 * [License](#license)
 
 
@@ -310,6 +311,28 @@ $role->hasPermission(1): bool
 
 // with permission instance:
 $role->hasPermission(Permission::find(1)): bool
+```
+
+
+### Artisan commands
+
+You can create/delete a role or a permission from a console with artisan commands:
+
+```
+php artisan acl:role-create {name}
+php artisan acl:role-delete {id|ID or role name}
+
+php artisan acl:permission-create {name}
+php artisan acl:permission-delete {id|ID or permission name}
+```
+
+You can also invoke the creation of roles and permissions from your application:
+```php
+Artisan::call('acl:role-create', ['name' => $name]);
+Artisan::call('acl:role-delete', ['name' => $name]);
+
+Artisan::call('acl:permission-create', ['name' => $name]);
+Artisan::call('acl:permission-delete', ['name' => $name]);
 ```
 
 

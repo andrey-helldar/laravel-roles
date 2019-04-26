@@ -18,6 +18,8 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @method static \Illuminate\Database\Eloquent\Builder|\Helldar\Roles\Models\Role newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\Helldar\Roles\Models\Role newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\Helldar\Roles\Models\Role orWhereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Helldar\Roles\Models\Role orWhereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Helldar\Roles\Models\Role query()
  * @method static \Illuminate\Database\Eloquent\Builder|\Helldar\Roles\Models\Role whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Helldar\Roles\Models\Role whereId($value)

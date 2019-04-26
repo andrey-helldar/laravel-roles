@@ -18,6 +18,8 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @method static \Illuminate\Database\Eloquent\Builder|\Helldar\Roles\Models\Permission newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\Helldar\Roles\Models\Permission newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\Helldar\Roles\Models\Permission orWhereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Helldar\Roles\Models\Permission orWhereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Helldar\Roles\Models\Permission query()
  * @method static \Illuminate\Database\Eloquent\Builder|\Helldar\Roles\Models\Permission whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\Helldar\Roles\Models\Permission whereId($value)
