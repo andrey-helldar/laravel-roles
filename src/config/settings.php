@@ -31,4 +31,12 @@ return [
      */
 
     'use_blade' => false,
+
+    /*
+     * If `true`, then you can use `can()` directive in blade files.
+     *
+     * By default, false.
+     */
+
+    'use_can_directive' => false,
 ];

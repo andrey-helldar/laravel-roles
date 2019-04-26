@@ -2,8 +2,12 @@
 
 namespace Helldar\Roles;
 
+use Helldar\Roles\Helpers\Config;
+use Helldar\Roles\Helpers\Table;
+use Helldar\Roles\Models\Permission;
 use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Schema;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
@@ -18,6 +22,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         ], 'config');
 
         $this->blade();
+        $this->can();
     }
 
     public function register()
@@ -46,5 +51,24 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         Blade::directive('endpermission', function () {
             return '<?php } ?>';
         });
+    }
+
+    private function can()
+    {
+        if (!Config::get('use_can_directive', false)) {
+            return;
+        }
+
+        $connection = Table::connection();
+        $table      = Table::name('permissions');
+
+        if (Schema::connection($connection)->hasTable($table)) {
+            Permission::get(['name'])
+                ->map(function (Permission $permission) {
+                    Gate::define($permission->name, function ($user) use ($permission) {
+                        return $user->hasPermission($permission);
+                    });
+                });
+        }
     }
 }
