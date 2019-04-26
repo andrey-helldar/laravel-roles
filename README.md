@@ -9,6 +9,7 @@ Basic roles and permissions handling for Laravel 5.5 and up.
     <a href="https://packagist.org/packages/andrey-helldar/laravel-roles"><img src="https://img.shields.io/packagist/dt/andrey-helldar/laravel-roles.svg?style=flat-square" alt="Total Downloads" /></a>
     <a href="https://packagist.org/packages/andrey-helldar/laravel-roles"><img src="https://poser.pugx.org/andrey-helldar/laravel-roles/v/stable?format=flat-square" alt="Latest Stable Version" /></a>
     <a href="https://packagist.org/packages/andrey-helldar/laravel-roles"><img src="https://poser.pugx.org/andrey-helldar/laravel-roles/v/unstable?format=flat-square" alt="Latest Unstable Version" /></a>
+    <a href="https://travis-ci.org/andrey-helldar/laravel-roles"><img src="https://travis-ci.org/andrey-helldar/laravel-roles.svg?branch=master" alt="Travis CI" /></a>
     <a href="LICENSE"><img src="https://poser.pugx.org/andrey-helldar/laravel-roles/license?format=flat-square" alt="License" /></a>
 </p>
 
