@@ -27,7 +27,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
     private function blade()
     {
-        if (Config::get('laravel_roles.use_blade', false)) {
+        if (!Config::get('use_blade', false)) {
             return;
         }
 
