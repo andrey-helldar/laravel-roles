@@ -241,9 +241,18 @@ $permission->syncRoles([1, 2, 3, ...]);
 
 ### Blade
 
-To check for roles and permissions with this package, you can still using `role()` and `permission()` directives:
+If you enabled the use of directives in the [config](src/config/settings.php) file, you can still using `can()` blade directive with additional `role()` and `permission()` directives:
 
 ```php
+@can('permission_name')
+    I can see this text
+@endcan
+
+@if(auth()->user()->can('permission_name'))
+    I can see this text
+@endif
+
+
 @role('role_name')
     I can see this text
 @endrole
@@ -262,7 +271,9 @@ To check for roles and permissions with this package, you can still using `role(
 @endpermission
 ```
 
-You can only use blade directives with role/permission id or slug. 
+You can only use blade directives with role/permission id or slug.
+
+Note: use `can()` and `role() / permission()` is enabling separately. See [config](src/config/settings.php) file.
 
 
 ### Checking for permissions
