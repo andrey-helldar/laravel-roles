@@ -36,11 +36,11 @@ class TableSeeder
     {
         $role = $this->role('baz');
 
-        $role->permissions()->sync($this->permissions());
+        $role->syncPermissions($this->permissions());
 
         $user = $this->user();
 
-        $user->roles()->sync((array) $role->id);
+        $user->syncRoles((array) $role->id);
     }
 
     private function role(string $name): Role
