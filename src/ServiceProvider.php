@@ -22,7 +22,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         });
 
         Blade::directive('endrole', function () {
-            return "<?php } ?>";
+            return '<?php } ?>';
         });
 
         Blade::directive('permission', function ($permission) {
@@ -30,7 +30,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         });
 
         Blade::directive('endpermission', function () {
-            return "<?php } ?>";
+            return '<?php } ?>';
         });
     }
 }
