@@ -8,17 +8,17 @@ use Illuminate\Support\Str;
 
 trait Commands
 {
-    private $name;
+    private $slug;
 
     private function name(): string
     {
-        if (\is_null($this->name)) {
+        if (\is_null($this->slug)) {
             $name = $this->argument('name');
 
-            $this->name = Str::slug($name, '_');
+            $this->slug = Str::slug($name, '_');
         }
 
-        return $this->name;
+        return $this->slug;
     }
 
     private function roleIsExists(): bool
