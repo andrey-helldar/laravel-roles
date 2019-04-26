@@ -21,6 +21,16 @@ trait HasRoles
     }
 
     /**
+     * @param string $name
+     *
+     * @return \Illuminate\Database\Eloquent\Model|\Helldar\Roles\Models\Role
+     */
+    public function createRole(string $name)
+    {
+        return $this->roles()->create(\compact('name'));
+    }
+
+    /**
      * @param string|\Helldar\Roles\Models\Role $role
      *
      * @throws \Helldar\Roles\Exceptions\RoleNotFoundException

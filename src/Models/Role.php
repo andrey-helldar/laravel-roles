@@ -36,6 +36,16 @@ class Role extends Model
     }
 
     /**
+     * @param string $name
+     *
+     * @return \Illuminate\Database\Eloquent\Model|\Helldar\Roles\Models\Permission
+     */
+    public function createPermission(string $name)
+    {
+        return $this->permissions()->create(\compact('name'));
+    }
+
+    /**
      * @param string|\Helldar\Roles\Models\Permission $permission
      *
      * @throws \Helldar\Roles\Exceptions\PermissionNotFoundException
