@@ -60,6 +60,11 @@ public function register()
 }
 ```
 
+Copy the package config to your local config with the publish command:
+```
+php artisan vendor:publish --provider="Helldar\Roles\ServiceProvider"
+```
+
 You can create the DB tables by running the migrations:
 ```
 php artisan migrate

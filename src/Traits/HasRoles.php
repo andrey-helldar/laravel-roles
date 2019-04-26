@@ -2,6 +2,7 @@
 
 namespace Helldar\Roles\Traits;
 
+use Helldar\Roles\Helpers\Table;
 use Helldar\Roles\Models\Permission;
 use Helldar\Roles\Models\Role;
 use Illuminate\Database\Eloquent\Builder;
@@ -18,7 +19,7 @@ trait HasRoles
 
     public function roles(): BelongsToMany
     {
-        return $this->belongsToMany(Role::class, 'user_roles');
+        return $this->belongsToMany(Role::class, Table::name('user_roles'));
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace Tests\database\seeds;
 
+use Helldar\Roles\Helpers\Table;
 use Helldar\Roles\Models\Permission;
 use Helldar\Roles\Models\Role;
 use Illuminate\Support\Facades\DB;
@@ -23,11 +24,12 @@ class TableSeeder
     {
         Schema::disableForeignKeyConstraints();
 
-        DB::table('users')->truncate();
-        DB::table('roles')->truncate();
-        DB::table('permissions')->truncate();
-        DB::table('user_roles')->truncate();
-        DB::table('role_permissions')->truncate();
+        $tables     = Table::all(true);
+        $connection = Table::connection();
+
+        foreach ($tables as $table) {
+            DB::connection($connection)->table($table)->truncate();
+        }
 
         Schema::enableForeignKeyConstraints();
     }

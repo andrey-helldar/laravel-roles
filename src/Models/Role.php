@@ -2,6 +2,7 @@
 
 namespace Helldar\Roles\Models;
 
+use Helldar\Roles\Helpers\Table;
 use Helldar\Roles\Traits\Find;
 use Helldar\Roles\Traits\SetAttribute;
 use Illuminate\Database\Eloquent\Model;
@@ -30,9 +31,17 @@ class Role extends Model
 
     protected $fillable = ['name'];
 
+    public function __construct(array $attributes = [])
+    {
+        $this->connection = Table::connection();
+        $this->table      = Table::name('roles');
+
+        parent::__construct($attributes);
+    }
+
     public function permissions()
     {
-        return $this->belongsToMany(Permission::class, 'role_permissions');
+        return $this->belongsToMany(Permission::class, Table::name('role_permissions'));
     }
 
     /**

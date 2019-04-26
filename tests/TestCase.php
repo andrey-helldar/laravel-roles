@@ -52,6 +52,8 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
             'database' => ':memory:',
             'prefix'   => '',
         ]);
+
+        $app['config']->set('laravel_roles.connection', $this->database);
     }
 
     private function setRoutes($app)
