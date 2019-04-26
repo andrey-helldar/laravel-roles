@@ -14,7 +14,17 @@ Basic roles and permissions handling for Laravel 5.5 and up.
 ## Contents
 
 * [Installation](#installation)
-* [Usage](#usage)
+* [Using](#using)
+    * [User model](#user-model)
+    * [Middleware](#middleware)
+    * [Creating](#creating)
+    * [Assign, revoke and sync permissions](#assign-revoke-and-sync-permissions)
+        * [Assign permissions](#assign-permissions)
+        * [Revoke permissions](#revoke-permissions)
+        * [Syncing permissions](#syncing-permissions)
+    * [Blade](#blade)
+    * [Checking for permissions](#checking-for-permissions)
+* [License](#license)
 
 
 ## Installation
@@ -54,36 +64,10 @@ php artisan migrate
 
 This command will create such `roles`, `permissions`, `user_roles` and `role_permissions` tables.
 
-Next, you can add middlewares in `$routeMiddleware` of `app/Http/Kernel.php`:
-```php
-use Helldar\Roles\Http\Middleware\Permissions;
-use Helldar\Roles\Http\Middleware\Roles;
 
-protected $routeMiddleware = [
-    // ...
-    
-    'roles'       => Roles::class,
-    'permissions' => Permissions::class,
-]
-```
+## Using
 
-Then you can protect your routes using middleware rules:
-```php
-app('router')
-    ->middleware('roles:foo,bar', 'permissions:foo,bar')
-    ->get(...)
-    
-app('router')
-    ->middleware('roles:foo,bar')
-    ->get(...)
-    
-app('router')
-    ->middleware('permissions:foo,bar')
-    ->get(...)
-```
-
-
-## Usage
+### User model
 
 First, add the `Helldar\Roles\Traits\HasRoles` trait to your `User` model:
 
@@ -99,7 +83,39 @@ class User extends Authenticatable
 }
 ```
 
-This package allows for users to be associated with permissions and roles. Every role is associated with multiple permissions. A `Role` and a `Permission` are regular Eloquent models. They require a name and can be created like this:
+
+### Middleware
+
+You can add middlewares in `$routeMiddleware` of `app/Http/Kernel.php` file:
+```php
+use Helldar\Roles\Http\Middleware\Permissions;
+use Helldar\Roles\Http\Middleware\Roles;
+
+protected $routeMiddleware = [
+    // ...
+    
+    'roles'       => Roles::class,
+    'permissions' => Permissions::class,
+]
+```
+
+Now you can use the rules:
+```php
+app('router')
+    ->middleware('roles:foo,bar', 'permissions:foo,bar')
+    ->get(...)
+    
+app('router')
+    ->middleware('roles:foo,bar')
+    ->get(...)
+    
+app('router')
+    ->middleware('permissions:foo,bar')
+    ->get(...)
+```
+
+
+### Creating
 
 ```php
 use Helldar\Roles\Models\Role;
@@ -107,24 +123,174 @@ use Helldar\Roles\Models\Permission;
 
 $role = Role::create(['name' => 'admin']);
 $permission = Permission::create(['name' => 'update']);
-```
 
-A permission can be assigned to a role using `assignRole()` and `assignPermission()` methods:
-```php
 $role->assignPermission($permission);
-$permission->assignRole($role);
+
+// or
+
+$user = User::find(1);
+
+$role = $user->createRole('Mega Admin'); // creating Role instance with "mega_admin" name.
+
+$role->createPermission('Post edit'); // creating Permission instance with "post_edit" name.
 ```
 
-Multiple permissions can be synced to a role using `syncPermissions()` method:
+
+### Assign, revoke and sync permissions
+
+This package allows for users to be associated with permissions and roles. Every role is associated with multiple permissions. A `Role` and a `Permission` are regular Eloquent models.
+
+
+#### Assign permissions
+
+To add roles and permissions, use the following methods:
+
 ```php
-$role->syncPermissions(array $permissions_ids);
-$permission->syncRoles(array $roles_ids);
+use \Helldar\Roles\Models\Role;
+
+// For User
+$user->assignRole('role_name');
+$user->assignRole(Role::find(1));
+$user->assignRole(1);
+
+$user->assignRoles($role_1, 'role_name_2', 3, ...);
+
+
+// For Role
+use \Helldar\Roles\Models\Permission;
+
+$role->assignPermission('permission_name');
+$role->assignPermission(Permission::find(1));
+$role->assignPermission(1);
+
+$role->assignPermissions($permission_1, 'permission_2', 3, ...);
+
+
+// For Permission
+use \Helldar\Roles\Models\Role;
+
+$permission->assignRole('role_name');
+$permission->assignRole(Role::find(1));
+$permission->assignRole(1);
+
+$permission->assignRoles($role_1, 'role_2', 3, ...);
 ```
 
-A permission can be removed from a role using 1 of these methods:
+
+#### Revoke permissions
+
+To revoke roles and permissions, use the following methods:
+
 ```php
-$role->revokePermission($permission);
-$permission->revokeRole($role);
+use \Helldar\Roles\Models\Role;
+
+// For User
+$user->revokeRole('role_name');
+$user->revokeRole(Role::find(1));
+$user->revokeRole(1);
+
+$user->revokeRoles($role_1, 'role_name_2', 3, ...);
+
+
+// For Role
+use \Helldar\Roles\Models\Permission;
+
+$role->revokePermission('permission_name');
+$role->revokePermission(Permission::find(1));
+$role->revokePermission(1);
+
+$role->revokePermissions($permission_1, 'permission_2', 3, ...);
+
+
+// For Permission
+use \Helldar\Roles\Models\Role;
+
+$permission->revokeRole('role_name');
+$permission->revokeRole(Role::find(1));
+$permission->revokeRole(1);
+
+$permission->revokeRoles($role_1, 'role_2', 3, ...);
+```
+
+
+#### Syncing permissions
+
+To synchronization roles and permissions, use the following methods:
+
+```php
+// For User
+$user->syncRoles([1, 2, 3, ...]);
+
+
+// For Role
+$role->syncPermissions([1, 2, 3, ...]);
+
+
+// For Permission
+$permission->syncRoles([1, 2, 3, ...]);
+```
+
+
+### Blade
+
+To check for roles and permissions with this package, you can still using `role()` and `permission()` directives:
+
+```php
+@role('role_name')
+    I can see this text
+@endrole
+
+@role(auth()->user()->hasRole('role_name'))
+    I can see this text
+@endrole
+
+
+@permission('permission_name')
+    I can see this text
+@endpermission
+
+@permission(auth()->user()->hasPermission('permission_name'))
+    I can see this text
+@endpermission
+```
+
+You can only use blade directives with role/permission id or slug. 
+
+
+### Checking for permissions
+
+For user:
+```php
+$user = User::find(1);
+
+// with role slug:
+$user->hasRole('role_slug'): bool
+
+// with role ID:
+$user->hasRole(1): bool
+
+// with role instance:
+$user->hasRole(Role::find(1)): bool
+
+// with permission slug:
+$user->hasPermission('permission_slug'): bool
+
+// with permission instance:
+$user->hasPermission(Permission::find(1)): bool
+```
+
+For role:
+```php
+$role = Role::find(1);
+
+// with permission slug:
+$role->hasPermission('permission_slug'): bool
+
+// with permission ID:
+$role->hasPermission(1): bool
+
+// with permission instance:
+$role->hasPermission(Permission::find(1)): bool
 ```
 
 
