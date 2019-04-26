@@ -19,7 +19,7 @@ class PermissionDelete extends Command
      */
     public function handle()
     {
-        if ($this->roleIsDoesntExists()) {
+        if ($this->permissionIsDoesntExists()) {
             $this->error(\sprintf('Permission "%s" doesn\'t exists!', $this->name()));
 
             return;
