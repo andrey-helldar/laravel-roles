@@ -2,6 +2,8 @@
 
 Basic roles and permissions handling for Laravel 5.5 and up.
 
+![laravel roles](https://user-images.githubusercontent.com/10347617/56795701-ad270f00-6819-11e9-854c-df13a53d1e8c.png)
+
 <p align="center">
     <a href="https://styleci.io/repos/183436706"><img src="https://styleci.io/repos/183436706/shield" alt="StyleCI" /></a>
     <a href="https://packagist.org/packages/andrey-helldar/laravel-roles"><img src="https://img.shields.io/packagist/dt/andrey-helldar/laravel-roles.svg?style=flat-square" alt="Total Downloads" /></a>
@@ -40,7 +42,7 @@ Or manually update `require` block of `composer.json` and run `composer update`.
 ```json
 {
     "require-dev": {
-        "andrey-helldar/laravel-roles": "^1.0"
+        "andrey-helldar/laravel-roles": "^1.1"
     }
 }
 ```
