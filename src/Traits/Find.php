@@ -13,6 +13,7 @@ trait Find
      * @param string|int|\Helldar\Roles\Models\Role $role
      *
      * @throws \Helldar\Roles\Exceptions\RoleNotFoundException
+     *
      * @return \Helldar\Roles\Models\Role
      */
     private function findRole($role): Role
@@ -37,6 +38,7 @@ trait Find
      * @param string|int|\Helldar\Roles\Models\Permission $permission
      *
      * @throws \Helldar\Roles\Exceptions\PermissionNotFoundException
+     *
      * @return \Helldar\Roles\Models\Permission
      */
     private function findPermission($permission): Permission
