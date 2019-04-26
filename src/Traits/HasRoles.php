@@ -33,6 +33,16 @@ trait HasRoles
     }
 
     /**
+     * @param string|\Helldar\Roles\Models\Role ...$roles
+     */
+    public function assignRoles(...$roles)
+    {
+        \array_map(function ($role) {
+            $this->assignRole($role);
+        }, $roles);
+    }
+
+    /**
      * @param string|\Helldar\Roles\Models\Role $role
      *
      * @throws \Helldar\Roles\Exceptions\RoleNotFoundException
@@ -42,6 +52,16 @@ trait HasRoles
         $role = $this->findRole($role);
 
         $this->roles()->detach($role->id);
+    }
+
+    /**
+     * @param string|\Helldar\Roles\Models\Role ...$roles
+     */
+    public function revokeRoles(...$roles)
+    {
+        \array_map(function ($role) {
+            $this->revokeRole($role);
+        }, $roles);
     }
 
     public function syncRoles(array $roles_ids)

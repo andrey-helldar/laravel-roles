@@ -48,6 +48,16 @@ class Role extends Model
     }
 
     /**
+     * @param string|\Helldar\Roles\Models\Permission ...$permissions
+     */
+    public function assignPermissions(...$permissions)
+    {
+        \array_map(function ($permission) {
+            $this->assignPermission($permission);
+        }, $permissions);
+    }
+
+    /**
      * @param string|\Helldar\Roles\Models\Permission $permission
      *
      * @throws \Helldar\Roles\Exceptions\PermissionNotFoundException
@@ -57,6 +67,16 @@ class Role extends Model
         $permission = $this->findPermission($permission);
 
         $this->permissions()->detach([$permission->id]);
+    }
+
+    /**
+     * @param string|\Helldar\Roles\Models\Permission ...$permissions
+     */
+    public function revokePermissions(...$permissions)
+    {
+        \array_map(function ($permission) {
+            $this->revokePermission($permission);
+        }, $permissions);
     }
 
     public function syncPermissions(array $permissions_ids)
