@@ -45,9 +45,10 @@ class Permission extends Model implements PermissionContract
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     *
      * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function roles(): BelongsToMany
     {

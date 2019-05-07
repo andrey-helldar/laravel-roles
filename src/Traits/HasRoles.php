@@ -16,9 +16,10 @@ trait HasRoles
     use Find, Models;
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     *
      * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function roles(): BelongsToMany
     {
@@ -28,9 +29,10 @@ trait HasRoles
     /**
      * @param string $name
      *
+     * @return \Illuminate\Database\Eloquent\Model
+     *
      * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
      *
-     * @return \Illuminate\Database\Eloquent\Model
      */
     public function createRole(string $name)
     {
@@ -112,9 +114,10 @@ trait HasRoles
     /**
      * @param string|int|\Helldar\Roles\Models\Permission $permission
      *
+     * @return bool
+     *
      * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
      *
-     * @return bool
      */
     public function hasPermission($permission): bool
     {

@@ -12,10 +12,10 @@ trait Find
     /**
      * @param string|int|\Helldar\Roles\Models\Role $role
      *
-     * @throws \Helldar\Roles\Exceptions\RoleNotFoundException
-     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
-     *
      * @return \Helldar\Roles\Models\Role|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|object|null
+     *
+     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     * @throws \Helldar\Roles\Exceptions\RoleNotFoundException
      */
     private function findRole($role)
     {
@@ -41,10 +41,10 @@ trait Find
     /**
      * @param string|int|\Helldar\Roles\Models\Permission $permission
      *
-     * @throws \Helldar\Roles\Exceptions\PermissionNotFoundException
-     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
-     *
      * @return \Helldar\Roles\Models\Permission
+     *
+     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     * @throws \Helldar\Roles\Exceptions\PermissionNotFoundException
      */
     private function findPermission($permission)
     {

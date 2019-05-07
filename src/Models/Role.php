@@ -45,9 +45,10 @@ class Role extends Model implements RoleContract
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     *
      * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function permissions(): BelongsToMany
     {
@@ -57,9 +58,9 @@ class Role extends Model implements RoleContract
     /**
      * @param string $name
      *
+     * @return \Illuminate\Database\Eloquent\Model
      * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
      *
-     * @return \Illuminate\Database\Eloquent\Model
      */
     public function createPermission(string $name)
     {
@@ -125,9 +126,9 @@ class Role extends Model implements RoleContract
     /**
      * @param string|int|\Helldar\Roles\Models\Permission $permission
      *
+     * @return bool
      * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
      *
-     * @return bool
      */
     public function hasPermission($permission): bool
     {
