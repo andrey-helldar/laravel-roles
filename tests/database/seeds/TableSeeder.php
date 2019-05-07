@@ -53,6 +53,7 @@ class TableSeeder
      * @param string $name
      *
      * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     *
      * @return \Helldar\Roles\Models\Role
      */
     private function role(string $name)
@@ -65,6 +66,7 @@ class TableSeeder
 
     /**
      * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     *
      * @return array
      */
     private function permissions(): array
@@ -82,6 +84,7 @@ class TableSeeder
      * @param string $name
      *
      * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     *
      * @return \Helldar\Roles\Models\Permission
      */
     private function permission(string $name)
