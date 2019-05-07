@@ -14,10 +14,9 @@ class Roles
      * @param \Closure $next
      * @param string ...$roles
      *
-     * @return mixed
-     *
      * @throws \Helldar\Roles\Exceptions\RoleAccessIsDeniedException
      *
+     * @return mixed
      */
     public function handle($request, Closure $next, ...$roles)
     {

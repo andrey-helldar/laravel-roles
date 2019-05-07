@@ -11,10 +11,9 @@ interface Role
     /**
      * @param string $name
      *
-     * @return \Illuminate\Database\Eloquent\Model
-     *
      * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
      *
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function createPermission(string $name);
 
@@ -54,9 +53,9 @@ interface Role
     /**
      * @param string|int|\Helldar\Roles\Models\Permission $permission
      *
-     * @return bool
      * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
      *
+     * @return bool
      */
     public function hasPermission($permission): bool;
 }

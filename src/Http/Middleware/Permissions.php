@@ -14,10 +14,9 @@ class Permissions
      * @param \Closure $next
      * @param string ...$permissions
      *
-     * @return mixed
-     *
      * @throws \Helldar\Roles\Exceptions\PermissionAccessIsDeniedException
      *
+     * @return mixed
      */
     public function handle($request, Closure $next, ...$permissions)
     {

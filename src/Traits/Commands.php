@@ -22,10 +22,9 @@ trait Commands
     }
 
     /**
-     * @return bool
-     *
      * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
      *
+     * @return bool
      */
     private function roleIsExists(): bool
     {
@@ -38,10 +37,9 @@ trait Commands
     }
 
     /**
-     * @return bool
-     *
      * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
      *
+     * @return bool
      */
     private function roleIsDoesntExists(): bool
     {
@@ -49,10 +47,9 @@ trait Commands
     }
 
     /**
-     * @return bool
-     *
      * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
      *
+     * @return bool
      */
     private function permissionIsExists(): bool
     {
@@ -65,10 +62,9 @@ trait Commands
     }
 
     /**
-     * @return bool
-     *
      * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
      *
+     * @return bool
      */
     private function permissionIsDoesntExists(): bool
     {
