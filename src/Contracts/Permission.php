@@ -7,10 +7,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 interface Permission
 {
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     *
      * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
      *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function roles(): BelongsToMany;
 
