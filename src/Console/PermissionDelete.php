@@ -2,20 +2,20 @@
 
 namespace Helldar\Roles\Console;
 
-use Helldar\Roles\Models\Permission;
 use Helldar\Roles\Traits\Commands;
+use Helldar\Roles\Traits\Models;
 use Illuminate\Console\Command;
 
 class PermissionDelete extends Command
 {
-    use Commands;
+    use Commands, Models;
 
     protected $signature = 'acl:permission-delete {name|ID or permission name}';
 
     protected $description = 'Deleting a permission';
 
     /**
-     * @throws \Exception
+     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
      */
     public function handle()
     {
@@ -29,11 +29,15 @@ class PermissionDelete extends Command
     }
 
     /**
+     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
      * @throws \Exception
      */
     private function remove()
     {
-        Permission::query()
+        /** @var \Helldar\Roles\Models\Permission $model */
+        $model = $this->model('permission');
+
+        $model::query()
             ->whereId($this->name())
             ->orWhereName($this->name())
             ->delete();

@@ -3,8 +3,7 @@
 namespace Tests\database\seeds;
 
 use Helldar\Roles\Helpers\Table;
-use Helldar\Roles\Models\Permission;
-use Helldar\Roles\Models\Role;
+use Helldar\Roles\Traits\Models;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
@@ -12,6 +11,8 @@ use Tests\Models\User;
 
 class TableSeeder
 {
+    use Models;
+
     public static function run()
     {
         $class = new self;
@@ -34,6 +35,9 @@ class TableSeeder
         Schema::enableForeignKeyConstraints();
     }
 
+    /**
+     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     */
     private function create()
     {
         $role = $this->role('baz');
@@ -45,22 +49,47 @@ class TableSeeder
         $user->syncRoles((array) $role->id);
     }
 
-    private function role(string $name): Role
+    /**
+     * @param string $name
+     *
+     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     * @return \Helldar\Roles\Models\Role
+     */
+    private function role(string $name)
     {
-        return Role::create(\compact('name'));
+        /** @var \Helldar\Roles\Models\Role $model */
+        $model = $this->model('role');
+
+        return $model::create(\compact('name'));
     }
 
+    /**
+     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     * @return array
+     */
     private function permissions(): array
     {
+        /** @var \Helldar\Roles\Models\Permission $model */
+        $model = $this->model('permission');
+
         $this->permission('qwerty');
         $this->permission('baz');
 
-        return Permission::get()->pluck('id')->toArray();
+        return $model::get()->pluck('id')->toArray();
     }
 
-    private function permission(string $name): Permission
+    /**
+     * @param string $name
+     *
+     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     * @return \Helldar\Roles\Models\Permission
+     */
+    private function permission(string $name)
     {
-        return Permission::create(\compact('name'));
+        /** @var \Helldar\Roles\Models\Permission $model */
+        $model = $this->model('permission');
+
+        return $model::create(\compact('name'));
     }
 
     private function user()

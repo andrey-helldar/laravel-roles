@@ -2,18 +2,21 @@
 
 namespace Helldar\Roles\Console;
 
-use Helldar\Roles\Models\Permission;
 use Helldar\Roles\Traits\Commands;
+use Helldar\Roles\Traits\Models;
 use Illuminate\Console\Command;
 
 class PermissionCreate extends Command
 {
-    use Commands;
+    use Commands, Models;
 
     protected $signature = 'acl:permission-create {name}';
 
     protected $description = 'Create a new permission';
 
+    /**
+     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     */
     public function handle()
     {
         if ($this->permissionIsExists()) {
@@ -25,9 +28,16 @@ class PermissionCreate extends Command
         $this->create();
     }
 
+    /**
+     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     * @throws \Exception
+     */
     private function create()
     {
-        $item = Permission::create(['name' => $this->name()]);
+        /** @var \Helldar\Roles\Models\Permission $model */
+        $model = $this->model('permission');
+
+        $item = $model::create(['name' => $this->name()]);
 
         $this->info(\sprintf('Permission "%s" created successfully!', $this->name()));
         $this->line($item);

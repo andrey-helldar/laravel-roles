@@ -8,13 +8,15 @@ use Helldar\Roles\Console\RoleCreate;
 use Helldar\Roles\Console\RoleDelete;
 use Helldar\Roles\Helpers\Config;
 use Helldar\Roles\Helpers\Table;
-use Helldar\Roles\Models\Permission;
+use Helldar\Roles\Traits\Models;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Schema;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
+    use Models;
+
     protected $defer = false;
 
     public function boot()
@@ -69,8 +71,11 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $table      = Table::name('permissions');
 
         if (Schema::connection($connection)->hasTable($table)) {
-            Permission::get(['name'])
-                ->map(function (Permission $permission) {
+            /** @var \Helldar\Roles\Models\Permission $model */
+            $model = $this->model('permission');
+
+            $model::get(['name'])
+                ->map(function ($permission) {
                     Gate::define($permission->name, function ($user) use ($permission) {
                         return $user->hasPermission($permission);
                     });

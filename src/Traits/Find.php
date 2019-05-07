@@ -4,25 +4,28 @@ namespace Helldar\Roles\Traits;
 
 use Helldar\Roles\Exceptions\PermissionNotFoundException;
 use Helldar\Roles\Exceptions\RoleNotFoundException;
-use Helldar\Roles\Models\Permission;
-use Helldar\Roles\Models\Role;
 
 trait Find
 {
+    use Models;
+
     /**
      * @param string|int|\Helldar\Roles\Models\Role $role
      *
      * @throws \Helldar\Roles\Exceptions\RoleNotFoundException
-     *
-     * @return \Helldar\Roles\Models\Role
+     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     * @return \Helldar\Roles\Models\Role|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|object|null
      */
-    private function findRole($role): Role
+    private function findRole($role)
     {
-        if ($role instanceof Role) {
+        /** @var \Helldar\Roles\Models\Role $model */
+        $model = $this->model('role');
+
+        if ($role instanceof $model) {
             return $role;
         }
 
-        $item = Role::query()
+        $item = $model::query()
             ->whereId($role)
             ->orWhereName($role)
             ->first();
@@ -38,16 +41,19 @@ trait Find
      * @param string|int|\Helldar\Roles\Models\Permission $permission
      *
      * @throws \Helldar\Roles\Exceptions\PermissionNotFoundException
-     *
+     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
      * @return \Helldar\Roles\Models\Permission
      */
-    private function findPermission($permission): Permission
+    private function findPermission($permission)
     {
-        if ($permission instanceof Permission) {
+        /** @var \Helldar\Roles\Models\Permission $model */
+        $model = $this->model('permission');
+
+        if ($permission instanceof $model) {
             return $permission;
         }
 
-        $item = Permission::query()
+        $item = $model::query()
             ->whereId($permission)
             ->orWhereName($permission)
             ->first();

@@ -2,10 +2,13 @@
 
 namespace Helldar\Roles\Models;
 
+use Helldar\Roles\Contracts\Permission as PermissionContract;
 use Helldar\Roles\Helpers\Table;
 use Helldar\Roles\Traits\Find;
+use Helldar\Roles\Traits\Models;
 use Helldar\Roles\Traits\SetAttribute;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * Helldar\Roles\Models\Permission
@@ -27,9 +30,9 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\Helldar\Roles\Models\Permission whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class Permission extends Model
+class Permission extends Model implements PermissionContract
 {
-    use SetAttribute, Find;
+    use SetAttribute, Find, Models;
 
     protected $fillable = ['name'];
 
@@ -41,15 +44,20 @@ class Permission extends Model
         parent::__construct($attributes);
     }
 
-    public function roles()
+    /**
+     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function roles(): BelongsToMany
     {
-        return $this->belongsToMany(Role::class, Table::name('role_permissions'));
+        return $this->belongsToMany($this->model('role'), Table::name('role_permissions'));
     }
 
     /**
      * @param string|\Helldar\Roles\Models\Role $role
      *
      * @throws \Helldar\Roles\Exceptions\RoleNotFoundException
+     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
      */
     public function assignRole($role)
     {
@@ -72,6 +80,7 @@ class Permission extends Model
      * @param string|\Helldar\Roles\Models\Role $role
      *
      * @throws \Helldar\Roles\Exceptions\RoleNotFoundException
+     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
      */
     public function revokeRole($role)
     {
@@ -90,6 +99,11 @@ class Permission extends Model
         }, $roles);
     }
 
+    /**
+     * @param array $roles_ids
+     *
+     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     */
     public function syncRoles(array $roles_ids)
     {
         $this->roles()->sync($roles_ids);

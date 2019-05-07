@@ -3,8 +3,6 @@
 namespace Helldar\Roles\Traits;
 
 use Helldar\Roles\Helpers\Table;
-use Helldar\Roles\Models\Permission;
-use Helldar\Roles\Models\Role;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -15,17 +13,22 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  */
 trait HasRoles
 {
-    use Find;
+    use Find, Models;
 
+    /**
+     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function roles(): BelongsToMany
     {
-        return $this->belongsToMany(Role::class, Table::name('user_roles'));
+        return $this->belongsToMany($this->model('role'), Table::name('user_roles'));
     }
 
     /**
      * @param string $name
      *
-     * @return \Illuminate\Database\Eloquent\Model|\Helldar\Roles\Models\Role
+     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function createRole(string $name)
     {
@@ -33,9 +36,10 @@ trait HasRoles
     }
 
     /**
-     * @param string|\Helldar\Roles\Models\Role $role
+     * @param $role
      *
      * @throws \Helldar\Roles\Exceptions\RoleNotFoundException
+     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
      */
     public function assignRole($role)
     {
@@ -55,9 +59,10 @@ trait HasRoles
     }
 
     /**
-     * @param string|\Helldar\Roles\Models\Role $role
+     * @param $role
      *
      * @throws \Helldar\Roles\Exceptions\RoleNotFoundException
+     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
      */
     public function revokeRole($role)
     {
@@ -76,11 +81,21 @@ trait HasRoles
         }, $roles);
     }
 
+    /**
+     * @param array $roles_ids
+     *
+     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     */
     public function syncRoles(array $roles_ids)
     {
         $this->roles()->sync($roles_ids);
     }
 
+    /**
+     * @param mixed ...$roles
+     *
+     * @return bool
+     */
     public function hasRole(...$roles): bool
     {
         foreach ($roles as $role) {
@@ -95,11 +110,14 @@ trait HasRoles
     /**
      * @param string|int|\Helldar\Roles\Models\Permission $permission
      *
+     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
      * @return bool
      */
     public function hasPermission($permission): bool
     {
-        if ($permission instanceof Permission) {
+        $model = $this->model('permission');
+
+        if ($permission instanceof $model) {
             $permission = $permission->id;
         }
 

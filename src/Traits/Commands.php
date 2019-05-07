@@ -2,12 +2,12 @@
 
 namespace Helldar\Roles\Traits;
 
-use Helldar\Roles\Models\Permission;
-use Helldar\Roles\Models\Role;
 use Illuminate\Support\Str;
 
 trait Commands
 {
+    use Models;
+
     private $slug;
 
     private function name(): string
@@ -21,27 +21,47 @@ trait Commands
         return $this->slug;
     }
 
+    /**
+     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     * @return bool
+     */
     private function roleIsExists(): bool
     {
-        return (bool) Role::query()
+        $model = $this->model('role');
+
+        return (bool) $model::query()
             ->whereId($this->name())
             ->orWhereName($this->name())
             ->exists();
     }
 
+    /**
+     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     * @return bool
+     */
     private function roleIsDoesntExists(): bool
     {
         return !$this->roleIsExists();
     }
 
+    /**
+     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     * @return bool
+     */
     private function permissionIsExists(): bool
     {
-        return (bool) Permission::query()
+        $model = $this->model('permission');
+
+        return (bool) $model::query()
             ->whereId($this->name())
             ->orWhereName($this->name())
             ->exists();
     }
 
+    /**
+     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     * @return bool
+     */
     private function permissionIsDoesntExists(): bool
     {
         return !$this->permissionIsExists();

@@ -2,20 +2,20 @@
 
 namespace Helldar\Roles\Console;
 
-use Helldar\Roles\Models\Role;
 use Helldar\Roles\Traits\Commands;
+use Helldar\Roles\Traits\Models;
 use Illuminate\Console\Command;
 
 class RoleDelete extends Command
 {
-    use Commands;
+    use Commands, Models;
 
     protected $signature = 'acl:role-delete {name|ID or role name}';
 
     protected $description = 'Deleting a role';
 
     /**
-     * @throws \Exception
+     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
      */
     public function handle()
     {
@@ -29,11 +29,15 @@ class RoleDelete extends Command
     }
 
     /**
+     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
      * @throws \Exception
      */
     private function remove()
     {
-        Role::query()
+        /** @var \Helldar\Roles\Models\Role $role */
+        $model = $this->model('role');
+
+        $model::query()
             ->whereId($this->name())
             ->orWhereName($this->name())
             ->delete();
