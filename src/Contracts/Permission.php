@@ -8,6 +8,7 @@ interface Permission
 {
     /**
      * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function roles(): BelongsToMany;

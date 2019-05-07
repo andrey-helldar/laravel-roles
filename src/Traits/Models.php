@@ -11,6 +11,7 @@ trait Models
      * @param string $key
      *
      * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     *
      * @return \Helldar\Roles\Models\Role|\Helldar\Roles\Models\Permission|\Illuminate\Database\Eloquent\Model
      */
     private function model(string $key)

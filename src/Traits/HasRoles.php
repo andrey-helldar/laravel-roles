@@ -17,6 +17,7 @@ trait HasRoles
 
     /**
      * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function roles(): BelongsToMany
@@ -28,6 +29,7 @@ trait HasRoles
      * @param string $name
      *
      * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     *
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function createRole(string $name)
@@ -111,6 +113,7 @@ trait HasRoles
      * @param string|int|\Helldar\Roles\Models\Permission $permission
      *
      * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     *
      * @return bool
      */
     public function hasPermission($permission): bool
