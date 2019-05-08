@@ -5,7 +5,6 @@ namespace Helldar\Roles\Models;
 use Helldar\Roles\Contracts\Permission as PermissionContract;
 use Helldar\Roles\Helpers\Table;
 use Helldar\Roles\Traits\Find;
-use Helldar\Roles\Traits\Models;
 use Helldar\Roles\Traits\SetAttribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -32,7 +31,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  */
 class Permission extends Model implements PermissionContract
 {
-    use SetAttribute, Find, Models;
+    use SetAttribute, Find;
 
     protected $fillable = ['name'];
 

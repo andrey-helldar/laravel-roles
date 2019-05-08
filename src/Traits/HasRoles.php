@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  */
 trait HasRoles
 {
-    use Find, Models;
+    use Find;
 
     /**
      * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException

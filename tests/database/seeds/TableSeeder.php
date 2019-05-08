@@ -3,7 +3,7 @@
 namespace Tests\database\seeds;
 
 use Helldar\Roles\Helpers\Table;
-use Helldar\Roles\Traits\Models;
+use Helldar\Roles\Traits\Find;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
@@ -11,7 +11,7 @@ use Tests\Models\User;
 
 class TableSeeder
 {
-    use Models;
+    use Find;
 
     public static function run()
     {

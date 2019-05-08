@@ -3,12 +3,12 @@
 namespace Helldar\Roles\Console;
 
 use Helldar\Roles\Traits\Commands;
-use Helldar\Roles\Traits\Models;
+use Helldar\Roles\Traits\Find;
 use Illuminate\Console\Command;
 
 class PermissionDelete extends Command
 {
-    use Commands, Models;
+    use Commands, Find;
 
     protected $signature = 'acl:permission-delete {name|ID or permission name}';
 

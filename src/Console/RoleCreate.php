@@ -3,12 +3,12 @@
 namespace Helldar\Roles\Console;
 
 use Helldar\Roles\Traits\Commands;
-use Helldar\Roles\Traits\Models;
+use Helldar\Roles\Traits\Find;
 use Illuminate\Console\Command;
 
 class RoleCreate extends Command
 {
-    use Commands, Models;
+    use Commands, Find;
 
     protected $signature = 'acl:role-create {name}';
 

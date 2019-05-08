@@ -6,7 +6,7 @@ use Illuminate\Support\Str;
 
 trait Commands
 {
-    use Models;
+    use Find;
 
     private $slug;
 

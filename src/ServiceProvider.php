@@ -8,14 +8,14 @@ use Helldar\Roles\Console\RoleCreate;
 use Helldar\Roles\Console\RoleDelete;
 use Helldar\Roles\Helpers\Config;
 use Helldar\Roles\Helpers\Table;
-use Helldar\Roles\Traits\Models;
+use Helldar\Roles\Traits\Find;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Schema;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
-    use Models;
+    use Find;
 
     protected $defer = false;
 
