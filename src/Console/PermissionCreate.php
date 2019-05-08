@@ -3,12 +3,11 @@
 namespace Helldar\Roles\Console;
 
 use Helldar\Roles\Traits\Commands;
-use Helldar\Roles\Traits\Find;
 use Illuminate\Console\Command;
 
 class PermissionCreate extends Command
 {
-    use Commands, Find;
+    use Commands;
 
     protected $signature = 'acl:permission-create {name}';
 
