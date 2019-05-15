@@ -5,10 +5,10 @@ namespace Helldar\Roles\Http\Middleware;
 use Closure;
 use Helldar\Roles\Exceptions\RoleAccessIsDeniedException;
 
-class Roles
+class Role
 {
     /**
-     * Checks the entry of all of the specified roles.
+     * Checks for the occurrence of one of the specified roles.
      *
      * @param \Illuminate\Http\Request $request
      * @param \Closure $next
@@ -21,11 +21,11 @@ class Roles
     public function handle($request, Closure $next, ...$roles)
     {
         foreach ($roles as $role) {
-            if (!$request->user()->hasRole($role)) {
-                throw new RoleAccessIsDeniedException;
+            if ($request->user()->hasRole($role)) {
+                return $next($request);
             }
         }
 
-        return $next($request);
+        throw new RoleAccessIsDeniedException;
     }
 }

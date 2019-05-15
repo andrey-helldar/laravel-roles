@@ -5,10 +5,10 @@ namespace Helldar\Roles\Http\Middleware;
 use Closure;
 use Helldar\Roles\Exceptions\PermissionAccessIsDeniedException;
 
-class Permissions
+class Permission
 {
     /**
-     * Checks the entry of all of the specified permissions.
+     * Checks for the entry of one of the specified permissions.
      *
      * @param \Illuminate\Http\Request $request
      * @param \Closure $next
@@ -21,11 +21,11 @@ class Permissions
     public function handle($request, Closure $next, ...$permissions)
     {
         foreach ($permissions as $permission) {
-            if (!$request->user()->hasPermission($permission)) {
-                throw new PermissionAccessIsDeniedException;
+            if ($request->user()->hasPermission($permission)) {
+                return $next($request);
             }
         }
 
-        return $next($request);
+        throw new PermissionAccessIsDeniedException;
     }
 }

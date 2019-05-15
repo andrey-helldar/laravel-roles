@@ -44,7 +44,7 @@ Or manually update `require` block of `composer.json` and run `composer update`.
 ```json
 {
     "require-dev": {
-        "andrey-helldar/laravel-roles": "^1.1"
+        "andrey-helldar/laravel-roles": "^1.6"
     }
 }
 ```
@@ -97,29 +97,68 @@ class User extends Authenticatable
 
 You can add middlewares in `$routeMiddleware` of `app/Http/Kernel.php` file:
 ```php
+use Helldar\Roles\Http\Middleware\Permission;
 use Helldar\Roles\Http\Middleware\Permissions;
+use Helldar\Roles\Http\Middleware\Role;
 use Helldar\Roles\Http\Middleware\Roles;
 
 protected $routeMiddleware = [
     // ...
     
-    'roles'       => Roles::class,
-    'permissions' => Permissions::class,
+    'role'        => Role::class,        // Checks for the entry of one of the specified permissions.
+    'roles'       => Roles::class,       // Checks the entry of all of the specified permissions.
+    'permission'  => Permission::class,  // Checks for the occurrence of one of the specified roles.
+    'permissions' => Permissions::class, // Checks the entry of all of the specified roles.
 ]
 ```
 
-Now you can use the rules:
+Now you can check if one of the conditions is met:
 ```php
+// Example, user has been a `foo` role and a `baz` permission
+
+// success access
+app('router')
+    ->middleware('role:foo,bar', 'permission:foo,bar')
+    ->get(...)
+
+// success access
+app('router')
+    ->middleware('role:foo,bar')
+    ->get(...)
+
+// failed access
+app('router')
+    ->middleware('permission:foo,bar')
+    ->get(...)
+```
+
+Or check the entry of all conditions:
+```php
+// Example, user has been a `foo` role and a `baz` permission
+
+// failed access
 app('router')
     ->middleware('roles:foo,bar', 'permissions:foo,bar')
     ->get(...)
-    
+
+// failed access
 app('router')
     ->middleware('roles:foo,bar')
     ->get(...)
-    
+
+// success access
+app('router')
+    ->middleware('roles:foo')
+    ->get(...)
+
+// failed access
 app('router')
     ->middleware('permissions:foo,bar')
+    ->get(...)
+
+// success access
+app('router')
+    ->middleware('permissions:baz')
     ->get(...)
 ```
 
