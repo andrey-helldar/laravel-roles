@@ -13,6 +13,9 @@ class TableSeeder
 {
     use Find;
 
+    /**
+     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     */
     public static function run()
     {
         $class = new self;
@@ -40,13 +43,34 @@ class TableSeeder
      */
     private function create()
     {
-        $role = $this->role('baz');
-
-        $role->syncPermissions($this->permissions());
-
+        /** @var \Tests\Models\User $user */
         $user = $this->user();
 
-        $user->syncRoles((array) $role->id);
+        // Roles
+        $role_1 = $this->role('foo');
+        $role_2 = $this->role('bar');
+        $role_3 = $this->role('baz');
+        $role_4 = $this->role('bax');
+
+        // Permissions
+        $permission_1 = $this->permission('foo');
+        $permission_2 = $this->permission('bar');
+        $permission_3 = $this->permission('baz');
+        $permission_4 = $this->permission('bax');
+
+        $role_1->syncPermissions([$permission_1->id, $permission_2->id]);
+        $role_2->syncPermissions([$permission_1->id, $permission_2->id]);
+
+        $user->syncRoles([$role_1->id, $role_2->id]);
+    }
+
+    private function user()
+    {
+        return User::create([
+            'name'     => 'Admin',
+            'email'    => 'test@example.com',
+            'password' => Hash::make('qwerty'),
+        ]);
     }
 
     /**
@@ -58,26 +82,10 @@ class TableSeeder
      */
     private function role(string $name)
     {
-        /** @var \Helldar\Roles\Models\Role $model */
+        /** @var \Helldar\Roles\Models\Role|\Illuminate\Database\Eloquent\Model $model */
         $model = $this->model('role');
 
         return $model::create(\compact('name'));
-    }
-
-    /**
-     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
-     *
-     * @return array
-     */
-    private function permissions(): array
-    {
-        /** @var \Helldar\Roles\Models\Permission $model */
-        $model = $this->model('permission');
-
-        $this->permission('qwerty');
-        $this->permission('baz');
-
-        return $model::get()->pluck('id')->toArray();
     }
 
     /**
@@ -89,18 +97,9 @@ class TableSeeder
      */
     private function permission(string $name)
     {
-        /** @var \Helldar\Roles\Models\Permission $model */
+        /** @var \Helldar\Roles\Models\Permission|\Illuminate\Database\Eloquent\Model $model */
         $model = $this->model('permission');
 
         return $model::create(\compact('name'));
-    }
-
-    private function user()
-    {
-        return User::create([
-            'name'     => 'Admin',
-            'email'    => 'test@example.com',
-            'password' => Hash::make('qwerty'),
-        ]);
     }
 }

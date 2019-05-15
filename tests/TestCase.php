@@ -58,11 +58,17 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
     private function setRoutes($app)
     {
-        $this->setRoute($app, 'roles/access', 'roles:foo,bar,baz');
-        $this->setRoute($app, 'roles/denied', 'roles:foo,bar');
+        $this->setRoute($app, 'role/access', 'role:foo,bar,baz');
+        $this->setRoute($app, 'role/denied', 'role:baz,bax');
 
-        $this->setRoute($app, 'permissions/access', 'permissions:foo,bar,baz');
-        $this->setRoute($app, 'permissions/denied', 'permissions:foo,bar');
+        $this->setRoute($app, 'roles/access', 'roles:foo,bar');
+        $this->setRoute($app, 'roles/denied', 'roles:foo,bar,baz');
+
+        $this->setRoute($app, 'permission/access', 'permission:foo,bar,baz');
+        $this->setRoute($app, 'permission/denied', 'permission:baz,bax');
+
+        $this->setRoute($app, 'permissions/access', 'permissions:foo,bar');
+        $this->setRoute($app, 'permissions/denied', 'permissions:foo,bar,baz');
     }
 
     private function setRoute($app, $url, $middleware)
