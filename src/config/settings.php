@@ -63,4 +63,17 @@ return [
      */
 
     'use_can_directive' => false,
+
+    /*
+     * Defines for which roles to use root access.
+     *
+     * Example:
+     *     ['admin']
+     *     ['admin', 'foo', 'bar']
+     *     false
+     *
+     * Default, false.
+     */
+
+    'root_roles' => false,
 ];

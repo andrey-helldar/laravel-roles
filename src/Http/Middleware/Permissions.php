@@ -4,11 +4,14 @@ namespace Helldar\Roles\Http\Middleware;
 
 use Closure;
 use Helldar\Roles\Exceptions\PermissionAccessIsDeniedException;
+use Helldar\Roles\Traits\RootAccess;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class Permissions
 {
+    use RootAccess;
+
     /**
      * Checks the entry of all of the specified permissions.
      *
@@ -24,6 +27,10 @@ class Permissions
     {
         if (!Auth::check()) {
             throw new AccessDeniedHttpException('User is not authorized', null, 403);
+        }
+
+        if ($this->isRoot($request)) {
+            return $next($request);
         }
 
         foreach ($permissions as $permission) {

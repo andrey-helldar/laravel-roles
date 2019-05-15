@@ -352,6 +352,14 @@ $role->hasPermission(1): bool
 $role->hasPermission(Permission::find(1)): bool
 ```
 
+Also in the settings you can specify the name of the role for global access:
+```php
+[
+    'root_roles' => ['admin', 'foo', 'bar'],
+]
+```
+or specify `false` to disable verification.
+
 
 ### Artisan commands
 

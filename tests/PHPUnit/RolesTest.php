@@ -3,6 +3,7 @@
 namespace Tests\PHPUnit;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use Tests\Models\User;
 use Tests\TestCase;
 
@@ -12,7 +13,7 @@ class RolesTest extends TestCase
     {
         $user = User::first();
 
-        Auth::login($user, true);
+        Auth::login($user);
 
         $role  = $this->call('GET', 'role/access');
         $roles = $this->call('GET', 'roles/access');
@@ -61,7 +62,7 @@ class RolesTest extends TestCase
     {
         $user = User::first();
 
-        Auth::login($user, true);
+        Auth::login($user);
 
         $roles       = $this->call('GET', 'roles/denied');
         $permissions = $this->call('GET', 'permissions/denied');
@@ -71,6 +72,24 @@ class RolesTest extends TestCase
 
         $roles->assertSeeText('User does not have permission to view this content. Access is denied.');
         $permissions->assertSeeText('User does not have permission to view this content. Access is denied.');
+    }
+
+    public function testRootAccess()
+    {
+        $user = User::first();
+
+        Auth::login($user);
+
+        Config::set('laravel_roles.root_roles', 'foo');
+
+        $role  = $this->call('GET', 'role/denied');
+        $roles = $this->call('GET', 'roles/denied');
+
+        $role->assertStatus(200);
+        $roles->assertStatus(200);
+
+        $this->assertEquals('ok', $role->getContent());
+        $this->assertEquals('ok', $roles->getContent());
     }
 
     public function testPageNotFound()

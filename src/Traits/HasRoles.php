@@ -5,6 +5,7 @@ namespace Helldar\Roles\Traits;
 use Helldar\Roles\Helpers\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Arr;
 
 /**
  * Trait HasRoles
@@ -94,19 +95,35 @@ trait HasRoles
     }
 
     /**
-     * @param mixed ...$roles
+     * @param string|array ...$roles
      *
      * @return bool
      */
     public function hasRole(...$roles): bool
     {
-        foreach ($roles as $role) {
+        foreach (Arr::flatten($roles) as $role) {
             if ($this->roles->contains('name', $role)) {
                 return true;
             }
         }
 
         return false;
+    }
+
+    /**
+     * @param string|array ...$roles
+     *
+     * @return bool
+     */
+    public function hasRoles(...$roles): bool
+    {
+        foreach (Arr::flatten($roles) as $role) {
+            if (!$this->roles->contains('name', $role)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
