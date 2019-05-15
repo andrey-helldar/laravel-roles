@@ -2,12 +2,15 @@
 
 namespace Helldar\Roles\Exceptions;
 
-class RoleNotFoundException extends \Exception
+use Symfony\Component\HttpKernel\Exception\HttpException;
+
+class RoleNotFoundException extends HttpException
 {
     public function __construct(string $role)
     {
         $message = \printf('Role "%s" not found!', $role);
+        $code    = 404;
 
-        parent::__construct($message, 404);
+        parent::__construct($code, $message, null, [], $code);
     }
 }

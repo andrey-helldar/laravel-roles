@@ -2,12 +2,15 @@
 
 namespace Helldar\Roles\Exceptions;
 
-class UnknownModelKeyException extends \Exception
+use Symfony\Component\HttpKernel\Exception\HttpException;
+
+class UnknownModelKeyException extends HttpException
 {
     public function __construct(string $value)
     {
         $message = \printf('Unknown model key: "%s"', $value);
+        $code    = 500;
 
-        parent::__construct($message, 500);
+        parent::__construct($code, $message, null, [], $code);
     }
 }

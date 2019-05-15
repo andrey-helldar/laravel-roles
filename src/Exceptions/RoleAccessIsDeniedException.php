@@ -2,12 +2,15 @@
 
 namespace Helldar\Roles\Exceptions;
 
-class RoleAccessIsDeniedException extends \Exception
+use Symfony\Component\HttpKernel\Exception\HttpException;
+
+class RoleAccessIsDeniedException extends HttpException
 {
     public function __construct()
     {
         $message = 'User does not have permission to view this content. Access is denied.';
+        $code    = 403;
 
-        parent::__construct($message, 403);
+        parent::__construct($code, $message, null, [], $code);
     }
 }
