@@ -19,6 +19,9 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
     protected $defer = false;
 
+    /**
+     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     */
     public function boot()
     {
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
@@ -61,6 +64,9 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         });
     }
 
+    /**
+     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     */
     private function can()
     {
         if (!Config::get('use_can_directive', false)) {
