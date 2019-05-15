@@ -4,6 +4,8 @@ namespace Helldar\Roles\Http\Middleware;
 
 use Closure;
 use Helldar\Roles\Exceptions\RoleAccessIsDeniedException;
+use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class Role
 {
@@ -20,6 +22,10 @@ class Role
      */
     public function handle($request, Closure $next, ...$roles)
     {
+        if (!Auth::check()) {
+            throw new AccessDeniedHttpException('User is not authorized', null, 403);
+        }
+
         foreach ($roles as $role) {
             if ($request->user()->hasRole($role)) {
                 return $next($request);

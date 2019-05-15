@@ -31,7 +31,7 @@ class RolesTest extends TestCase
         $this->assertEquals('ok', $permissions->getContent());
     }
 
-    public function testDenied()
+    public function testDeniedUserIsNotAuthorized()
     {
         Auth::logout();
 
@@ -41,15 +41,36 @@ class RolesTest extends TestCase
         $permission  = $this->call('GET', 'permission/denied');
         $permissions = $this->call('GET', 'permissions/denied');
 
-        $role->assertStatus(500);
-        $roles->assertStatus(500);
-        $permission->assertStatus(500);
-        $permissions->assertStatus(500);
+        $role->assertStatus(403);
+        $roles->assertStatus(403);
+        $permission->assertStatus(403);
+        $permissions->assertStatus(403);
 
         $this->assertNotEquals('ok', $role->getContent());
         $this->assertNotEquals('ok', $roles->getContent());
         $this->assertNotEquals('ok', $permission->getContent());
         $this->assertNotEquals('ok', $permissions->getContent());
+
+        $role->assertSeeText('User is not authorized');
+        $roles->assertSeeText('User is not authorized');
+        $permission->assertSeeText('User is not authorized');
+        $permissions->assertSeeText('User is not authorized');
+    }
+
+    public function testDeniedUserNoHavePermissions()
+    {
+        $user = User::first();
+
+        Auth::login($user, true);
+
+        $roles       = $this->call('GET', 'roles/denied');
+        $permissions = $this->call('GET', 'permissions/denied');
+
+        $roles->assertStatus(403);
+        $permissions->assertStatus(403);
+
+        $roles->assertSeeText('User does not have permission to view this content. Access is denied.');
+        $permissions->assertSeeText('User does not have permission to view this content. Access is denied.');
     }
 
     public function testPageNotFound()
