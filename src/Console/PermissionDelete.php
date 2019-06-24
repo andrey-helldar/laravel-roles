@@ -36,9 +36,7 @@ class PermissionDelete extends Command
         /** @var \Helldar\Roles\Models\Permission $model */
         $model = $this->model('permission');
 
-        $model::query()
-            ->whereId($this->name())
-            ->orWhereName($this->name())
+        $this->builder($model)
             ->delete();
 
         $this->info(\sprintf('Permission "%s" successfully deleted!', $this->name()));

@@ -36,9 +36,7 @@ class RoleDelete extends Command
         /** @var \Helldar\Roles\Models\Role $role */
         $model = $this->model('role');
 
-        $model::query()
-            ->whereId($this->name())
-            ->orWhereName($this->name())
+        $this->builder($model)
             ->delete();
 
         $this->info(\sprintf('Role "%s" successfully deleted!', $this->name()));
