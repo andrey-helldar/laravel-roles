@@ -43,10 +43,11 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
     private function blade()
     {
-        if (!Config::get('use_blade', false)) {
+        if (! Config::get('use_blade', false)) {
             return;
         }
 
+        /* Role */
         Blade::directive('role', function ($role) {
             return "<?php if(\auth()->check() && \auth()->user()->hasRole($role)) { ?>";
         });
@@ -55,11 +56,30 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             return '<?php } ?>';
         });
 
+        /* Roles */
+        Blade::directive('role', function ($roles) {
+            return "<?php if(\auth()->check() && \auth()->user()->hasRoles($roles)) { ?>";
+        });
+
+        Blade::directive('endroles', function () {
+            return '<?php } ?>';
+        });
+
+        /* Permission */
         Blade::directive('permission', function ($permission) {
             return "<?php if(\auth()->check() && \auth()->user()->hasPermission($permission)) ?>";
         });
 
         Blade::directive('endpermission', function () {
+            return '<?php } ?>';
+        });
+
+        /* Permissions */
+        Blade::directive('permissions', function ($permissions) {
+            return "<?php if(\auth()->check() && \auth()->user()->hasPermissions($permissions)) ?>";
+        });
+
+        Blade::directive('endpermissions', function () {
             return '<?php } ?>';
         });
     }
@@ -69,7 +89,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     private function can()
     {
-        if (!Config::get('use_can_directive', false)) {
+        if (! Config::get('use_can_directive', false)) {
             return;
         }
 
