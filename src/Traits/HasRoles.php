@@ -2,25 +2,33 @@
 
 namespace Helldar\Roles\Traits;
 
+use Helldar\Roles\Exceptions\RoleNotFoundException;
+use Helldar\Roles\Exceptions\UnknownModelKeyException;
 use Helldar\Roles\Helpers\Table;
 use Helldar\Roles\Models\Permission;
+use Helldar\Roles\Models\Role;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Arr;
+
+use function array_map;
+use function compact;
 
 /**
  * Trait HasRoles
  *
- * @property-read \Illuminate\Database\Eloquent\Collection|\Helldar\Roles\Models\Role[] $roles
+ * @property-read Collection|Role[] $roles
  */
 trait HasRoles
 {
     use Find;
 
     /**
-     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     * @throws UnknownModelKeyException
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
     public function roles(): BelongsToMany
     {
@@ -30,20 +38,20 @@ trait HasRoles
     /**
      * @param string $name
      *
-     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     * @throws UnknownModelKeyException
      *
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return Model
      */
     public function createRole(string $name)
     {
-        return $this->roles()->create(\compact('name'));
+        return $this->roles()->create(compact('name'));
     }
 
     /**
      * @param $role
      *
-     * @throws \Helldar\Roles\Exceptions\RoleNotFoundException
-     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     * @throws RoleNotFoundException
+     * @throws UnknownModelKeyException
      */
     public function assignRole($role)
     {
@@ -53,11 +61,11 @@ trait HasRoles
     }
 
     /**
-     * @param string|\Helldar\Roles\Models\Role ...$roles
+     * @param string|Role ...$roles
      */
     public function assignRoles(...$roles)
     {
-        \array_map(function ($role) {
+        array_map(function ($role) {
             $this->assignRole($role);
         }, $roles);
     }
@@ -65,8 +73,8 @@ trait HasRoles
     /**
      * @param $role
      *
-     * @throws \Helldar\Roles\Exceptions\RoleNotFoundException
-     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     * @throws RoleNotFoundException
+     * @throws UnknownModelKeyException
      */
     public function revokeRole($role)
     {
@@ -76,11 +84,11 @@ trait HasRoles
     }
 
     /**
-     * @param string|\Helldar\Roles\Models\Role ...$roles
+     * @param string|Role ...$roles
      */
     public function revokeRoles(...$roles)
     {
-        \array_map(function ($role) {
+        array_map(function ($role) {
             $this->revokeRole($role);
         }, $roles);
     }
@@ -88,7 +96,7 @@ trait HasRoles
     /**
      * @param array $roles_ids
      *
-     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     * @throws UnknownModelKeyException
      */
     public function syncRoles(array $roles_ids)
     {
@@ -128,9 +136,9 @@ trait HasRoles
     }
 
     /**
-     * @param string|int|\Helldar\Roles\Models\Permission $permission
+     * @param string|int|Permission $permission
      *
-     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     * @throws UnknownModelKeyException
      *
      * @return bool
      */

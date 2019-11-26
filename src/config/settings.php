@@ -1,5 +1,8 @@
 <?php
 
+use Helldar\Roles\Models\Permission;
+use Helldar\Roles\Models\Role;
+
 return [
     /*
      * Default database connection name.
@@ -34,7 +37,7 @@ return [
          * `Helldar\Roles\Contracts\Role` contract.
          */
 
-        'role' => \Helldar\Roles\Models\Role::class,
+        'role' => Role::class,
 
         /*
          * When using the "HasRoles" trait from this package, we need to know which
@@ -45,7 +48,7 @@ return [
          * `Helldar\Roles\Contracts\Permission` contract.
          */
 
-        'permission' => \Helldar\Roles\Models\Permission::class,
+        'permission' => Permission::class,
     ],
 
     /*

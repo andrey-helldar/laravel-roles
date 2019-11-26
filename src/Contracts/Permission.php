@@ -2,22 +2,24 @@
 
 namespace Helldar\Roles\Contracts;
 
+use Helldar\Roles\Exceptions\RoleNotFoundException;
+use Helldar\Roles\Exceptions\UnknownModelKeyException;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 interface Permission
 {
     /**
-     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     * @throws UnknownModelKeyException
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
     public function roles(): BelongsToMany;
 
     /**
      * @param string|\Helldar\Roles\Models\Role $role
      *
-     * @throws \Helldar\Roles\Exceptions\RoleNotFoundException
-     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     * @throws RoleNotFoundException
+     * @throws UnknownModelKeyException
      */
     public function assignRole($role);
 
@@ -29,8 +31,8 @@ interface Permission
     /**
      * @param string|\Helldar\Roles\Models\Role $role
      *
-     * @throws \Helldar\Roles\Exceptions\RoleNotFoundException
-     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     * @throws RoleNotFoundException
+     * @throws UnknownModelKeyException
      */
     public function revokeRole($role);
 
@@ -42,7 +44,7 @@ interface Permission
     /**
      * @param array $roles_ids
      *
-     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     * @throws UnknownModelKeyException
      */
     public function syncRoles(array $roles_ids);
 }

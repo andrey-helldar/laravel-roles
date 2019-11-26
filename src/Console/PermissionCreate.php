@@ -2,8 +2,13 @@
 
 namespace Helldar\Roles\Console;
 
+use Exception;
+use Helldar\Roles\Exceptions\UnknownModelKeyException;
+use Helldar\Roles\Models\Permission;
 use Helldar\Roles\Traits\Commands;
 use Illuminate\Console\Command;
+
+use function sprintf;
 
 class PermissionCreate extends Command
 {
@@ -14,12 +19,12 @@ class PermissionCreate extends Command
     protected $description = 'Create a new permission';
 
     /**
-     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     * @throws UnknownModelKeyException
      */
     public function handle()
     {
         if ($this->permissionIsExists()) {
-            $this->error(\sprintf('Permission "%s" already exists!', $this->name()));
+            $this->error(sprintf('Permission "%s" already exists!', $this->name()));
 
             return;
         }
@@ -28,17 +33,17 @@ class PermissionCreate extends Command
     }
 
     /**
-     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
-     * @throws \Exception
+     * @throws UnknownModelKeyException
+     * @throws Exception
      */
     private function create()
     {
-        /** @var \Helldar\Roles\Models\Permission $model */
+        /** @var Permission $model */
         $model = $this->model('permission');
 
         $item = $model::create(['name' => $this->name()]);
 
-        $this->info(\sprintf('Permission "%s" created successfully!', $this->name()));
+        $this->info(sprintf('Permission "%s" created successfully!', $this->name()));
         $this->line($item);
     }
 }

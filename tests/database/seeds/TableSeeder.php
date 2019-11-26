@@ -2,19 +2,25 @@
 
 namespace Tests\database\seeds;
 
+use Helldar\Roles\Exceptions\UnknownModelKeyException;
 use Helldar\Roles\Helpers\Table;
+use Helldar\Roles\Models\Permission;
+use Helldar\Roles\Models\Role;
 use Helldar\Roles\Traits\Find;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
 use Tests\Models\User;
+
+use function compact;
 
 class TableSeeder
 {
     use Find;
 
     /**
-     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     * @throws UnknownModelKeyException
      */
     public static function run()
     {
@@ -39,11 +45,11 @@ class TableSeeder
     }
 
     /**
-     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     * @throws UnknownModelKeyException
      */
     private function create()
     {
-        /** @var \Tests\Models\User $user */
+        /** @var User $user */
         $user = $this->user();
 
         // Roles
@@ -76,30 +82,30 @@ class TableSeeder
     /**
      * @param string $name
      *
-     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     * @throws UnknownModelKeyException
      *
-     * @return \Helldar\Roles\Models\Role
+     * @return Role
      */
     private function role(string $name)
     {
-        /** @var \Helldar\Roles\Models\Role|\Illuminate\Database\Eloquent\Model $model */
+        /** @var Role|Model $model */
         $model = $this->model('role');
 
-        return $model::create(\compact('name'));
+        return $model::create(compact('name'));
     }
 
     /**
      * @param string $name
      *
-     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     * @throws UnknownModelKeyException
      *
-     * @return \Helldar\Roles\Models\Permission
+     * @return Permission
      */
     private function permission(string $name)
     {
-        /** @var \Helldar\Roles\Models\Permission|\Illuminate\Database\Eloquent\Model $model */
+        /** @var Permission|Model $model */
         $model = $this->model('permission');
 
-        return $model::create(\compact('name'));
+        return $model::create(compact('name'));
     }
 }

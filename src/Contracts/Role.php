@@ -2,6 +2,9 @@
 
 namespace Helldar\Roles\Contracts;
 
+use Helldar\Roles\Exceptions\PermissionNotFoundException;
+use Helldar\Roles\Exceptions\UnknownModelKeyException;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 interface Role
@@ -11,17 +14,17 @@ interface Role
     /**
      * @param string $name
      *
-     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     * @throws UnknownModelKeyException
      *
-     * @return \Illuminate\Database\Eloquent\Model
+     * @return Model
      */
     public function createPermission(string $name);
 
     /**
      * @param string|\Helldar\Roles\Models\Permission $permission
      *
-     * @throws \Helldar\Roles\Exceptions\PermissionNotFoundException
-     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     * @throws PermissionNotFoundException
+     * @throws UnknownModelKeyException
      */
     public function assignPermission($permission);
 
@@ -33,8 +36,8 @@ interface Role
     /**
      * @param string|\Helldar\Roles\Models\Permission $permission
      *
-     * @throws \Helldar\Roles\Exceptions\PermissionNotFoundException
-     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     * @throws PermissionNotFoundException
+     * @throws UnknownModelKeyException
      */
     public function revokePermission($permission);
 
@@ -46,14 +49,14 @@ interface Role
     /**
      * @param array $permissions_ids
      *
-     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     * @throws UnknownModelKeyException
      */
     public function syncPermissions(array $permissions_ids);
 
     /**
      * @param string|int|\Helldar\Roles\Models\Permission $permission
      *
-     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     * @throws UnknownModelKeyException
      *
      * @return bool
      */

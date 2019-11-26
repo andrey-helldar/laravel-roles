@@ -2,6 +2,8 @@
 
 namespace Helldar\Roles\Helpers;
 
+use function array_filter;
+
 class Table
 {
     public static function connection(): string
@@ -17,7 +19,7 @@ class Table
             return $tables;
         }
 
-        return \array_filter($tables, function ($value, $key) {
+        return array_filter($tables, function ($value, $key) {
             return $key !== 'users';
         });
     }

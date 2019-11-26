@@ -2,7 +2,10 @@
 
 namespace Helldar\Roles\Traits;
 
+use Helldar\Roles\Exceptions\UnknownModelKeyException;
 use Illuminate\Support\Str;
+
+use function is_null;
 
 trait Commands
 {
@@ -12,7 +15,7 @@ trait Commands
 
     private function name(): string
     {
-        if (\is_null($this->slug)) {
+        if (is_null($this->slug)) {
             $name = $this->argument('name');
 
             $this->slug = Str::slug($name, '_');
@@ -22,7 +25,7 @@ trait Commands
     }
 
     /**
-     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     * @throws UnknownModelKeyException
      *
      * @return bool
      */
@@ -37,17 +40,17 @@ trait Commands
     }
 
     /**
-     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     * @throws UnknownModelKeyException
      *
      * @return bool
      */
     private function roleIsDoesntExists(): bool
     {
-        return !$this->roleIsExists();
+        return ! $this->roleIsExists();
     }
 
     /**
-     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     * @throws UnknownModelKeyException
      *
      * @return bool
      */
@@ -62,12 +65,12 @@ trait Commands
     }
 
     /**
-     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     * @throws UnknownModelKeyException
      *
      * @return bool
      */
     private function permissionIsDoesntExists(): bool
     {
-        return !$this->permissionIsExists();
+        return ! $this->permissionIsExists();
     }
 }

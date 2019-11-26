@@ -2,32 +2,41 @@
 
 namespace Helldar\Roles\Models;
 
+use Eloquent;
 use Helldar\Roles\Contracts\Permission as PermissionContract;
+use Helldar\Roles\Exceptions\RoleNotFoundException;
+use Helldar\Roles\Exceptions\UnknownModelKeyException;
 use Helldar\Roles\Helpers\Table;
 use Helldar\Roles\Traits\Find;
 use Helldar\Roles\Traits\SetAttribute;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+
+use Illuminate\Support\Carbon;
+
+use function array_map;
 
 /**
  * Helldar\Roles\Models\Permission
  *
  * @property int $id
  * @property string $name
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\Helldar\Roles\Models\Role[] $roles
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Collection|Role[] $roles
  *
- * @method static \Illuminate\Database\Eloquent\Builder|\Helldar\Roles\Models\Permission newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\Helldar\Roles\Models\Permission newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\Helldar\Roles\Models\Permission orWhereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Helldar\Roles\Models\Permission orWhereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Helldar\Roles\Models\Permission query()
- * @method static \Illuminate\Database\Eloquent\Builder|\Helldar\Roles\Models\Permission whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Helldar\Roles\Models\Permission whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Helldar\Roles\Models\Permission whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Helldar\Roles\Models\Permission whereUpdatedAt($value)
- * @mixin \Eloquent
+ * @method static Builder|Permission newModelQuery()
+ * @method static Builder|Permission newQuery()
+ * @method static Builder|Permission orWhereId($value)
+ * @method static Builder|Permission orWhereName($value)
+ * @method static Builder|Permission query()
+ * @method static Builder|Permission whereCreatedAt($value)
+ * @method static Builder|Permission whereId($value)
+ * @method static Builder|Permission whereName($value)
+ * @method static Builder|Permission whereUpdatedAt($value)
+ * @mixin Eloquent
  */
 class Permission extends Model implements PermissionContract
 {
@@ -44,9 +53,9 @@ class Permission extends Model implements PermissionContract
     }
 
     /**
-     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     * @throws UnknownModelKeyException
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
     public function roles(): BelongsToMany
     {
@@ -54,10 +63,10 @@ class Permission extends Model implements PermissionContract
     }
 
     /**
-     * @param string|\Helldar\Roles\Models\Role $role
+     * @param string|Role $role
      *
-     * @throws \Helldar\Roles\Exceptions\RoleNotFoundException
-     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     * @throws RoleNotFoundException
+     * @throws UnknownModelKeyException
      */
     public function assignRole($role)
     {
@@ -67,20 +76,20 @@ class Permission extends Model implements PermissionContract
     }
 
     /**
-     * @param string|\Helldar\Roles\Models\Role ...$roles
+     * @param string|Role ...$roles
      */
     public function assignRoles(...$roles)
     {
-        \array_map(function ($role) {
+        array_map(function ($role) {
             $this->assignRole($role);
         }, $roles);
     }
 
     /**
-     * @param string|\Helldar\Roles\Models\Role $role
+     * @param string|Role $role
      *
-     * @throws \Helldar\Roles\Exceptions\RoleNotFoundException
-     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     * @throws RoleNotFoundException
+     * @throws UnknownModelKeyException
      */
     public function revokeRole($role)
     {
@@ -90,11 +99,11 @@ class Permission extends Model implements PermissionContract
     }
 
     /**
-     * @param string|\Helldar\Roles\Models\Role ...$roles
+     * @param string|Role ...$roles
      */
     public function revokeRoles(...$roles)
     {
-        \array_map(function ($role) {
+        array_map(function ($role) {
             $this->revokeRole($role);
         }, $roles);
     }
@@ -102,7 +111,7 @@ class Permission extends Model implements PermissionContract
     /**
      * @param array $roles_ids
      *
-     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     * @throws UnknownModelKeyException
      */
     public function syncRoles(array $roles_ids)
     {

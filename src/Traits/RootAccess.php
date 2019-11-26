@@ -3,11 +3,12 @@
 namespace Helldar\Roles\Traits;
 
 use Helldar\Roles\Helpers\Config;
+use Illuminate\Http\Request;
 
 trait RootAccess
 {
     /**
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      *
      * @return bool
      */

@@ -40,7 +40,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
     protected function resolveApplicationHttpKernel($app)
     {
-        $app->singleton(Kernel::class, \Tests\Http\Kernel::class);
+        $app->singleton(Kernel::class, Http\Kernel::class);
     }
 
     private function setDatabase($app)

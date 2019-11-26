@@ -6,12 +6,16 @@ use Helldar\Roles\Console\PermissionCreate;
 use Helldar\Roles\Console\PermissionDelete;
 use Helldar\Roles\Console\RoleCreate;
 use Helldar\Roles\Console\RoleDelete;
+use Helldar\Roles\Exceptions\UnknownModelKeyException;
 use Helldar\Roles\Helpers\Config;
 use Helldar\Roles\Helpers\Table;
+use Helldar\Roles\Models\Permission;
 use Helldar\Roles\Traits\Find;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Schema;
+
+use function config_path;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
@@ -20,14 +24,14 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     protected $defer = false;
 
     /**
-     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     * @throws UnknownModelKeyException
      */
     public function boot()
     {
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
 
         $this->publishes([
-            __DIR__ . '/config/settings.php' => \config_path('laravel_roles.php'),
+            __DIR__ . '/config/settings.php' => config_path('laravel_roles.php'),
         ], 'config');
 
         $this->blade();
@@ -85,7 +89,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     }
 
     /**
-     * @throws \Helldar\Roles\Exceptions\UnknownModelKeyException
+     * @throws UnknownModelKeyException
      */
     private function can()
     {
@@ -97,7 +101,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $table      = Table::name('permissions');
 
         if (Schema::connection($connection)->hasTable($table)) {
-            /** @var \Helldar\Roles\Models\Permission $model */
+            /** @var Permission $model */
             $model = $this->model('permission');
 
             $model::get(['name'])
