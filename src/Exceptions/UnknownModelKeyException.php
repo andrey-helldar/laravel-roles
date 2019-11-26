@@ -2,9 +2,9 @@
 
 namespace Helldar\Roles\Exceptions;
 
-use Symfony\Component\HttpKernel\Exception\HttpException;
-
 use function printf;
+
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class UnknownModelKeyException extends HttpException
 {

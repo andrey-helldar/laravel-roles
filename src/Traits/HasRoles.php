@@ -2,6 +2,8 @@
 
 namespace Helldar\Roles\Traits;
 
+use function array_map;
+use function compact;
 use Helldar\Roles\Exceptions\RoleNotFoundException;
 use Helldar\Roles\Exceptions\UnknownModelKeyException;
 use Helldar\Roles\Helpers\Table;
@@ -10,11 +12,9 @@ use Helldar\Roles\Models\Role;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Arr;
-
-use function array_map;
-use function compact;
 
 /**
  * Trait HasRoles
@@ -127,7 +127,7 @@ trait HasRoles
     public function hasRoles(...$roles): bool
     {
         foreach (Arr::flatten($roles) as $role) {
-            if (! $this->roles->contains('name', $role)) {
+            if (!$this->roles->contains('name', $role)) {
                 return false;
             }
         }
@@ -163,7 +163,7 @@ trait HasRoles
     public function hasPermissions(...$permissions): bool
     {
         foreach (Arr::flatten($permissions) as $permission) {
-            if (! $this->hasPermission($permission)) {
+            if (!$this->hasPermission($permission)) {
                 return false;
             }
         }

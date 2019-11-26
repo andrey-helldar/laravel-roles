@@ -26,7 +26,7 @@ class Role
      */
     public function handle($request, Closure $next, ...$roles)
     {
-        if (! Auth::check()) {
+        if (!Auth::check()) {
             throw new AccessDeniedHttpException('User is not authorized', null, 403);
         }
 

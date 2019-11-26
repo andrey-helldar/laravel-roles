@@ -26,7 +26,7 @@ class Permissions
      */
     public function handle($request, Closure $next, ...$permissions)
     {
-        if (! Auth::check()) {
+        if (!Auth::check()) {
             throw new AccessDeniedHttpException('User is not authorized', null, 403);
         }
 
@@ -35,7 +35,7 @@ class Permissions
         }
 
         foreach ($permissions as $permission) {
-            if (! $request->user()->hasPermission($permission)) {
+            if (!$request->user()->hasPermission($permission)) {
                 throw new PermissionAccessIsDeniedException;
             }
         }

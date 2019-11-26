@@ -2,6 +2,7 @@
 
 namespace Helldar\Roles\Models;
 
+use function array_map;
 use Eloquent;
 use Helldar\Roles\Contracts\Permission as PermissionContract;
 use Helldar\Roles\Exceptions\RoleNotFoundException;
@@ -12,11 +13,10 @@ use Helldar\Roles\Traits\SetAttribute;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 use Illuminate\Support\Carbon;
-
-use function array_map;
 
 /**
  * Helldar\Roles\Models\Permission

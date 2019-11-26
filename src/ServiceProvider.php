@@ -2,6 +2,7 @@
 
 namespace Helldar\Roles;
 
+use function config_path;
 use Helldar\Roles\Console\PermissionCreate;
 use Helldar\Roles\Console\PermissionDelete;
 use Helldar\Roles\Console\RoleCreate;
@@ -13,9 +14,8 @@ use Helldar\Roles\Models\Permission;
 use Helldar\Roles\Traits\Find;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Schema;
 
-use function config_path;
+use Illuminate\Support\Facades\Schema;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
@@ -47,7 +47,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
     private function blade()
     {
-        if (! Config::get('use_blade', false)) {
+        if (!Config::get('use_blade', false)) {
             return;
         }
 
@@ -93,7 +93,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     private function can()
     {
-        if (! Config::get('use_can_directive', false)) {
+        if (!Config::get('use_can_directive', false)) {
             return;
         }
 

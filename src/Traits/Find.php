@@ -2,17 +2,17 @@
 
 namespace Helldar\Roles\Traits;
 
+use function array_key_exists;
 use Helldar\Roles\Exceptions\PermissionNotFoundException;
 use Helldar\Roles\Exceptions\RoleNotFoundException;
 use Helldar\Roles\Exceptions\UnknownModelKeyException;
-use Helldar\Roles\Helpers\Config;
 
+use Helldar\Roles\Helpers\Config;
 use Helldar\Roles\Models\Permission;
 use Helldar\Roles\Models\Role;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 
-use function array_key_exists;
+use Illuminate\Database\Eloquent\Model;
 use function is_null;
 
 trait Find
