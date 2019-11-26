@@ -300,6 +300,15 @@ If you enabled the use of directives in the [config](src/config/settings.php) fi
 @endrole
 
 
+@roles('role_name_1', 'role_name_2', 'role_name_3')
+    I can see this text
+@endroles
+
+@roles(auth()->user()->hasRole('role_name'))
+    I can see this text
+@endroles
+
+
 @permission('permission_name')
     I can see this text
 @endpermission
@@ -307,16 +316,25 @@ If you enabled the use of directives in the [config](src/config/settings.php) fi
 @permission(auth()->user()->hasPermission('permission_name'))
     I can see this text
 @endpermission
+
+
+@permissions('permission_name_1', 'permission_name_2', 'permission_name_3')
+    I can see this text
+@endpermissions
+
+@permissions(auth()->user()->hasPermission('permission_name'))
+    I can see this text
+@endpermissions
 ```
 
 You can only use blade directives with role/permission id or slug.
 
-Note: use `can()` and `role() / permission()` is enabling separately. See [config](src/config/settings.php) file.
+Note: use `@can()`, `@role()`, `@roles()`, `@permission()` and `@permissions()` directives is enabling separately. See [config](src/config/settings.php) file.
 
 
 ### Checking for permissions
 
-For user:
+Single for user:
 ```php
 $user = User::find(1);
 
@@ -336,7 +354,33 @@ $user->hasPermission('permission_slug'): bool
 $user->hasPermission(Permission::find(1)): bool
 ```
 
-For role:
+Multiple for user:
+```php
+$user = User::find(1);
+
+// with role slug:
+$user->hasRoles('role_slug_1', 'role_slug_2'): bool
+
+// with role slug as array:
+$user->hasRoles(['role_slug_1', 'role_slug_2']): bool
+
+// with role ID:
+$user->hasRoles(1, 2, 3): bool
+
+// with role instance:
+$user->hasRoles(Role::find(1), Role::find(2)): bool
+
+// with permission slug:
+$user->hasPermissions('permission_slug_1', 'permission_slug_2'): bool
+
+// with permission slug as array:
+$user->hasPermissions(['permission_slug_1', 'permission_slug_2']): bool
+
+// with permission instance:
+$user->hasPermissions(Permission::find(1), Permission::find(2)): bool
+```
+
+For single role:
 ```php
 $role = Role::find(1);
 
@@ -348,6 +392,29 @@ $role->hasPermission(1): bool
 
 // with permission instance:
 $role->hasPermission(Permission::find(1)): bool
+```
+
+For multiply role:
+```php
+$role = Role::find(1);
+
+// with permission slug:
+$role->hasPermissions('permission_slug_1', 'permission_slug_1'): bool
+
+// with permission slug as array:
+$role->hasPermissions(['permission_slug_1', 'permission_slug_1']): bool
+
+// with permission ID:
+$role->hasPermissions(1, 2, 3): bool
+
+// with permission ID as array:
+$role->hasPermissions([1, 2, 3]): bool
+
+// with permission instance:
+$role->hasPermissions(Permission::find(1), Permission::find(2)): bool
+
+// with permission instance as array:
+$role->hasPermissions([Permission::find(1), Permission::find(2)]): bool
 ```
 
 Also in the settings you can specify the name of the role for global access:
