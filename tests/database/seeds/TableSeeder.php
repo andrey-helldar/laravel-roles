@@ -2,6 +2,7 @@
 
 namespace Tests\database\seeds;
 
+use function compact;
 use Helldar\Roles\Exceptions\UnknownModelKeyException;
 use Helldar\Roles\Helpers\Table;
 use Helldar\Roles\Models\Permission;
@@ -11,9 +12,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
-use Tests\Models\User;
 
-use function compact;
+use Tests\Models\User;
 
 class TableSeeder
 {

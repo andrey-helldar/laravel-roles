@@ -46,7 +46,7 @@ trait Commands
      */
     private function roleIsDoesntExists(): bool
     {
-        return ! $this->roleIsExists();
+        return !$this->roleIsExists();
     }
 
     /**
@@ -71,6 +71,6 @@ trait Commands
      */
     private function permissionIsDoesntExists(): bool
     {
-        return ! $this->permissionIsExists();
+        return !$this->permissionIsExists();
     }
 }
