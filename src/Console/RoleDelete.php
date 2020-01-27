@@ -36,7 +36,7 @@ class RoleDelete extends Command
      * @throws UnknownModelKeyException
      * @throws Exception
      */
-    private function remove()
+    protected function remove()
     {
         /** @var Role $role */
         $model = $this->model('role');

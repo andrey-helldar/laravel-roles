@@ -36,7 +36,7 @@ class PermissionCreate extends Command
      * @throws UnknownModelKeyException
      * @throws Exception
      */
-    private function create()
+    protected function create()
     {
         /** @var Permission $model */
         $model = $this->model('permission');

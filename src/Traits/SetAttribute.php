@@ -15,7 +15,7 @@ trait SetAttribute
         $this->setManual('name', $value);
     }
 
-    private function setManual($key, $value, $default = null)
+    protected function setManual($key, $value, $default = null)
     {
         $this->attributes[$key] = $value ?: $default;
     }

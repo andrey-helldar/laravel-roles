@@ -13,7 +13,7 @@ trait Commands
 
     private $slug;
 
-    private function name(): string
+    protected function name(): string
     {
         if (is_null($this->slug)) {
             $name = $this->argument('name');
@@ -29,7 +29,7 @@ trait Commands
      *
      * @return bool
      */
-    private function roleIsExists(): bool
+    protected function roleIsExists(): bool
     {
         $model = $this->model('role');
 
@@ -44,7 +44,7 @@ trait Commands
      *
      * @return bool
      */
-    private function roleIsDoesntExists(): bool
+    protected function roleIsDoesntExists(): bool
     {
         return !$this->roleIsExists();
     }
@@ -54,7 +54,7 @@ trait Commands
      *
      * @return bool
      */
-    private function permissionIsExists(): bool
+    protected function permissionIsExists(): bool
     {
         $model = $this->model('permission');
 
@@ -69,7 +69,7 @@ trait Commands
      *
      * @return bool
      */
-    private function permissionIsDoesntExists(): bool
+    protected function permissionIsDoesntExists(): bool
     {
         return !$this->permissionIsExists();
     }

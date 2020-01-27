@@ -21,8 +21,6 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
     use Find;
 
-    protected $defer = false;
-
     /**
      * @throws UnknownModelKeyException
      */
@@ -45,7 +43,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->mergeConfigFrom(__DIR__ . '/config/settings.php', 'laravel_roles');
     }
 
-    private function blade()
+    protected function blade()
     {
         if (!Config::get('use_blade', false)) {
             return;
@@ -91,7 +89,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     /**
      * @throws UnknownModelKeyException
      */
-    private function can()
+    protected function can()
     {
         if (!Config::get('use_can_directive', false)) {
             return;
@@ -113,7 +111,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         }
     }
 
-    private function bootCommands()
+    protected function bootCommands()
     {
         $this->commands([
             PermissionCreate::class,

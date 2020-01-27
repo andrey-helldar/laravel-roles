@@ -36,7 +36,7 @@ class RoleCreate extends Command
      * @throws UnknownModelKeyException
      * @throws Exception
      */
-    private function create()
+    protected function create()
     {
         /** @var Role $model */
         $model = $this->model('role');

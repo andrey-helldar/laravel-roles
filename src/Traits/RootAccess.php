@@ -12,7 +12,7 @@ trait RootAccess
      *
      * @return bool
      */
-    private function isRoot($request): bool
+    protected function isRoot($request): bool
     {
         $roles = Config::get('root_roles', false);
 

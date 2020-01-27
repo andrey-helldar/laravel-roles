@@ -36,7 +36,7 @@ class PermissionDelete extends Command
      * @throws UnknownModelKeyException
      * @throws Exception
      */
-    private function remove()
+    protected function remove()
     {
         /** @var Permission $model */
         $model = $this->model('permission');

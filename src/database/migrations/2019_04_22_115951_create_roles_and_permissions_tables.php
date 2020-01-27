@@ -60,7 +60,7 @@ class CreateRolesAndPermissionsTables extends Migration
         $this->schema()->enableForeignKeyConstraints();
     }
 
-    private function schema(): Builder
+    protected function schema(): Builder
     {
         return Schema::connection(Table::connection());
     }

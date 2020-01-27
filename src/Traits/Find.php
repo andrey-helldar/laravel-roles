@@ -25,7 +25,7 @@ trait Find
      *
      * @return Role|Builder|Model|object|null
      */
-    private function findRole($role)
+    protected function findRole($role)
     {
         /** @var Role $model */
         $model = $this->model('role');
@@ -54,7 +54,7 @@ trait Find
      *
      * @return Permission
      */
-    private function findPermission($permission)
+    protected function findPermission($permission)
     {
         /** @var Permission $model */
         $model = $this->model('permission');
@@ -82,7 +82,7 @@ trait Find
      *
      * @return Role|Permission|Model
      */
-    private function model(string $key)
+    protected function model(string $key)
     {
         $models = Config::get('models', []);
 
