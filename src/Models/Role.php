@@ -2,6 +2,7 @@
 
 namespace Helldar\Roles\Models;
 
+use function compact;
 use Eloquent;
 use Helldar\Roles\Contracts\Role as RoleContract;
 use Helldar\Roles\Exceptions\PermissionNotFoundException;
@@ -13,9 +14,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Support\Carbon;
 
-use function compact;
+use Illuminate\Support\Carbon;
 
 /**
  * Helldar\Roles\Models\Role

@@ -16,10 +16,10 @@ trait Find
     /**
      * @param string|int|Role $role
      *
-     * @return Role|Builder|Model|object|null
      * @throws RoleNotFoundException
-     *
      * @throws UnknownModelKeyException
+     *
+     * @return Role|Builder|Model|object|null
      */
     protected function findRole($role)
     {
@@ -29,10 +29,10 @@ trait Find
     /**
      * @param string|int|Permission $permission
      *
-     * @return Permission
      * @throws PermissionNotFoundException
-     *
      * @throws UnknownModelKeyException
+     *
+     * @return Permission
      */
     protected function findPermission($permission)
     {
@@ -70,9 +70,9 @@ trait Find
     /**
      * @param string $key
      *
-     * @return Role|Permission|Model
      * @throws UnknownModelKeyException
      *
+     * @return Role|Permission|Model
      */
     protected function model(string $key)
     {
