@@ -2,17 +2,16 @@
 
 namespace Helldar\Roles\Traits;
 
-use function array_key_exists;
 use Helldar\Roles\Exceptions\PermissionNotFoundException;
 use Helldar\Roles\Exceptions\RoleNotFoundException;
 use Helldar\Roles\Exceptions\UnknownModelKeyException;
-
 use Helldar\Roles\Helpers\Config;
 use Helldar\Roles\Models\Permission;
 use Helldar\Roles\Models\Role;
 use Illuminate\Database\Eloquent\Builder;
-
 use Illuminate\Database\Eloquent\Model;
+
+use function array_key_exists;
 use function is_null;
 
 trait Find
@@ -20,56 +19,52 @@ trait Find
     /**
      * @param string|int|Role $role
      *
-     * @throws UnknownModelKeyException
+     * @return Role|Builder|Model|object|null
      * @throws RoleNotFoundException
      *
-     * @return Role|Builder|Model|object|null
+     * @throws UnknownModelKeyException
      */
     protected function findRole($role)
     {
-        /** @var Role $model */
-        $model = $this->model('role');
-
-        if ($role instanceof $model) {
-            return $role;
-        }
-
-        $item = $model::query()
-            ->whereId($role)
-            ->orWhereName($role)
-            ->first();
-
-        if (is_null($item)) {
-            throw new RoleNotFoundException($role);
-        }
-
-        return $item;
+        return $this->findObject('role', $role, RoleNotFoundException::class);
     }
 
     /**
      * @param string|int|Permission $permission
      *
-     * @throws UnknownModelKeyException
+     * @return Permission
      * @throws PermissionNotFoundException
      *
-     * @return Permission
+     * @throws UnknownModelKeyException
      */
     protected function findPermission($permission)
     {
-        /** @var Permission $model */
-        $model = $this->model('permission');
+        return $this->findObject('permission', $permission, PermissionNotFoundException::class);
+    }
 
-        if ($permission instanceof $model) {
-            return $permission;
+    /**
+     * @param string $type
+     * @param $value
+     * @param string $exception
+     *
+     * @return \Helldar\Roles\Models\Permission|\Helldar\Roles\Models\Role|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|object|null
+     */
+    protected function findObject(string $type, $value, string $exception)
+    {
+        /** @var Permission|Role $model */
+        $model = $this->model($type);
+
+        if ($value instanceof $model) {
+            return $value;
         }
 
         $item = $model::query()
-            ->whereId($permission)
-            ->orWhereName($permission)
+            ->where('id', $value)
+            ->orWhere('name', $value)
             ->first();
 
         if (is_null($item)) {
-            throw new PermissionNotFoundException($permission);
+            throw new $exception($value);
         }
 
         return $item;
@@ -78,9 +73,9 @@ trait Find
     /**
      * @param string $key
      *
+     * @return Role|Permission|Model
      * @throws UnknownModelKeyException
      *
-     * @return Role|Permission|Model
      */
     protected function model(string $key)
     {
