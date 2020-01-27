@@ -11,9 +11,6 @@ use Helldar\Roles\Models\Role;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
-use function array_key_exists;
-use function is_null;
-
 trait Find
 {
     /**
@@ -81,7 +78,7 @@ trait Find
     {
         $models = Config::get('models', []);
 
-        if (array_key_exists($key, $models)) {
+        if (isset($models[$key])) {
             return $models[$key];
         }
 
