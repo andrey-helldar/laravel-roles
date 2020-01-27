@@ -2,7 +2,6 @@
 
 namespace Helldar\Roles\Models;
 
-use function array_map;
 use Eloquent;
 use Helldar\Roles\Contracts\Permission as PermissionContract;
 use Helldar\Roles\Exceptions\RoleNotFoundException;
@@ -13,9 +12,7 @@ use Helldar\Roles\Traits\SetAttribute;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-
 use Illuminate\Support\Carbon;
 
 /**
@@ -80,9 +77,9 @@ class Permission extends Model implements PermissionContract
      */
     public function assignRoles(...$roles)
     {
-        array_map(function ($role) {
+        foreach ($roles as $role) {
             $this->assignRole($role);
-        }, $roles);
+        }
     }
 
     /**
@@ -103,9 +100,9 @@ class Permission extends Model implements PermissionContract
      */
     public function revokeRoles(...$roles)
     {
-        array_map(function ($role) {
+        foreach ($roles as $role) {
             $this->revokeRole($role);
-        }, $roles);
+        }
     }
 
     /**

@@ -2,8 +2,6 @@
 
 namespace Helldar\Roles\Models;
 
-use function array_map;
-use function compact;
 use Eloquent;
 use Helldar\Roles\Contracts\Role as RoleContract;
 use Helldar\Roles\Exceptions\PermissionNotFoundException;
@@ -13,11 +11,11 @@ use Helldar\Roles\Traits\Find;
 use Helldar\Roles\Traits\SetAttribute;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-
 use Illuminate\Database\Eloquent\Model;
-
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Carbon;
+
+use function compact;
 
 /**
  * Helldar\Roles\Models\Role
@@ -93,9 +91,9 @@ class Role extends Model implements RoleContract
      */
     public function assignPermissions(...$permissions)
     {
-        array_map(function ($permission) {
+        foreach ($permissions as $permission) {
             $this->assignPermission($permission);
-        }, $permissions);
+        }
     }
 
     /**
@@ -116,9 +114,9 @@ class Role extends Model implements RoleContract
      */
     public function revokePermissions(...$permissions)
     {
-        array_map(function ($permission) {
+        foreach ($permissions as $permission) {
             $this->revokePermission($permission);
-        }, $permissions);
+        }
     }
 
     /**

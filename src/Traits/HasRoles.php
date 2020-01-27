@@ -2,8 +2,6 @@
 
 namespace Helldar\Roles\Traits;
 
-use function array_map;
-use function compact;
 use Helldar\Roles\Exceptions\RoleNotFoundException;
 use Helldar\Roles\Exceptions\UnknownModelKeyException;
 use Helldar\Roles\Helpers\Table;
@@ -12,9 +10,10 @@ use Helldar\Roles\Models\Role;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Arr;
+
+use function compact;
 
 /**
  * Trait HasRoles
@@ -65,9 +64,9 @@ trait HasRoles
      */
     public function assignRoles(...$roles)
     {
-        array_map(function ($role) {
+        foreach ($roles as $role) {
             $this->assignRole($role);
-        }, $roles);
+        }
     }
 
     /**
@@ -88,9 +87,9 @@ trait HasRoles
      */
     public function revokeRoles(...$roles)
     {
-        array_map(function ($role) {
+        foreach ($roles as $role) {
             $this->revokeRole($role);
-        }, $roles);
+        }
     }
 
     /**
