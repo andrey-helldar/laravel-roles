@@ -21,7 +21,7 @@ interface Role
     public function createPermission(string $name);
 
     /**
-     * @param string|\Helldar\Roles\Models\Permission $permission
+     * @param \Helldar\Roles\Models\Permission|string $permission
      *
      * @throws PermissionNotFoundException
      * @throws UnknownModelKeyException
@@ -29,12 +29,12 @@ interface Role
     public function assignPermission($permission);
 
     /**
-     * @param string|\Helldar\Roles\Models\Permission ...$permissions
+     * @param \Helldar\Roles\Models\Permission|string ...$permissions
      */
     public function assignPermissions(...$permissions);
 
     /**
-     * @param string|\Helldar\Roles\Models\Permission $permission
+     * @param \Helldar\Roles\Models\Permission|string $permission
      *
      * @throws PermissionNotFoundException
      * @throws UnknownModelKeyException
@@ -42,7 +42,7 @@ interface Role
     public function revokePermission($permission);
 
     /**
-     * @param string|\Helldar\Roles\Models\Permission ...$permissions
+     * @param \Helldar\Roles\Models\Permission|string ...$permissions
      */
     public function revokePermissions(...$permissions);
 
@@ -54,7 +54,7 @@ interface Role
     public function syncPermissions(array $permissions_ids);
 
     /**
-     * @param string|int|\Helldar\Roles\Models\Permission $permission
+     * @param \Helldar\Roles\Models\Permission|int|string $permission
      *
      * @throws UnknownModelKeyException
      *

@@ -35,7 +35,7 @@ class Roles
         }
 
         if (!$request->user()->hasRoles($roles)) {
-            throw new RoleAccessIsDeniedException;
+            throw new RoleAccessIsDeniedException();
         }
 
         return $next($request);

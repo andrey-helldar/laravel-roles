@@ -24,7 +24,7 @@ class TableSeeder
      */
     public static function run()
     {
-        $class = new self;
+        $class = new self();
 
         $class->truncate();
         $class->create();
@@ -88,7 +88,7 @@ class TableSeeder
      */
     private function role(string $name)
     {
-        /** @var Role|Model $model */
+        /** @var Model|Role $model */
         $model = $this->model('role');
 
         return $model::create(compact('name'));
@@ -103,7 +103,7 @@ class TableSeeder
      */
     private function permission(string $name)
     {
-        /** @var Permission|Model $model */
+        /** @var Model|Permission $model */
         $model = $this->model('permission');
 
         return $model::create(compact('name'));

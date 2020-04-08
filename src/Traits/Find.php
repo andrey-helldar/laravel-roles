@@ -14,12 +14,12 @@ use Illuminate\Database\Eloquent\Model;
 trait Find
 {
     /**
-     * @param string|int|Role $role
+     * @param int|Role|string $role
      *
      * @throws RoleNotFoundException
      * @throws UnknownModelKeyException
      *
-     * @return Role|Builder|Model|object|null
+     * @return Builder|Model|object|Role|null
      */
     protected function findRole($role)
     {
@@ -27,7 +27,7 @@ trait Find
     }
 
     /**
-     * @param string|int|Permission $permission
+     * @param int|Permission|string $permission
      *
      * @throws PermissionNotFoundException
      * @throws UnknownModelKeyException
@@ -72,7 +72,7 @@ trait Find
      *
      * @throws UnknownModelKeyException
      *
-     * @return Role|Permission|Model
+     * @return Model|Permission|Role
      */
     protected function model(string $key)
     {

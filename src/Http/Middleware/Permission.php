@@ -40,6 +40,6 @@ class Permission
             }
         }
 
-        throw new PermissionAccessIsDeniedException;
+        throw new PermissionAccessIsDeniedException();
     }
 }
