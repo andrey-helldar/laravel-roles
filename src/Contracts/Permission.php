@@ -16,7 +16,7 @@ interface Permission
     public function roles(): BelongsToMany;
 
     /**
-     * @param string|\Helldar\Roles\Models\Role $role
+     * @param \Helldar\Roles\Models\Role|string $role
      *
      * @throws RoleNotFoundException
      * @throws UnknownModelKeyException
@@ -24,12 +24,12 @@ interface Permission
     public function assignRole($role);
 
     /**
-     * @param string|\Helldar\Roles\Models\Role ...$roles
+     * @param \Helldar\Roles\Models\Role|string ...$roles
      */
     public function assignRoles(...$roles);
 
     /**
-     * @param string|\Helldar\Roles\Models\Role $role
+     * @param \Helldar\Roles\Models\Role|string $role
      *
      * @throws RoleNotFoundException
      * @throws UnknownModelKeyException
@@ -37,7 +37,7 @@ interface Permission
     public function revokeRole($role);
 
     /**
-     * @param string|\Helldar\Roles\Models\Role ...$roles
+     * @param \Helldar\Roles\Models\Role|string ...$roles
      */
     public function revokeRoles(...$roles);
 

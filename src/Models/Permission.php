@@ -16,13 +16,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Carbon;
 
 /**
- * Helldar\Roles\Models\Permission
+ * Helldar\Roles\Models\Permission.
  *
  * @property int $id
  * @property string $name
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property-read Collection|Role[] $roles
+ * @property Collection|Role[] $roles
  *
  * @method static Builder|Permission newModelQuery()
  * @method static Builder|Permission newQuery()
@@ -37,7 +37,8 @@ use Illuminate\Support\Carbon;
  */
 class Permission extends Model implements PermissionContract
 {
-    use SetAttribute, Find;
+    use SetAttribute;
+    use Find;
 
     protected $fillable = ['name'];
 
@@ -60,7 +61,7 @@ class Permission extends Model implements PermissionContract
     }
 
     /**
-     * @param string|Role $role
+     * @param Role|string $role
      *
      * @throws RoleNotFoundException
      * @throws UnknownModelKeyException
@@ -73,7 +74,7 @@ class Permission extends Model implements PermissionContract
     }
 
     /**
-     * @param string|Role ...$roles
+     * @param Role|string ...$roles
      */
     public function assignRoles(...$roles)
     {
@@ -83,7 +84,7 @@ class Permission extends Model implements PermissionContract
     }
 
     /**
-     * @param string|Role $role
+     * @param Role|string $role
      *
      * @throws RoleNotFoundException
      * @throws UnknownModelKeyException
@@ -96,7 +97,7 @@ class Permission extends Model implements PermissionContract
     }
 
     /**
-     * @param string|Role ...$roles
+     * @param Role|string ...$roles
      */
     public function revokeRoles(...$roles)
     {

@@ -16,9 +16,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Arr;
 
 /**
- * Trait HasRoles
+ * Trait HasRoles.
  *
- * @property-read Collection|Role[] $roles
+ * @property Collection|Role[] $roles
  */
 trait HasRoles
 {
@@ -60,7 +60,7 @@ trait HasRoles
     }
 
     /**
-     * @param string|Role ...$roles
+     * @param Role|string ...$roles
      */
     public function assignRoles(...$roles)
     {
@@ -83,7 +83,7 @@ trait HasRoles
     }
 
     /**
-     * @param string|Role ...$roles
+     * @param Role|string ...$roles
      */
     public function revokeRoles(...$roles)
     {
@@ -103,7 +103,7 @@ trait HasRoles
     }
 
     /**
-     * @param string|array ...$roles
+     * @param array|string ...$roles
      *
      * @return bool
      */
@@ -119,7 +119,7 @@ trait HasRoles
     }
 
     /**
-     * @param string|array ...$roles
+     * @param array|string ...$roles
      *
      * @return bool
      */
@@ -135,7 +135,7 @@ trait HasRoles
     }
 
     /**
-     * @param string|int|Permission $permission
+     * @param int|Permission|string $permission
      *
      * @throws UnknownModelKeyException
      *
@@ -155,7 +155,7 @@ trait HasRoles
     }
 
     /**
-     * @param string|int|Permission ...$permissions
+     * @param int|Permission|string ...$permissions
      *
      * @return bool
      */

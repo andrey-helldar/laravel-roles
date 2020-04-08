@@ -38,6 +38,6 @@ class Role
             return $next($request);
         }
 
-        throw new RoleAccessIsDeniedException;
+        throw new RoleAccessIsDeniedException();
     }
 }

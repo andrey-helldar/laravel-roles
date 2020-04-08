@@ -36,7 +36,7 @@ class Permissions
 
         foreach ($permissions as $permission) {
             if (!$request->user()->hasPermission($permission)) {
-                throw new PermissionAccessIsDeniedException;
+                throw new PermissionAccessIsDeniedException();
             }
         }
 
