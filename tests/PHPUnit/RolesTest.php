@@ -154,9 +154,4 @@ class RolesTest extends TestCase
 
         $page->assertStatus(404);
     }
-
-    protected function setCache(bool $allow = false)
-    {
-        \config(['laravel_roles.use_cache' => $allow]);
-    }
 }

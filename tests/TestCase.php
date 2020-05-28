@@ -48,7 +48,12 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $app->singleton(Kernel::class, Http\Kernel::class);
     }
 
-    private function setDatabase($app)
+    protected function setCache(bool $allow = false)
+    {
+        Config::set('laravel_roles.use_cache', $allow);
+    }
+
+    protected function setDatabase($app)
     {
         $app['config']->set('database.default', $this->database);
 
@@ -61,7 +66,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $app['config']->set('laravel_roles.connection', $this->database);
     }
 
-    private function setRoutes($app)
+    protected function setRoutes($app)
     {
         $this->setRoute($app, 'role/access', 'role:foo,bar,baz');
         $this->setRoute($app, 'role/denied', 'role:baz,bax');
@@ -76,7 +81,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $this->setRoute($app, 'permissions/denied', 'permissions:foo,bar,baz');
     }
 
-    private function setRoute($app, $url, $middleware)
+    protected function setRoute($app, $url, $middleware)
     {
         $app['router']->get($url, [
             'middleware' => $middleware,
