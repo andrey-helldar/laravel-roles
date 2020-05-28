@@ -5,6 +5,7 @@ namespace Tests;
 use Helldar\Roles\ServiceProvider;
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Testing\PendingCommand;
 use Tests\database\seeds\TableSeeder;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
@@ -17,7 +18,11 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
         $this->loadLaravelMigrations($this->database);
 
-        $this->artisan('migrate', ['--database' => $this->database])->run();
+        $artisan = $this->artisan('migrate', ['--database' => $this->database]);
+
+        if ($artisan instanceof PendingCommand) {
+            $artisan->run();
+        }
 
         TableSeeder::run();
     }
