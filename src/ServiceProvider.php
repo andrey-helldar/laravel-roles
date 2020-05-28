@@ -26,10 +26,10 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     public function boot()
     {
-        $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 
         $this->publishes([
-            __DIR__ . '/config/settings.php' => config_path('laravel_roles.php'),
+            __DIR__ . '/../config/settings.php' => config_path('laravel_roles.php'),
         ], 'config');
 
         $this->blade();
@@ -40,7 +40,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . '/config/settings.php', 'laravel_roles');
+        $this->mergeConfigFrom(__DIR__ . '/../config/settings.php', 'laravel_roles');
     }
 
     protected function blade()
