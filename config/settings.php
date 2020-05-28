@@ -88,5 +88,11 @@ return [
 
     'use_cache' => true,
 
+    /*
+     * Cache lifetime in seconds.
+     *
+     * Default, 300.
+     */
+
     'cache_ttl' => 300,
 ];
