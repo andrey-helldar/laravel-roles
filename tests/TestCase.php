@@ -4,12 +4,14 @@ namespace Tests;
 
 use Helldar\Roles\ServiceProvider;
 use Illuminate\Contracts\Http\Kernel;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Testing\PendingCommand;
 use Tests\database\seeds\TableSeeder;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
+    use RefreshDatabase;
+
     private $database = 'testing';
 
     protected function setUp(): void
@@ -17,12 +19,6 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         parent::setUp();
 
         $this->loadLaravelMigrations($this->database);
-
-        $artisan = $this->artisan('migrate', ['--database' => $this->database]);
-
-        if ($artisan instanceof PendingCommand) {
-            $artisan->run();
-        }
 
         TableSeeder::run();
     }
