@@ -2,7 +2,6 @@
 
 namespace Helldar\Roles\Traits;
 
-use function compact;
 use Helldar\Roles\Exceptions\RoleNotFoundException;
 use Helldar\Roles\Exceptions\UnknownModelKeyException;
 use Helldar\Roles\Helpers\Table;
@@ -12,8 +11,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-
 use Illuminate\Support\Arr;
+
+use function compact;
 
 /**
  * Trait HasRoles.
@@ -23,6 +23,7 @@ use Illuminate\Support\Arr;
 trait HasRoles
 {
     use Find;
+    use Cacheable;
 
     /**
      * @throws UnknownModelKeyException
@@ -109,13 +110,15 @@ trait HasRoles
      */
     public function hasRole(...$roles): bool
     {
-        foreach (Arr::flatten($roles) as $role) {
-            if ($this->roles->contains('name', $role)) {
-                return true;
+        return $this->cache(__FUNCTION__, function () use ($roles) {
+            foreach (Arr::flatten($roles) as $role) {
+                if ($this->roles->contains('name', $role)) {
+                    return true;
+                }
             }
-        }
 
-        return false;
+            return false;
+        }, $roles);
     }
 
     /**
@@ -125,13 +128,15 @@ trait HasRoles
      */
     public function hasRoles(...$roles): bool
     {
-        foreach (Arr::flatten($roles) as $role) {
-            if (!$this->roles->contains('name', $role)) {
-                return false;
+        return $this->cache(__FUNCTION__, function () use ($roles) {
+            foreach (Arr::flatten($roles) as $role) {
+                if (! $this->roles->contains('name', $role)) {
+                    return false;
+                }
             }
-        }
 
-        return true;
+            return true;
+        }, $roles);
     }
 
     /**
@@ -143,15 +148,17 @@ trait HasRoles
      */
     public function hasPermission($permission): bool
     {
-        $permission = $this->permissionId($permission);
+        return $this->cache(__FUNCTION__, function () use ($permission) {
+            $permission = $this->permissionId($permission);
 
-        return (bool) $this->roles()
-            ->whereHas('permissions', function (Builder $builder) use ($permission) {
-                $builder
-                    ->where('id', $permission)
-                    ->orWhere('name', $permission);
-            })
-            ->exists();
+            return (bool) $this->roles()
+                ->whereHas('permissions', function (Builder $builder) use ($permission) {
+                    $builder
+                        ->where('id', $permission)
+                        ->orWhere('name', $permission);
+                })
+                ->exists();
+        }, $permission);
     }
 
     /**
@@ -161,13 +168,15 @@ trait HasRoles
      */
     public function hasPermissions(...$permissions): bool
     {
-        foreach (Arr::flatten($permissions) as $permission) {
-            if (!$this->hasPermission($permission)) {
-                return false;
+        return $this->cache(__FUNCTION__, function () use ($permissions) {
+            foreach (Arr::flatten($permissions) as $permission) {
+                if (! $this->hasPermission($permission)) {
+                    return false;
+                }
             }
-        }
 
-        return true;
+            return true;
+        }, $permissions);
     }
 
     protected function permissionId($permission)

@@ -79,4 +79,14 @@ return [
      */
 
     'root_roles' => false,
+
+    /*
+     * Determines whether to use the cache to check roles and permissions.
+     *
+     * Default, false.
+     */
+
+    'use_cache' => true,
+
+    'cache_ttl' => 300,
 ];
