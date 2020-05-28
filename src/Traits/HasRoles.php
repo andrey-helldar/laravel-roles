@@ -2,6 +2,7 @@
 
 namespace Helldar\Roles\Traits;
 
+use function compact;
 use Helldar\Roles\Exceptions\RoleNotFoundException;
 use Helldar\Roles\Exceptions\UnknownModelKeyException;
 use Helldar\Roles\Helpers\Table;
@@ -11,9 +12,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Support\Arr;
 
-use function compact;
+use Illuminate\Support\Arr;
 
 /**
  * Trait HasRoles.
