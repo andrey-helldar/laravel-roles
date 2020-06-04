@@ -328,6 +328,14 @@ Note: use `@can()`, `@role()`, `@roles()`, `@permission()` and `@permissions()` 
 
 ### Checking for permissions
 
+Checking the `root` role for user:
+```php
+$user = User::find(1);
+
+// Checks if the user has at least one role with root access:
+$user->hasRootRole(): bool
+```
+
 Single for user:
 ```php
 $user = User::find(1);
@@ -417,13 +425,6 @@ $role->hasPermissions(Permission::find(1), Permission::find(2)): bool
 
 // with permission instance as array:
 $role->hasPermissions([Permission::find(1), Permission::find(2)]): bool
-```
-
-You can also set root rights for different roles:
-```php
-$user = User::find(1);
-
-$user->hasRootRole(): bool
 ```
 
 
