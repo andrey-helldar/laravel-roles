@@ -27,6 +27,11 @@ Basic roles and permissions handling for Laravel 5.5 and up.
         * [Syncing permissions](#syncing-permissions)
     * [Blade](#blade)
     * [Checking for permissions](#checking-for-permissions)
+        * [Checking the root role for user](#checking-the-root-role-for-user)
+        * [Checking one role for a user](#checking-one-role-for-a-user)
+        * [Checking multiple roles for a user:](#checking-multiple-roles-for-a-user)
+        * [Check permissions for one role](#check-permissions-for-one-role)
+        * [Checking permissions for multiple roles](#checking-permissions-for-multiple-roles)
     * [Artisan commands](#artisan-commands)
 * [License](#license)
 
@@ -328,7 +333,7 @@ Note: use `@can()`, `@role()`, `@roles()`, `@permission()` and `@permissions()` 
 
 ### Checking for permissions
 
-Checking the `root` role for user:
+#### Checking the `root` role for user:
 ```php
 $user = User::find(1);
 
@@ -336,7 +341,7 @@ $user = User::find(1);
 $user->hasRootRole(): bool
 ```
 
-Single for user:
+#### Checking one role for a user:
 ```php
 $user = User::find(1);
 
@@ -360,7 +365,7 @@ $user->hasPermission(Permission::find(1)): bool
 auth()->user()->can('permission_slug'): bool
 ```
 
-Multiple for user:
+#### Checking multiple roles for a user:
 ```php
 $user = User::find(1);
 
@@ -386,7 +391,7 @@ $user->hasPermissions(['permission_slug_1', 'permission_slug_2']): bool
 $user->hasPermissions(Permission::find(1), Permission::find(2)): bool
 ```
 
-For single role:
+#### Check permissions for one role:
 ```php
 $role = Role::find(1);
 
@@ -404,7 +409,7 @@ $role->hasPermission(Permission::find(1)): bool
 auth()->user()->can('permission_slug'): bool
 ```
 
-For multiply role:
+#### Checking permissions for multiple roles:
 ```php
 $role = Role::find(1);
 
