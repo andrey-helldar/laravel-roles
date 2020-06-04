@@ -41,7 +41,7 @@ Basic roles and permissions handling for Laravel 5.5 and up.
 ## Installation
 
 > If you upgrade from the old version, you can see the list of changes in the Upgrade Guide:
-> * [Upgrading To 2.x From 1.x](.upgrade/UPGRADE_GUIDE_1.X_TO_2.X.md)
+> * [Upgrading To 2.x From 1.x](.upgrade/To_2.x_from_1.x.md)
 
 To get the latest version of `Laravel Roles`, simply require the project using [Composer](https://getcomposer.org):
 
