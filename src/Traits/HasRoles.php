@@ -2,7 +2,6 @@
 
 namespace Helldar\Roles\Traits;
 
-use Helldar\Roles\Facades\Config;
 use Helldar\Roles\Models\Permission;
 use Helldar\Roles\Models\Role;
 use Illuminate\Database\Eloquent\Builder;
@@ -23,13 +22,9 @@ trait HasRoles
     public function hasRootRole(): bool
     {
         return $this->cache(__FUNCTION__, function () {
-            if ($roles = Config::rootRoles()) {
-                return $this->roles()
-                    ->whereIn('name', $roles)
-                    ->exists();
-            }
-
-            return false;
+            return $this->roles()
+                ->where('is_root', true)
+                ->exists();
         });
     }
 

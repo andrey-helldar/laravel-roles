@@ -332,11 +332,6 @@ Single for user:
 ```php
 $user = User::find(1);
 
-// For root roles
-// If the user is assigned a role marked as `root` in the `config/roles.php`
-// file, true will be returned. Otherwise, false.
-$user->hasRootRole(): bool
-
 // with role slug:
 $user->hasRole('role_slug'): bool
 
@@ -416,13 +411,12 @@ $role->hasPermissions(Permission::find(1), Permission::find(2)): bool
 $role->hasPermissions([Permission::find(1), Permission::find(2)]): bool
 ```
 
-Also in the settings you can specify the name of the role for global access:
+You can also set root rights for different roles:
 ```php
-[
-    'root_roles' => ['admin', 'foo', 'bar'],
-]
+$user = User::find(1);
+
+$user->hasRootRole(): bool
 ```
-or specify `false` to disable verification.
 
 
 ### Artisan commands

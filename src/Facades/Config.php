@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Facade;
  * @method static bool useCanDirective()
  * @method static bool useCache()
  * @method static int cacheTtl()
- * @method static array|bool rootRoles()
  * @method static string filename()
  */
 class Config extends Facade

@@ -2,7 +2,6 @@
 
 namespace Tests\PHPUnit;
 
-use Helldar\Roles\Facades\Config;
 use Illuminate\Support\Facades\Auth;
 use Tests\Models\User;
 use Tests\TestCase;
@@ -114,7 +113,7 @@ class RolesTest extends TestCase
     public function testDeniedUserNoHavePermissions()
     {
         $this->setCache();
-        $user = User::first();
+        $user = User::find(2);
 
         Auth::login($user);
 
@@ -134,8 +133,6 @@ class RolesTest extends TestCase
         $user = User::first();
 
         Auth::login($user);
-
-        Config::set('root_roles', 'foo');
 
         $role  = $this->call('GET', 'role/denied');
         $roles = $this->call('GET', 'roles/denied');

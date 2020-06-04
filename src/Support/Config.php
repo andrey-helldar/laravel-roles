@@ -48,14 +48,6 @@ class Config
         return (int) $this->get('cache_ttl', 3600);
     }
 
-    /**
-     * @return array|bool
-     */
-    public function rootRoles()
-    {
-        return $this->get('root_roles', false);
-    }
-
     public function filename()
     {
         return $this->name() . '.php';

@@ -26,19 +26,6 @@ return [
     'use_can_directive' => false,
 
     /*
-     * Defines for which roles to use root access.
-     *
-     * Example:
-     *     ['admin']
-     *     ['admin', 'foo', 'bar']
-     *     false
-     *
-     * Default, false.
-     */
-
-    'root_roles' => false,
-
-    /*
      * Determines whether to use the cache to check roles and permissions.
      *
      * Default, false.

@@ -15,6 +15,8 @@ Tables have been renamed:
 
 > Just run the `php artisan migrate` command.
 
+You can also set root rights for roles in the database.
+
 
 ### Configuration
 
@@ -41,7 +43,7 @@ Contracts `Helldar\Roles\Contracts\Role` and `Helldar\Roles\Contracts\Permission
 
 ### Settings
 
-Remove the `tables` and `models` blocks from the settings.
+Remove the `root_roles`, `tables` and `models` blocks from the settings.
 
 
 ### Cache

@@ -22,12 +22,12 @@ class TableSeeder
 
     protected function create()
     {
-        /** @var User $user */
-        $user = $this->user();
+        $user1 = $this->user();
+        $user2 = $this->user('Foo');
 
         // Roles
         $role_1 = $this->role('foo');
-        $role_2 = $this->role('bar');
+        $role_2 = $this->role('bar', true);
         $role_3 = $this->role('baz');
         $role_4 = $this->role('bax');
 
@@ -40,21 +40,27 @@ class TableSeeder
         $role_1->syncPermissions([$permission_1->id, $permission_2->id]);
         $role_2->syncPermissions([$permission_1->id, $permission_2->id]);
 
-        $user->syncRoles([$role_1->id, $role_2->id]);
+        $user1->syncRoles([$role_1->id, $role_2->id]);
+        $user2->syncRoles([$role_1->id, $role_3->id]);
     }
 
-    protected function user()
+    /**
+     * @param  string|null  $name
+     *
+     * @return \Tests\Models\User|\Illuminate\Database\Eloquent\Model
+     */
+    protected function user(string $name = null)
     {
         return User::create([
-            'name'     => 'Admin',
-            'email'    => 'test@example.com',
+            'name'     => $name ?: 'Admin',
+            'email'    => $name ? "{$name}@example.com" : 'test@example.com',
             'password' => Hash::make('qwerty'),
         ]);
     }
 
-    protected function role(string $name): Model
+    protected function role(string $name, bool $is_root = false): Model
     {
-        return Role::create(compact('name'));
+        return Role::create(compact('name', 'is_root'));
     }
 
     protected function permission(string $name): Model
