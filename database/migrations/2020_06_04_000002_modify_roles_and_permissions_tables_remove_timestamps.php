@@ -6,24 +6,24 @@ class ModifyRolesAndPermissionsTablesRemoveTimestamps extends BaseMigration
 {
     public function up()
     {
-        $this->drop($this->roles);
-        $this->drop($this->permissions);
+        $this->dropTimestamps($this->roles);
+        $this->dropTimestamps($this->permissions);
     }
 
     public function down()
     {
-        $this->create($this->roles);
-        $this->create($this->permissions);
+        $this->createTimestamps($this->roles);
+        $this->createTimestamps($this->permissions);
     }
 
-    protected function drop(string $table)
+    protected function dropTimestamps(string $table)
     {
         $this->schema()->table($table, function (Blueprint $table) {
             $table->dropTimestamps();
         });
     }
 
-    protected function create(string $table)
+    protected function createTimestamps(string $table)
     {
         $this->schema()->table($table, function (Blueprint $table) {
             $table->timestamps();
