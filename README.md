@@ -333,7 +333,8 @@ Single for user:
 $user = User::find(1);
 
 // For root roles
-// If the user is assigned a role marked as `root` in the `config/roles.php` file, true will be returned; otherwise, false.
+// If the user is assigned a role marked as `root` in the `config/roles.php`
+// file, true will be returned. Otherwise, false.
 $user->hasRootRole(): bool
 
 // with role slug:
