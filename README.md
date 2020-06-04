@@ -465,6 +465,7 @@ This package is released under the [MIT License](LICENSE).
 [badge_styleci]:        https://styleci.io/repos/183436706/shield
 [badge_build]:          https://img.shields.io/github/workflow/status/andrey-helldar/laravel-roles/phpunit?style=flat-square
 [badge_coverage]:       https://img.shields.io/scrutinizer/coverage/g/andrey-helldar/laravel-roles.svg?style=flat-square
+[badge_quality]:        https://img.shields.io/scrutinizer/g/andrey-helldar/laravel-roles.svg?style=flat-square
 [badge_laravel]:        https://img.shields.io/badge/Laravel-5.5+%20%7C%206.x%20%7C%207.x%20%7C%208.x-orange.svg?style=flat-square
 [badge_stable]:         https://img.shields.io/github/v/release/andrey-helldar/laravel-roles?label=stable&style=flat-square
 [badge_unstable]:       https://img.shields.io/badge/unstable-dev--master-orange?style=flat-square
