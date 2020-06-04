@@ -386,6 +386,10 @@ $role->hasPermission(1): bool
 
 // with permission instance:
 $role->hasPermission(Permission::find(1)): bool
+
+// If the `use_can_directive` option is set to true in the settings,
+// then you can also check permissions through the `can` directive:
+auth()->user()->can('permission_slug'): bool
 ```
 
 For multiply role:
