@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @property int $id
  * @property string $name
+ *
  * @method static \Illuminate\Database\Eloquent\Model|self create(array $values)
  */
 abstract class BaseModel extends Model

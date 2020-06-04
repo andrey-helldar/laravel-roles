@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Arr;
 
 /**
- * @property-read \Illuminate\Database\Eloquent\Collection|\Helldar\Roles\Models\Role[] $roles
+ * @property \Helldar\Roles\Models\Role[]|\Illuminate\Database\Eloquent\Collection $roles
  *
  * @mixin \Illuminate\Database\Eloquent\Model
  */
