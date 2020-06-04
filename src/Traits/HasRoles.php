@@ -219,7 +219,9 @@ trait HasRoles
                 ||
                 $this->roles()
                     ->whereHas('permissions', function (Builder $builder) use ($permission) {
-                        $builder->searchBy($permission);
+                        $builder
+                            ->where('id', $permission)
+                            ->orWhere('name', $permission);
                     })->exists();
         }, $permission);
     }
