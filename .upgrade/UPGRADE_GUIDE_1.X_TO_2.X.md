@@ -13,6 +13,8 @@ Tables have been renamed:
 | user_roles | user_role |
 | role_permissions | role_permission |
 
+> Just run the `php artisan migrate` command.
+
 
 #### Contracts
 
