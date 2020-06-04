@@ -21,13 +21,13 @@ Contracts `Helldar\Roles\Contracts\Role` and `Helldar\Roles\Contracts\Permission
 
 #### Exceptions
 
-| Old Name | New Name | Status Code |
+| Status Code | Old Name | New Name |
 | --- | --- | --- |
-| `Helldar\Roles\Exceptions\PermissionNotFoundException` | `Helldar\Roles\Exceptions\Core\PermissionNotFoundException` | `500 ` |
-| `Helldar\Roles\Exceptions\RoleNotFoundException` | `Helldar\Roles\Exceptions\Core\RoleNotFoundException` | `500 ` |
-| `Helldar\Roles\Exceptions\UnknownModelKeyException` | `Helldar\Roles\Exceptions\Core\UnknownModelKeyException` | `500 ` |
-| `Helldar\Roles\Exceptions\PermissionAccessIsDeniedException` | `Helldar\Roles\Exceptions\Http\PermissionAccessIsDeniedHttpException` | `403 ` |
-| `Helldar\Roles\Exceptions\RoleAccessIsDeniedException` | `Helldar\Roles\Exceptions\Http\RoleAccessIsDeniedHttpException` | `403 ` |
+| `500 ` | `Helldar\Roles\Exceptions\PermissionNotFoundException` | `Helldar\Roles\Exceptions\Core\PermissionNotFoundException` |
+| `500 ` | `Helldar\Roles\Exceptions\RoleNotFoundException` | `Helldar\Roles\Exceptions\Core\RoleNotFoundException` |
+| `500 ` | `Helldar\Roles\Exceptions\UnknownModelKeyException` | `Helldar\Roles\Exceptions\Core\UnknownModelKeyException` |
+| `403 ` | `Helldar\Roles\Exceptions\PermissionAccessIsDeniedException` | `Helldar\Roles\Exceptions\Http\PermissionAccessIsDeniedHttpException` |
+| `403 ` | `Helldar\Roles\Exceptions\RoleAccessIsDeniedException` | `Helldar\Roles\Exceptions\Http\RoleAccessIsDeniedHttpException` |
 
 
 ## Low Impact Changes
