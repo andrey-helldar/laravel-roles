@@ -11,6 +11,7 @@ use Illuminate\Support\Arr;
 
 /**
  * @property \Helldar\Roles\Models\Role[]|\Illuminate\Database\Eloquent\Collection $roles
+ * @property \Helldar\Roles\Models\Permission[]|\Illuminate\Database\Eloquent\Collection $permissions
  *
  * @mixin \Illuminate\Database\Eloquent\Model
  */
@@ -19,6 +20,14 @@ trait HasRoles
     use Searchable;
     use Cacheable;
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany|\Helldar\Roles\Models\BaseModel
+     */
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class, 'user_role');
+    }
+
     public function hasRootRole(): bool
     {
         return $this->cache(__FUNCTION__, function () {
@@ -26,11 +35,6 @@ trait HasRoles
                 ->where('is_root', true)
                 ->exists();
         });
-    }
-
-    public function roles(): BelongsToMany
-    {
-        return $this->belongsToMany(Role::class, 'user_role');
     }
 
     public function createRole(string $name): Model
@@ -131,6 +135,75 @@ trait HasRoles
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany|\Helldar\Roles\Models\BaseModel
+     */
+    public function permissions(): BelongsToMany
+    {
+        return $this->belongsToMany(Permission::class, 'user_permission');
+    }
+
+    public function createPermission(string $name): Model
+    {
+        return $this->permissions()->create(compact('name'));
+    }
+
+    /**
+     * @param  \Helldar\Roles\Models\Permission|string  $permission
+     *
+     * @throws \Throwable
+     */
+    public function assignPermission($permission): void
+    {
+        $permission = $this->findPermission($permission);
+
+        $this->permissions()->attach($permission->id);
+    }
+
+    /**
+     * @param  \Helldar\Roles\Models\Permission[]|string[]  $permissions
+     *
+     * @throws \Throwable
+     */
+    public function assignPermissions(...$permissions): void
+    {
+        foreach ($permissions as $permission) {
+            $this->assignPermission($permission);
+        }
+    }
+
+    /**
+     * @param  \Helldar\Roles\Models\Permission|string  $permission
+     *
+     * @throws \Throwable
+     */
+    public function revokePermission($permission): void
+    {
+        $permission = $this->findPermission($permission);
+
+        $this->permissions()->detach($permission->id);
+    }
+
+    /**
+     * @param  \Helldar\Roles\Models\Permission[]|string[]  $permissions
+     *
+     * @throws \Throwable
+     */
+    public function revokePermissions(...$permissions): void
+    {
+        foreach ($permissions as $permission) {
+            $this->revokePermission($permission);
+        }
+    }
+
+    /**
+     * @param  int[]  $permissions_ids
+     */
+    public function syncPermissions(array $permissions_ids): void
+    {
+        $this->permissions()->sync($permissions_ids);
+    }
+
+    /**
      * @param  \Helldar\Roles\Models\Permission|string  $permission
      *
      * @return bool
@@ -140,13 +213,14 @@ trait HasRoles
         return $this->cache(__FUNCTION__, function () use ($permission) {
             $permission = $this->permissionId($permission);
 
-            return (bool) $this->roles()
-                ->whereHas('permissions', function (Builder $builder) use ($permission) {
-                    $builder
-                        ->where('id', $permission)
-                        ->orWhere('name', $permission);
-                })
-                ->exists();
+            return $this->permissions()
+                    ->searchBy($permission)
+                    ->exists()
+                ||
+                $this->roles()
+                    ->whereHas('permissions', function (Builder $builder) use ($permission) {
+                        $builder->searchBy($permission);
+                    })->exists();
         }, $permission);
     }
 

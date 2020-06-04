@@ -57,16 +57,14 @@ trait Searchable
     }
 
     /**
-     * @param  \Illuminate\Database\Eloquent\Model|string  $model
+     * @param  \Helldar\Roles\Models\BaseModel|string  $model
      * @param  mixed  $value
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
     protected function searchBuilder($model, $value): Builder
     {
-        return $model::query()
-            ->where('id', $value)
-            ->orWhere('name', $value);
+        return $model::searchBy($value);
     }
 
     /**

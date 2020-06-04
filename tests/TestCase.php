@@ -77,6 +77,9 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
         $this->setRoute($app, 'permissions/access', 'permissions:foo,bar');
         $this->setRoute($app, 'permissions/denied', 'permissions:foo,bar,baz');
+
+        $this->setRoute($app, 'user/permission/access', 'permission:foo,bax');
+        $this->setRoute($app, 'user/permission/denied', 'permission:bar,baz');
     }
 
     protected function setRoute($app, $url, $middleware)

@@ -127,6 +127,23 @@ class RolesTest extends TestCase
         $permissions->assertSeeText('User does not have permission to view this content. Access is denied.');
     }
 
+    public function testUserPermission()
+    {
+        $this->setCache();
+        $user = User::find(3);
+
+        Auth::login($user);
+
+        $permissions_access = $this->call('GET', 'user/permission/access');
+        $permissions_denied = $this->call('GET', 'user/permission/denied');
+
+        $permissions_access->assertStatus(200);
+        $permissions_denied->assertStatus(403);
+
+        $this->assertEquals('ok', $permissions_access->getContent());
+        $permissions_denied->assertSeeText('User does not have permission to view this content. Access is denied.');
+    }
+
     public function testRootAccess()
     {
         $this->setCache();

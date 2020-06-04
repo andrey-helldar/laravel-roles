@@ -31,7 +31,8 @@ Basic roles and permissions handling for Laravel 5.5 and up.
     * [Checking for permissions](#checking-for-permissions)
         * [Checking the root role for user](#checking-the-root-role-for-user)
         * [Checking one role for a user](#checking-one-role-for-a-user)
-        * [Checking multiple roles for a user:](#checking-multiple-roles-for-a-user)
+        * [Checking multiple roles for a user](#checking-multiple-roles-for-a-user)
+        * [Checking one permission for a user](#checking-one-permission-for-a-user)
         * [Check permissions for one role](#check-permissions-for-one-role)
         * [Checking permissions for multiple roles](#checking-permissions-for-multiple-roles)
     * [Artisan commands](#artisan-commands)
@@ -54,7 +55,7 @@ Or manually update `require` block of `composer.json` and run `composer update`.
 ```json
 {
     "require-dev": {
-        "andrey-helldar/laravel-roles": "^2.0"
+        "andrey-helldar/laravel-roles": "^2.3"
     }
 }
 ```
@@ -391,6 +392,24 @@ $user->hasPermissions(['permission_slug_1', 'permission_slug_2']): bool
 
 // with permission instance:
 $user->hasPermissions(Permission::find(1), Permission::find(2)): bool
+```
+
+#### Checking one permission for a user:
+```php
+$user = User::find(1);
+
+// with permission slug:
+$user->hasPermission('permission_slug'): bool
+
+// with permission ID:
+$user->hasPermission(1): bool
+
+// with permission instance:
+$user->hasPermission(Permission::find(1)): bool
+
+// If the `use_can_directive` option is set to true in the settings,
+// then you can also check permissions through the `can` directive:
+auth()->user()->can('permission_slug'): bool
 ```
 
 #### Check permissions for one role:

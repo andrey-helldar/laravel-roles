@@ -24,6 +24,7 @@ class TableSeeder
     {
         $user1 = $this->user();
         $user2 = $this->user('Foo');
+        $user3 = $this->user('Bar');
 
         // Roles
         $role_1 = $this->role('foo');
@@ -42,6 +43,8 @@ class TableSeeder
 
         $user1->syncRoles([$role_1->id, $role_2->id]);
         $user2->syncRoles([$role_1->id, $role_3->id]);
+
+        $user3->syncPermissions([$permission_4->id]);
     }
 
     /**
