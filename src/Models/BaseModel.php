@@ -18,6 +18,8 @@ abstract class BaseModel extends Model
     use SetAttribute;
     use Searchable;
 
+    public $timestamps = false;
+
     protected $fillable = ['name'];
 
     public function __construct(array $attributes = [])
