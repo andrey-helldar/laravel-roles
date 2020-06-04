@@ -346,6 +346,10 @@ $user->hasPermission('permission_slug'): bool
 
 // with permission instance:
 $user->hasPermission(Permission::find(1)): bool
+
+// If the `use_can_directive` option is set to true in the settings,
+// then you can also check permissions through the `can` directive:
+auth()->user()->can('permission_slug'): bool
 ```
 
 Multiple for user:
