@@ -10,7 +10,7 @@ use Tests\database\seeds\TableSeeder;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
-	use RefreshDatabase;
+    use RefreshDatabase;
 
     private $database = 'testing';
 
