@@ -21,7 +21,7 @@ trait HasRoles
     use Cacheable;
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany|\Helldar\Roles\Models\BaseModel
+     * @return \Helldar\Roles\Models\BaseModel|\Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function roles(): BelongsToMany
     {
@@ -135,7 +135,7 @@ trait HasRoles
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany|\Helldar\Roles\Models\BaseModel
+     * @return \Helldar\Roles\Models\BaseModel|\Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function permissions(): BelongsToMany
     {
