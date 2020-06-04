@@ -14,7 +14,7 @@ trait RootAccess
     protected function hasRoot($request): bool
     {
         if ($roles = $this->getRootRoles()) {
-            /** @var \Illuminate\Contracts\Auth\Authenticatable|\Helldar\Roles\Traits\HasRoles $user */
+            /** @var \Helldar\Roles\Traits\HasRoles|\Illuminate\Contracts\Auth\Authenticatable $user */
             $user = $request->user();
 
             return $user->hasRole($roles) || $user->hasRootRole();

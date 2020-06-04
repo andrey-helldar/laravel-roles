@@ -5,7 +5,7 @@ namespace Helldar\Roles\Models;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
- * @property-read \Illuminate\Database\Eloquent\Collection|\Helldar\Roles\Models\Role[] $roles
+ * @property \Helldar\Roles\Models\Role[]|\Illuminate\Database\Eloquent\Collection $roles
  * @mixin \Illuminate\Database\Eloquent\Model
  */
 class Permission extends BaseModel
