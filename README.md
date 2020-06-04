@@ -33,7 +33,10 @@ Basic roles and permissions handling for Laravel 5.5 and up.
 
 ## Installation
 
-To get the latest version of Laravel Roles, simply require the project using [Composer](https://getcomposer.org):
+> If you upgrade from the old version, you can see the list of changes in the Upgrade Guide:
+> * [Upgrading To 2.x From 1.x](.upgrade/UPGRADE_GUIDE_1.X_TO_2.X.md)
+
+To get the latest version of `Laravel Roles`, simply require the project using [Composer](https://getcomposer.org):
 
 ```bash
 $ composer require andrey-helldar/laravel-roles
@@ -44,22 +47,13 @@ Or manually update `require` block of `composer.json` and run `composer update`.
 ```json
 {
     "require-dev": {
-        "andrey-helldar/laravel-roles": "^1.6"
+        "andrey-helldar/laravel-roles": "^2.0"
     }
 }
 ```
 
 
-If you don't use auto-discovery, add the ServiceProvider to the providers array in `app/Providers/AppServiceProvider.php`:
-
-```php
-public function register()
-{
-    $this->app->register(\Helldar\Roles\ServiceProvider::class);
-}
-```
-
-Copy the package config to your local config with the publish command:
+You can also publish the config file to change implementations (ie. interface to specific class):
 ```
 php artisan vendor:publish --provider="Helldar\Roles\ServiceProvider"
 ```
@@ -69,7 +63,7 @@ You can create the DB tables by running the migrations:
 php artisan migrate
 ```
 
-This command will create such `roles`, `permissions`, `user_roles` and `role_permissions` tables.
+This command will create such `roles`, `permissions`, `user_role` and `role_permission` tables.
 
 
 ## Using

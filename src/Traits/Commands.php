@@ -2,16 +2,15 @@
 
 namespace Helldar\Roles\Traits;
 
-use Helldar\Roles\Exceptions\UnknownModelKeyException;
+use Helldar\Roles\Models\Permission;
+use Helldar\Roles\Models\Role;
 use Illuminate\Support\Str;
-
-use function is_null;
 
 trait Commands
 {
-    use Find;
+    use Searchable;
 
-    private $slug;
+    protected $slug;
 
     protected function name(): string
     {
@@ -24,53 +23,23 @@ trait Commands
         return $this->slug;
     }
 
-    /**
-     * @throws UnknownModelKeyException
-     *
-     * @return bool
-     */
-    protected function roleIsExists(): bool
+    protected function roleIsExist(): bool
     {
-        $model = $this->model('role');
-
-        return (bool) $model::query()
-            ->whereId($this->name())
-            ->orWhereName($this->name())
-            ->exists();
+        return $this->searchExist(Role::class, $this->name());
     }
 
-    /**
-     * @throws UnknownModelKeyException
-     *
-     * @return bool
-     */
-    protected function roleIsDoesntExists(): bool
+    protected function roleIsDoesntExist(): bool
     {
-        return !$this->roleIsExists();
+        return ! $this->roleIsExist();
     }
 
-    /**
-     * @throws UnknownModelKeyException
-     *
-     * @return bool
-     */
-    protected function permissionIsExists(): bool
+    protected function permissionIsExist(): bool
     {
-        $model = $this->model('permission');
-
-        return (bool) $model::query()
-            ->whereId($this->name())
-            ->orWhereName($this->name())
-            ->exists();
+        return $this->searchExist(Permission::class, $this->name());
     }
 
-    /**
-     * @throws UnknownModelKeyException
-     *
-     * @return bool
-     */
-    protected function permissionIsDoesntExists(): bool
+    protected function permissionIsDoesntExist(): bool
     {
-        return !$this->permissionIsExists();
+        return ! $this->permissionIsExist();
     }
 }

@@ -2,13 +2,9 @@
 
 namespace Helldar\Roles\Console;
 
-use Exception;
-use Helldar\Roles\Exceptions\UnknownModelKeyException;
 use Helldar\Roles\Models\Permission;
 use Helldar\Roles\Traits\Commands;
 use Illuminate\Console\Command;
-
-use function sprintf;
 
 class PermissionDelete extends Command
 {
@@ -18,12 +14,9 @@ class PermissionDelete extends Command
 
     protected $description = 'Deleting a permission';
 
-    /**
-     * @throws UnknownModelKeyException
-     */
     public function handle()
     {
-        if ($this->permissionIsDoesntExists()) {
+        if ($this->permissionIsDoesntExist()) {
             $this->error(sprintf('Permission "%s" doesn\'t exists!', $this->name()));
 
             return;
@@ -32,18 +25,12 @@ class PermissionDelete extends Command
         $this->remove();
     }
 
-    /**
-     * @throws UnknownModelKeyException
-     * @throws Exception
-     */
     protected function remove()
     {
-        /** @var Permission $model */
-        $model = $this->model('permission');
+        $name = $this->name();
 
-        $this->builder($model)
-            ->delete();
+        $this->searchBuilder(Permission::class, $name)->delete();
 
-        $this->info(sprintf('Permission "%s" successfully deleted!', $this->name()));
+        $this->info(sprintf('Permission "%s" successfully deleted!', $name));
     }
 }

@@ -1,8 +1,5 @@
 <?php
 
-use Helldar\Roles\Models\Permission;
-use Helldar\Roles\Models\Role;
-
 return [
     /*
      * Default database connection name.
@@ -11,45 +8,6 @@ return [
      */
 
     'connection' => env('DB_CONNECTION', 'mysql'),
-
-    /*
-     * Table names for models.
-     * You can use the default settings or set your own.
-     */
-
-    'tables' => [
-        'users' => 'users',
-
-        'roles'       => 'roles',
-        'permissions' => 'permissions',
-
-        'user_roles'       => 'user_roles',
-        'role_permissions' => 'role_permissions',
-    ],
-
-    'models' => [
-        /*
-         * When using the "HasRoles" trait from this package, we need to know which
-         * Eloquent model should be used to retrieve your permissions. Of course, it
-         * is often just the "Permission" model but you may use whatever you like.
-         *
-         * The model you want to use as a Permission model needs to implement the
-         * `Helldar\Roles\Contracts\Role` contract.
-         */
-
-        'role' => Role::class,
-
-        /*
-         * When using the "HasRoles" trait from this package, we need to know which
-         * Eloquent model should be used to retrieve your roles. Of course, it
-         * is often just the "Permission" model but you may use whatever you like.
-         *
-         * The model you want to use as a Permission model needs to implement the
-         * `Helldar\Roles\Contracts\Permission` contract.
-         */
-
-        'permission' => Permission::class,
-    ],
 
     /*
      * If `true`, then the blade directives `role()` and `permission()` will be specified during initialization.
@@ -86,13 +44,13 @@ return [
      * Default, false.
      */
 
-    'use_cache' => true,
+    'use_cache' => false,
 
     /*
      * Cache lifetime in seconds.
      *
-     * Default, 300.
+     * Default, 3600.
      */
 
-    'cache_ttl' => 300,
+    'cache_ttl' => 3600,
 ];

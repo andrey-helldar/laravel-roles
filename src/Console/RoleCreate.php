@@ -2,13 +2,9 @@
 
 namespace Helldar\Roles\Console;
 
-use Exception;
-use Helldar\Roles\Exceptions\UnknownModelKeyException;
 use Helldar\Roles\Models\Role;
 use Helldar\Roles\Traits\Commands;
 use Illuminate\Console\Command;
-
-use function sprintf;
 
 class RoleCreate extends Command
 {
@@ -18,12 +14,9 @@ class RoleCreate extends Command
 
     protected $description = 'Create a new role';
 
-    /**
-     * @throws UnknownModelKeyException
-     */
     public function handle()
     {
-        if ($this->roleIsExists()) {
+        if ($this->roleIsExist()) {
             $this->error(sprintf('Role "%s" already exists!', $this->name()));
 
             return;
@@ -32,18 +25,13 @@ class RoleCreate extends Command
         $this->create();
     }
 
-    /**
-     * @throws UnknownModelKeyException
-     * @throws Exception
-     */
     protected function create()
     {
-        /** @var Role $model */
-        $model = $this->model('role');
+        $name = $this->name();
 
-        $item = $model::create(['name' => $this->name()]);
+        $item = Role::create(compact('name'));
 
-        $this->info(sprintf('Role "%s" created successfully!', $this->name()));
+        $this->info(sprintf('Role "%s" created successfully!', $name));
         $this->line($item);
     }
 }

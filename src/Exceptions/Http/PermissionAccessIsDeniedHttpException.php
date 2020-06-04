@@ -1,10 +1,10 @@
 <?php
 
-namespace Helldar\Roles\Exceptions;
+namespace Helldar\Roles\Exceptions\Http;
 
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class PermissionAccessIsDeniedException extends HttpException
+class PermissionAccessIsDeniedHttpException extends HttpException
 {
     public function __construct()
     {

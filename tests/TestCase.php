@@ -2,10 +2,10 @@
 
 namespace Tests;
 
+use Helldar\Roles\Facades\Config;
 use Helldar\Roles\ServiceProvider;
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Config;
 use Tests\database\seeds\TableSeeder;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
@@ -19,6 +19,8 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         parent::setUp();
 
         $this->loadLaravelMigrations($this->database);
+
+        $this->refreshDatabase();
 
         TableSeeder::run();
     }
@@ -46,7 +48,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
     protected function setCache(bool $allow = false)
     {
-        Config::set('laravel_roles.use_cache', $allow);
+        Config::set('use_cache', $allow);
     }
 
     protected function setDatabase($app)
@@ -59,7 +61,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
             'prefix'   => '',
         ]);
 
-        $app['config']->set('laravel_roles.connection', $this->database);
+        Config::set('connection', $this->database);
     }
 
     protected function setRoutes($app)

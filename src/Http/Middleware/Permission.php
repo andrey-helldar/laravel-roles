@@ -3,43 +3,46 @@
 namespace Helldar\Roles\Http\Middleware;
 
 use Closure;
-use Helldar\Roles\Exceptions\PermissionAccessIsDeniedException;
-use Helldar\Roles\Traits\RootAccess;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Helldar\Roles\Exceptions\Http\PermissionAccessIsDeniedHttpException;
 
-class Permission
+class Permission extends BaseMiddleware
 {
-    use RootAccess;
-
     /**
      * Checks for the entry of one of the specified permissions.
      *
-     * @param Request $request
-     * @param Closure $next
-     * @param string ...$permissions
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @param  string  ...$permissions
      *
-     * @throws PermissionAccessIsDeniedException
+     * @throws \Helldar\Roles\Exceptions\Http\PermissionAccessIsDeniedHttpException
      *
      * @return mixed
      */
     public function handle($request, Closure $next, ...$permissions)
     {
-        if (!Auth::check()) {
-            throw new AccessDeniedHttpException('User is not authorized', null, 403);
-        }
+        $this->check();
 
-        if ($this->isRoot($request)) {
+        if ($this->hasRoot($request) || $this->has($request, $permissions)) {
             return $next($request);
         }
 
+        throw new PermissionAccessIsDeniedHttpException();
+    }
+
+    /**
+     * @param  \Illuminate\Http\Request  $request
+     * @param  array  $permissions
+     *
+     * @return bool
+     */
+    protected function has($request, array $permissions): bool
+    {
         foreach ($permissions as $permission) {
             if ($request->user()->hasPermission($permission)) {
-                return $next($request);
+                return true;
             }
         }
 
-        throw new PermissionAccessIsDeniedException();
+        return false;
     }
 }

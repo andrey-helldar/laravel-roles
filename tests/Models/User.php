@@ -2,23 +2,21 @@
 
 namespace Tests\Models;
 
-use Helldar\Roles\Helpers\Table;
+use Helldar\Roles\Facades\Config;
 use Helldar\Roles\Traits\HasRoles;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable
 {
     use HasRoles;
 
     protected $fillable = ['name', 'email', 'password'];
 
-    protected $hidden = ['password', 'remember_token'];
-
     public function __construct(array $attributes = [])
     {
-        $this->connection = Table::connection();
-        $this->table      = Table::name('users');
+        $this->setConnection(
+            Config::connection()
+        );
 
         parent::__construct($attributes);
     }

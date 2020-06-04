@@ -2,52 +2,25 @@
 
 namespace Tests\database\seeds;
 
-use function compact;
-use Helldar\Roles\Exceptions\UnknownModelKeyException;
-use Helldar\Roles\Helpers\Table;
 use Helldar\Roles\Models\Permission;
 use Helldar\Roles\Models\Role;
-use Helldar\Roles\Traits\Find;
+use Helldar\Roles\Traits\Searchable;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Schema;
-
 use Tests\Models\User;
 
 class TableSeeder
 {
-    use Find;
+    use Searchable;
 
-    /**
-     * @throws UnknownModelKeyException
-     */
     public static function run()
     {
         $class = new self();
 
-        $class->truncate();
         $class->create();
     }
 
-    private function truncate()
-    {
-        Schema::disableForeignKeyConstraints();
-
-        $tables     = Table::all(true);
-        $connection = Table::connection();
-
-        foreach ($tables as $table) {
-            DB::connection($connection)->table($table)->truncate();
-        }
-
-        Schema::enableForeignKeyConstraints();
-    }
-
-    /**
-     * @throws UnknownModelKeyException
-     */
-    private function create()
+    protected function create()
     {
         /** @var User $user */
         $user = $this->user();
@@ -70,7 +43,7 @@ class TableSeeder
         $user->syncRoles([$role_1->id, $role_2->id]);
     }
 
-    private function user()
+    protected function user()
     {
         return User::create([
             'name'     => 'Admin',
@@ -79,33 +52,13 @@ class TableSeeder
         ]);
     }
 
-    /**
-     * @param string $name
-     *
-     * @throws UnknownModelKeyException
-     *
-     * @return Role
-     */
-    private function role(string $name)
+    protected function role(string $name): Model
     {
-        /** @var Model|Role $model */
-        $model = $this->model('role');
-
-        return $model::create(compact('name'));
+        return Role::create(compact('name'));
     }
 
-    /**
-     * @param string $name
-     *
-     * @throws UnknownModelKeyException
-     *
-     * @return Permission
-     */
-    private function permission(string $name)
+    protected function permission(string $name): Model
     {
-        /** @var Model|Permission $model */
-        $model = $this->model('permission');
-
-        return $model::create(compact('name'));
+        return Permission::create(compact('name'));
     }
 }

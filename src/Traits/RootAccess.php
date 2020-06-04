@@ -2,20 +2,29 @@
 
 namespace Helldar\Roles\Traits;
 
-use Helldar\Roles\Helpers\Config;
-use Illuminate\Http\Request;
+use Helldar\Roles\Facades\Config;
 
 trait RootAccess
 {
     /**
-     * @param Request $request
+     * @param  \Illuminate\Http\Request  $request
      *
      * @return bool
      */
-    protected function isRoot($request): bool
+    protected function hasRoot($request): bool
     {
-        $roles = Config::get('root_roles', false);
+        if ($roles = $this->getRootRoles()) {
+            /** @var \Illuminate\Contracts\Auth\Authenticatable|\Helldar\Roles\Traits\HasRoles $user */
+            $user = $request->user();
 
-        return $roles == false ? false : $request->user()->hasRole($roles);
+            return $user->hasRole($roles) || $user->hasRootRole();
+        }
+
+        return false;
+    }
+
+    protected function getRootRoles()
+    {
+        return Config::rootRoles();
     }
 }

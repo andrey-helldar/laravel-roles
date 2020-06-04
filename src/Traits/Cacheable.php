@@ -3,7 +3,7 @@
 namespace Helldar\Roles\Traits;
 
 use Closure;
-use Helldar\Roles\Helpers\Config;
+use Helldar\Roles\Facades\Config;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
 /** @mixin \Illuminate\Database\Eloquent\Model */
 trait Cacheable
 {
-    protected function cache(string $prefix, Closure $callback, $values)
+    protected function cache(string $prefix, Closure $callback, $values = [])
     {
         if ($this->allowCache()) {
             $key = $this->cacheKey($prefix, $values);
@@ -23,7 +23,7 @@ trait Cacheable
         return $callback();
     }
 
-    protected function cacheKey(string $prefix, $values): string
+    protected function cacheKey(string $prefix, $values = []): string
     {
         $values = Arr::flatten(Arr::wrap($values));
 
@@ -41,11 +41,11 @@ trait Cacheable
 
     protected function cacheTtl(): int
     {
-        return (int) Config::get('cache_ttl', 300);
+        return Config::cacheTtl();
     }
 
     protected function allowCache(): bool
     {
-        return (bool) Config::get('use_cache', false);
+        return Config::useCache();
     }
 }

@@ -2,13 +2,9 @@
 
 namespace Helldar\Roles\Console;
 
-use Exception;
-use Helldar\Roles\Exceptions\UnknownModelKeyException;
 use Helldar\Roles\Models\Role;
 use Helldar\Roles\Traits\Commands;
 use Illuminate\Console\Command;
-
-use function sprintf;
 
 class RoleDelete extends Command
 {
@@ -18,12 +14,9 @@ class RoleDelete extends Command
 
     protected $description = 'Deleting a role';
 
-    /**
-     * @throws UnknownModelKeyException
-     */
     public function handle()
     {
-        if ($this->roleIsDoesntExists()) {
+        if ($this->roleIsDoesntExist()) {
             $this->error(sprintf('Role "%s" doesn\'t exists!', $this->name()));
 
             return;
@@ -32,18 +25,12 @@ class RoleDelete extends Command
         $this->remove();
     }
 
-    /**
-     * @throws UnknownModelKeyException
-     * @throws Exception
-     */
     protected function remove()
     {
-        /** @var Role $role */
-        $model = $this->model('role');
+        $name = $this->name();
 
-        $this->builder($model)
-            ->delete();
+        $this->searchBuilder(Role::class, $name)->delete();
 
-        $this->info(sprintf('Role "%s" successfully deleted!', $this->name()));
+        $this->info(sprintf('Role "%s" successfully deleted!', $name));
     }
 }

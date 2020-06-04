@@ -2,58 +2,53 @@
 
 namespace Helldar\Roles\Traits;
 
-use function compact;
-use Helldar\Roles\Exceptions\RoleNotFoundException;
-use Helldar\Roles\Exceptions\UnknownModelKeyException;
-use Helldar\Roles\Helpers\Table;
+use Helldar\Roles\Facades\Config;
 use Helldar\Roles\Models\Permission;
 use Helldar\Roles\Models\Role;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-
 use Illuminate\Support\Arr;
 
 /**
- * Trait HasRoles.
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Helldar\Roles\Models\Role[] $roles
  *
- * @property Collection|Role[] $roles
+ * @mixin \Illuminate\Database\Eloquent\Model
  */
 trait HasRoles
 {
-    use Find;
+    use Searchable;
     use Cacheable;
 
-    /**
-     * @throws UnknownModelKeyException
-     *
-     * @return BelongsToMany
-     */
-    public function roles(): BelongsToMany
+    public function hasRootRole(): bool
     {
-        return $this->belongsToMany($this->model('role'), Table::name('user_roles'));
+        return $this->cache(__FUNCTION__, function () {
+            if ($roles = Config::rootRoles()) {
+                return $this->roles()
+                    ->whereIn('name', $roles)
+                    ->exists();
+            }
+
+            return false;
+        });
     }
 
-    /**
-     * @param string $name
-     *
-     * @throws UnknownModelKeyException
-     *
-     * @return Model
-     */
-    public function createRole(string $name)
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class, 'user_role');
+    }
+
+    public function createRole(string $name): Model
     {
         return $this->roles()->create(compact('name'));
     }
 
     /**
-     * @param $role
+     * @param  \Helldar\Roles\Models\Role|string  $role
      *
-     * @throws RoleNotFoundException
-     * @throws UnknownModelKeyException
+     * @throws \Throwable
      */
-    public function assignRole($role)
+    public function assignRole($role): void
     {
         $role = $this->findRole($role);
 
@@ -61,9 +56,11 @@ trait HasRoles
     }
 
     /**
-     * @param Role|string ...$roles
+     * @param  \Helldar\Roles\Models\Role[]|string[]  $roles
+     *
+     * @throws \Throwable
      */
-    public function assignRoles(...$roles)
+    public function assignRoles(...$roles): void
     {
         foreach ($roles as $role) {
             $this->assignRole($role);
@@ -71,12 +68,11 @@ trait HasRoles
     }
 
     /**
-     * @param $role
+     * @param  \Helldar\Roles\Models\Role|string  $role
      *
-     * @throws RoleNotFoundException
-     * @throws UnknownModelKeyException
+     * @throws \Throwable
      */
-    public function revokeRole($role)
+    public function revokeRole($role): void
     {
         $role = $this->findRole($role);
 
@@ -84,9 +80,11 @@ trait HasRoles
     }
 
     /**
-     * @param Role|string ...$roles
+     * @param  \Helldar\Roles\Models\Role[]|string[]  $roles
+     *
+     * @throws \Throwable
      */
-    public function revokeRoles(...$roles)
+    public function revokeRoles(...$roles): void
     {
         foreach ($roles as $role) {
             $this->revokeRole($role);
@@ -94,17 +92,15 @@ trait HasRoles
     }
 
     /**
-     * @param array $roles_ids
-     *
-     * @throws UnknownModelKeyException
+     * @param  int[]  $roles_ids
      */
-    public function syncRoles(array $roles_ids)
+    public function syncRoles(array $roles_ids): void
     {
         $this->roles()->sync($roles_ids);
     }
 
     /**
-     * @param array|string ...$roles
+     * @param  \Helldar\Roles\Models\Role[]|string[]  $roles
      *
      * @return bool
      */
@@ -122,7 +118,7 @@ trait HasRoles
     }
 
     /**
-     * @param array|string ...$roles
+     * @param  \Helldar\Roles\Models\Role[]|string[]  $roles
      *
      * @return bool
      */
@@ -140,9 +136,7 @@ trait HasRoles
     }
 
     /**
-     * @param int|Permission|string $permission
-     *
-     * @throws UnknownModelKeyException
+     * @param  \Helldar\Roles\Models\Permission|string  $permission
      *
      * @return bool
      */
@@ -162,7 +156,7 @@ trait HasRoles
     }
 
     /**
-     * @param int|Permission|string ...$permissions
+     * @param  \Helldar\Roles\Models\Permission[]|string[]  $permissions
      *
      * @return bool
      */
@@ -179,11 +173,14 @@ trait HasRoles
         }, $permissions);
     }
 
+    /**
+     * @param  \Helldar\Roles\Models\Permission|string  $permission
+     *
+     * @return int|string
+     */
     protected function permissionId($permission)
     {
-        $model = $this->model('permission');
-
-        return $permission instanceof $model
+        return $permission instanceof Permission
             ? $permission->id
             : $permission;
     }

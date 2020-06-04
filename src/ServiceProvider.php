@@ -2,50 +2,51 @@
 
 namespace Helldar\Roles;
 
-use function config_path;
 use Helldar\Roles\Console\PermissionCreate;
 use Helldar\Roles\Console\PermissionDelete;
 use Helldar\Roles\Console\RoleCreate;
 use Helldar\Roles\Console\RoleDelete;
-use Helldar\Roles\Exceptions\UnknownModelKeyException;
-use Helldar\Roles\Helpers\Config;
-use Helldar\Roles\Helpers\Table;
+use Helldar\Roles\Facades\Config;
 use Helldar\Roles\Models\Permission;
-use Helldar\Roles\Traits\Find;
+use Helldar\Roles\Traits\Searchable;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
 
-use Illuminate\Support\Facades\Schema;
-
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
-    use Find;
+    use Searchable;
 
-    /**
-     * @throws UnknownModelKeyException
-     */
     public function boot()
     {
-        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
-
-        $this->publishes([
-            __DIR__ . '/../config/settings.php' => config_path('laravel_roles.php'),
-        ], 'config');
+        $this->loadMigrations();
+        $this->publishConfig();
+        $this->bootCommands();
 
         $this->blade();
         $this->can();
-
-        $this->bootCommands();
     }
 
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/settings.php', 'laravel_roles');
+        $this->mergeConfigFrom(__DIR__ . '/../config/settings.php', Config::name());
+    }
+
+    protected function loadMigrations()
+    {
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+    }
+
+    protected function publishConfig()
+    {
+        $this->publishes([
+            __DIR__ . '/../config/settings.php' => config_path('laravel_roles.php'),
+        ], 'config');
     }
 
     protected function blade()
     {
-        if (!Config::get('use_blade', false)) {
+        if (! Config::useBlade()) {
             return;
         }
 
@@ -86,29 +87,19 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         });
     }
 
-    /**
-     * @throws UnknownModelKeyException
-     */
     protected function can()
     {
-        if (!Config::get('use_can_directive', false)) {
+        if (! Config::useCanDirective()) {
             return;
         }
 
-        $connection = Table::connection();
-        $table      = Table::name('permissions');
-
-        if (Schema::connection($connection)->hasTable($table)) {
-            /** @var Permission $model */
-            $model = $this->model('permission');
-
-            $model::get(['name'])
-                ->map(function ($permission) {
-                    Gate::define($permission->name, function ($user) use ($permission) {
-                        return $user->hasPermission($permission);
-                    });
+        Permission::query()
+            ->get(['name'])
+            ->each(function (Permission $permission) {
+                Gate::define($permission->name, function (Authenticatable $user) use ($permission) {
+                    return $user->hasPermission($permission);
                 });
-        }
+            });
     }
 
     protected function bootCommands()

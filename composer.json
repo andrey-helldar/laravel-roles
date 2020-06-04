@@ -1,9 +1,9 @@
 {
     "name": "andrey-helldar/laravel-roles",
-    "description": "Basic roles and permissions handling for Laravel",
+    "description": "Simple roles and permissions handling for Laravel",
     "type": "library",
     "license": "MIT",
-    "keywords": ["laravel", "permissions", "permission", "rbac", "roles", "acl", "security", "illuminate"],
+    "keywords": ["laravel", "permissions", "permission", "rbac", "roles", "acl", "security"],
     "support": {
         "issues": "https://github.com/andrey-helldar/laravel-roles/issues",
         "source": "https://github.com/andrey-helldar/laravel-roles"
@@ -31,12 +31,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Helldar\\Roles\\": "src/"
+            "Helldar\\Roles\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests/"
+            "Tests\\": "tests"
         }
     },
     "suggest": {

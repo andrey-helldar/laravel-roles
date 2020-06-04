@@ -2,71 +2,25 @@
 
 namespace Helldar\Roles\Models;
 
-use Eloquent;
-use Helldar\Roles\Contracts\Permission as PermissionContract;
-use Helldar\Roles\Exceptions\RoleNotFoundException;
-use Helldar\Roles\Exceptions\UnknownModelKeyException;
-use Helldar\Roles\Helpers\Table;
-use Helldar\Roles\Traits\Find;
-use Helldar\Roles\Traits\SetAttribute;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Support\Carbon;
 
 /**
- * Helldar\Roles\Models\Permission.
- *
- * @property int $id
- * @property string $name
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
- * @property Collection|Role[] $roles
- *
- * @method static Builder|Permission newModelQuery()
- * @method static Builder|Permission newQuery()
- * @method static Builder|Permission orWhereId($value)
- * @method static Builder|Permission orWhereName($value)
- * @method static Builder|Permission query()
- * @method static Builder|Permission whereCreatedAt($value)
- * @method static Builder|Permission whereId($value)
- * @method static Builder|Permission whereName($value)
- * @method static Builder|Permission whereUpdatedAt($value)
- * @mixin Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Helldar\Roles\Models\Role[] $roles
+ * @mixin \Illuminate\Database\Eloquent\Model
  */
-class Permission extends Model implements PermissionContract
+class Permission extends BaseModel
 {
-    use SetAttribute;
-    use Find;
-
-    protected $fillable = ['name'];
-
-    public function __construct(array $attributes = [])
-    {
-        $this->connection = Table::connection();
-        $this->table      = Table::name('permissions');
-
-        parent::__construct($attributes);
-    }
-
-    /**
-     * @throws UnknownModelKeyException
-     *
-     * @return BelongsToMany
-     */
     public function roles(): BelongsToMany
     {
-        return $this->belongsToMany($this->model('role'), Table::name('role_permissions'));
+        return $this->belongsToMany(Role::class);
     }
 
     /**
-     * @param Role|string $role
+     * @param  \Helldar\Roles\Models\Role|string  $role
      *
-     * @throws RoleNotFoundException
-     * @throws UnknownModelKeyException
+     * @throws \Throwable
      */
-    public function assignRole($role)
+    public function assignRole($role): void
     {
         $role = $this->findRole($role);
 
@@ -74,9 +28,11 @@ class Permission extends Model implements PermissionContract
     }
 
     /**
-     * @param Role|string ...$roles
+     * @param  \Helldar\Roles\Models\Role[]|string[]  $roles
+     *
+     * @throws \Throwable
      */
-    public function assignRoles(...$roles)
+    public function assignRoles(...$roles): void
     {
         foreach ($roles as $role) {
             $this->assignRole($role);
@@ -84,22 +40,23 @@ class Permission extends Model implements PermissionContract
     }
 
     /**
-     * @param Role|string $role
+     * @param  \Helldar\Roles\Models\Role|string  $role
      *
-     * @throws RoleNotFoundException
-     * @throws UnknownModelKeyException
+     * @throws \Throwable
      */
-    public function revokeRole($role)
+    public function revokeRole($role): void
     {
         $role = $this->findRole($role);
 
-        $this->roles()->detach([$role->id]);
+        $this->roles()->detach($role->id);
     }
 
     /**
-     * @param Role|string ...$roles
+     * @param  \Helldar\Roles\Models\Role[]|string[]  $roles
+     *
+     * @throws \Throwable
      */
-    public function revokeRoles(...$roles)
+    public function revokeRoles(...$roles): void
     {
         foreach ($roles as $role) {
             $this->revokeRole($role);
@@ -107,12 +64,12 @@ class Permission extends Model implements PermissionContract
     }
 
     /**
-     * @param array $roles_ids
+     * @param  int[]  $roles_ids
      *
-     * @throws UnknownModelKeyException
+     * @return array
      */
-    public function syncRoles(array $roles_ids)
+    public function syncRoles(array $roles_ids): array
     {
-        $this->roles()->sync($roles_ids);
+        return $this->roles()->sync($roles_ids);
     }
 }

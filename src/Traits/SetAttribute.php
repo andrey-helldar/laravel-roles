@@ -4,8 +4,6 @@ namespace Helldar\Roles\Traits;
 
 use Illuminate\Support\Str;
 
-use function trim;
-
 trait SetAttribute
 {
     protected function setNameAttribute($value)
@@ -15,8 +13,8 @@ trait SetAttribute
         $this->setManual('name', $value);
     }
 
-    protected function setManual($key, $value, $default = null)
+    protected function setManual($key, $value)
     {
-        $this->attributes[$key] = $value ?: $default;
+        $this->attributes[$key] = $value;
     }
 }

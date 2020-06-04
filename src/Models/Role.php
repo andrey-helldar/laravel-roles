@@ -2,85 +2,30 @@
 
 namespace Helldar\Roles\Models;
 
-use function compact;
-use Eloquent;
-use Helldar\Roles\Contracts\Role as RoleContract;
-use Helldar\Roles\Exceptions\PermissionNotFoundException;
-use Helldar\Roles\Exceptions\UnknownModelKeyException;
-use Helldar\Roles\Helpers\Table;
-use Helldar\Roles\Traits\Find;
-use Helldar\Roles\Traits\SetAttribute;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-use Illuminate\Support\Carbon;
-
 /**
- * Helldar\Roles\Models\Role.
- *
- * @property int $id
- * @property string $name
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
- * @property Collection|Permission[] $permissions
- *
- * @method static Builder|Role newModelQuery()
- * @method static Builder|Role newQuery()
- * @method static Builder|Role orWhereId($value)
- * @method static Builder|Role orWhereName($value)
- * @method static Builder|Role query()
- * @method static Builder|Role whereCreatedAt($value)
- * @method static Builder|Role whereId($value)
- * @method static Builder|Role whereName($value)
- * @method static Builder|Role whereUpdatedAt($value)
- * @mixin Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Helldar\Roles\Models\Permission[] $permissions
  */
-class Role extends Model implements RoleContract
+class Role extends BaseModel
 {
-    use SetAttribute;
-    use Find;
-
-    protected $fillable = ['name'];
-
-    public function __construct(array $attributes = [])
-    {
-        $this->connection = Table::connection();
-        $this->table      = Table::name('roles');
-
-        parent::__construct($attributes);
-    }
-
-    /**
-     * @throws UnknownModelKeyException
-     *
-     * @return BelongsToMany
-     */
     public function permissions(): BelongsToMany
     {
-        return $this->belongsToMany($this->model('permission'), Table::name('role_permissions'));
+        return $this->belongsToMany(Permission::class, 'role_permission');
     }
 
-    /**
-     * @param string $name
-     *
-     * @throws UnknownModelKeyException
-     *
-     * @return Model
-     */
-    public function createPermission(string $name)
+    public function createPermission(string $name): Model
     {
         return $this->permissions()->create(compact('name'));
     }
 
     /**
-     * @param Permission|string $permission
+     * @param  \Helldar\Roles\Models\Permission|string  $permission
      *
-     * @throws PermissionNotFoundException
-     * @throws UnknownModelKeyException
+     * @throws \Throwable
      */
-    public function assignPermission($permission)
+    public function assignPermission($permission): void
     {
         $permission = $this->findPermission($permission);
 
@@ -88,9 +33,11 @@ class Role extends Model implements RoleContract
     }
 
     /**
-     * @param Permission|string ...$permissions
+     * @param  \Helldar\Roles\Models\Permission[]|string[]  $permissions
+     *
+     * @throws \Throwable
      */
-    public function assignPermissions(...$permissions)
+    public function assignPermissions(...$permissions): void
     {
         foreach ($permissions as $permission) {
             $this->assignPermission($permission);
@@ -98,22 +45,23 @@ class Role extends Model implements RoleContract
     }
 
     /**
-     * @param Permission|string $permission
+     * @param  \Helldar\Roles\Models\Permission|string  $permission
      *
-     * @throws PermissionNotFoundException
-     * @throws UnknownModelKeyException
+     * @throws \Throwable
      */
-    public function revokePermission($permission)
+    public function revokePermission($permission): void
     {
         $permission = $this->findPermission($permission);
 
-        $this->permissions()->detach([$permission->id]);
+        $this->permissions()->detach($permission->id);
     }
 
     /**
-     * @param Permission|string ...$permissions
+     * @param  \Helldar\Roles\Models\Permission[]|string[]  $permissions
+     *
+     * @throws \Throwable
      */
-    public function revokePermissions(...$permissions)
+    public function revokePermissions(...$permissions): void
     {
         foreach ($permissions as $permission) {
             $this->revokePermission($permission);
@@ -121,33 +69,27 @@ class Role extends Model implements RoleContract
     }
 
     /**
-     * @param array $permissions_ids
-     *
-     * @throws UnknownModelKeyException
+     * @param  int[]  $permissions_ids
      */
-    public function syncPermissions(array $permissions_ids)
+    public function syncPermissions(array $permissions_ids): void
     {
         $this->permissions()->sync($permissions_ids);
     }
 
     /**
-     * @param int|Permission|string $permission
-     *
-     * @throws UnknownModelKeyException
+     * @param  \Helldar\Roles\Models\Permission|string  $permission
      *
      * @return bool
      */
     public function hasPermission($permission): bool
     {
-        $model = $this->model('permission');
-
-        if ($permission instanceof $model) {
+        if ($permission instanceof Permission) {
             $permission = $permission->id;
         }
 
-        return (bool) $this->permissions()
-            ->whereId($permission)
-            ->orWhereName($permission)
+        return $this->permissions()
+            ->where('id', $permission)
+            ->orWhere('name', $permission)
             ->exists();
     }
 }
