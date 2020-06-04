@@ -1,5 +1,8 @@
 <?php
 
+namespace Helldar\Roles\Support\Database;
+
+use Closure;
 use Helldar\Roles\Facades\Config;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Builder;

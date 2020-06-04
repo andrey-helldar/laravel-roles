@@ -1,19 +1,20 @@
 <?php
 
+use Helldar\Roles\Support\Database\BaseMigration;
 use Illuminate\Database\Schema\Blueprint;
 
 class ModifyRolesAndPermissionsTableOptimizeIndexes extends BaseMigration
 {
     public function up()
     {
-        $this->optimizeIndexes($this->user_roles, 'user_id', 'role_id');
-        $this->optimizeIndexes($this->role_permissions, 'role_id', 'permission_id');
+        $this->optimizeIndexes($this->user_role, 'user_id', 'role_id');
+        $this->optimizeIndexes($this->role_permission, 'role_id', 'permission_id');
     }
 
     public function down()
     {
-        $this->revertIndexes($this->user_roles, 'user_id', 'role_id');
-        $this->revertIndexes($this->role_permissions, 'role_id', 'permission_id');
+        $this->revertIndexes($this->user_role, 'user_id', 'role_id');
+        $this->revertIndexes($this->role_permission, 'role_id', 'permission_id');
     }
 
     protected function optimizeIndexes(string $table, string $first_key, string $second_key)

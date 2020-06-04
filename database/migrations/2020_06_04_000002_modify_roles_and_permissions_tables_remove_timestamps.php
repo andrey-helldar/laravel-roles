@@ -1,5 +1,6 @@
 <?php
 
+use Helldar\Roles\Support\Database\BaseMigration;
 use Illuminate\Database\Schema\Blueprint;
 
 class ModifyRolesAndPermissionsTablesRemoveTimestamps extends BaseMigration

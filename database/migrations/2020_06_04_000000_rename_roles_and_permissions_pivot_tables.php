@@ -1,5 +1,7 @@
 <?php
 
+use Helldar\Roles\Support\Database\BaseMigration;
+
 class RenameRolesAndPermissionsPivotTables extends BaseMigration
 {
     public function up()

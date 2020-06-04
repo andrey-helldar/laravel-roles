@@ -5,13 +5,10 @@ namespace Tests;
 use Helldar\Roles\Facades\Config;
 use Helldar\Roles\ServiceProvider;
 use Illuminate\Contracts\Http\Kernel;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\database\seeds\TableSeeder;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
-    use RefreshDatabase;
-
     private $database = 'testing';
 
     protected function setUp(): void
@@ -19,8 +16,6 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         parent::setUp();
 
         $this->loadLaravelMigrations($this->database);
-
-        $this->refreshDatabase();
 
         TableSeeder::run();
     }
