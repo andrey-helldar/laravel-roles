@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * @property \Helldar\Roles\Models\Permission[]|\Illuminate\Database\Eloquent\Collection $permissions
- * @property-read bool $is_root
+ * @property bool $is_root
  */
 class Role extends BaseModel
 {

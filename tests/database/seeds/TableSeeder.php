@@ -47,7 +47,7 @@ class TableSeeder
     /**
      * @param  string|null  $name
      *
-     * @return \Tests\Models\User|\Illuminate\Database\Eloquent\Model
+     * @return \Illuminate\Database\Eloquent\Model|\Tests\Models\User
      */
     protected function user(string $name = null)
     {
