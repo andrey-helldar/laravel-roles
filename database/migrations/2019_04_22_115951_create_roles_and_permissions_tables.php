@@ -1,23 +1,9 @@
 <?php
 
-use Helldar\Roles\Facades\Config;
-use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Schema\Builder;
-use Illuminate\Support\Facades\Schema;
 
-class CreateRolesAndPermissionsTables extends Migration
+class CreateRolesAndPermissionsTables extends BaseMigration
 {
-    protected $roles = 'roles';
-
-    protected $permissions = 'permissions';
-
-    protected $user_roles = 'user_roles';
-
-    protected $role_permissions = 'role_permissions';
-
-    protected $users = 'users';
-
     public function up()
     {
         $this->schema()
@@ -67,12 +53,5 @@ class CreateRolesAndPermissionsTables extends Migration
         $this->schema()->dropIfExists($this->roles);
 
         $this->schema()->enableForeignKeyConstraints();
-    }
-
-    protected function schema(): Builder
-    {
-        return Schema::connection(
-            Config::connection()
-        );
     }
 }

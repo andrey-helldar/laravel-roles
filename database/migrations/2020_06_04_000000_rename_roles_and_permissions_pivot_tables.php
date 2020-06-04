@@ -1,28 +1,16 @@
 <?php
 
-use Helldar\Roles\Facades\Config;
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Builder;
-use Illuminate\Support\Facades\Schema;
-
-class RenameRolesAndPermissionsPivotTables extends Migration
+class RenameRolesAndPermissionsPivotTables extends BaseMigration
 {
     public function up()
     {
-        $this->schema()->rename('user_roles', 'user_role');
-        $this->schema()->rename('role_permissions', 'role_permission');
+        $this->schema()->rename($this->user_roles, $this->user_role);
+        $this->schema()->rename($this->role_permissions, $this->role_permission);
     }
 
     public function down()
     {
-        $this->schema()->rename('user_role', 'user_roles');
-        $this->schema()->rename('role_permission', 'role_permissions');
-    }
-
-    protected function schema(): Builder
-    {
-        return Schema::connection(
-            Config::connection()
-        );
+        $this->schema()->rename($this->user_role, $this->user_roles);
+        $this->schema()->rename($this->role_permission, $this->role_permissions);
     }
 }
