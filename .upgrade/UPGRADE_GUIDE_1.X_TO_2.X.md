@@ -1,10 +1,10 @@
 # Upgrade Guide
 
-#### Upgrading To 2.x From 1.x
+### Upgrading To 2.x From 1.x
 
 ## High Impact Changes
 
-#### Database
+### Database
 
 Tables have been renamed:
 
@@ -16,12 +16,17 @@ Tables have been renamed:
 > Just run the `php artisan migrate` command.
 
 
-#### Contracts
+### Configuration
+
+The configuration file is renamed to [roles.php](../config/roles.php).
+
+
+### Contracts
 
 Contracts `Helldar\Roles\Contracts\Role` and `Helldar\Roles\Contracts\Permission` are deprecated and removed from the package.
 
 
-#### Exceptions
+### Exceptions
 
 | Status Code | Old Name | New Name |
 | --- | --- | --- |
@@ -34,12 +39,12 @@ Contracts `Helldar\Roles\Contracts\Role` and `Helldar\Roles\Contracts\Permission
 
 ## Low Impact Changes
 
-#### Settings
+### Settings
 
 Remove the `tables` and `models` blocks from the settings.
 
 
-#### Cache
+### Cache
 
 Default cache time changed from 5 minutes to 1 hour.
 

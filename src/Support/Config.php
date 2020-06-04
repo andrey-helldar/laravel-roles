@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Config as IlluminateConfig;
 
 class Config
 {
-    public const NAME = 'laravel_roles';
+    public const NAME = 'roles';
 
     public function get($key, $default = null)
     {
@@ -54,6 +54,11 @@ class Config
     public function rootRoles()
     {
         return $this->get('root_roles', false);
+    }
+
+    public function filename()
+    {
+        return $this->name() . '.php';
     }
 
     protected function compileKey($key): string

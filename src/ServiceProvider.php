@@ -29,7 +29,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/settings.php', Config::name());
+        $this->mergeConfigFrom(__DIR__ . '/../config/roles.php', Config::name());
     }
 
     protected function loadMigrations()
@@ -40,7 +40,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     protected function publishConfig()
     {
         $this->publishes([
-            __DIR__ . '/../config/settings.php' => config_path('laravel_roles.php'),
+            __DIR__ . '/../config/roles.php' => config_path(Config::filename()),
         ], 'config');
     }
 

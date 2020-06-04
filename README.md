@@ -332,6 +332,10 @@ Single for user:
 ```php
 $user = User::find(1);
 
+// For root roles
+// If the user is assigned a role marked as `root` in the `config/roles.php` file, true will be returned; otherwise, false.
+$user->hasRootRole(): bool
+
 // with role slug:
 $user->hasRole('role_slug'): bool
 

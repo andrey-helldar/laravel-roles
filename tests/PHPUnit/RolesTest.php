@@ -2,8 +2,8 @@
 
 namespace Tests\PHPUnit;
 
+use Helldar\Roles\Facades\Config;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Config;
 use Tests\Models\User;
 use Tests\TestCase;
 
@@ -135,7 +135,7 @@ class RolesTest extends TestCase
 
         Auth::login($user);
 
-        Config::set('laravel_roles.root_roles', 'foo');
+        Config::set('root_roles', 'foo');
 
         $role  = $this->call('GET', 'role/denied');
         $roles = $this->call('GET', 'roles/denied');
