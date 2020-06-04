@@ -6,7 +6,7 @@
 
 ### Database
 
-Tables have been renamed:
+#### Tables have been renamed:
 
 | Old Name | New Name |
 | --- | --- |
@@ -15,7 +15,14 @@ Tables have been renamed:
 
 > Just run the `php artisan migrate` command.
 
-You can also set root rights for roles in the database.
+#### Root roles
+
+Added the `is_root` column to the `roles` table.
+
+
+#### Columns
+
+Removed columns `created_at` and `updated_at` from `roles` and `permissions` tables.
 
 
 ### Configuration
