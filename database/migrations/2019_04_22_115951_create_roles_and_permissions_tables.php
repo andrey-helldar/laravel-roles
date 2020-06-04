@@ -24,17 +24,16 @@ class CreateRolesAndPermissionsTables extends BaseMigration
 
     protected function createTable(string $table)
     {
-        $this->schema()
-            ->create($table, function (Blueprint $table) {
-                $table->bigIncrements('id');
-                $table->string('name')->unique();
-                $table->timestamps();
-            });
+        $this->create($table, function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('name')->unique();
+            $table->timestamps();
+        });
     }
 
     protected function createPivot(string $table, string $first_table, string $second_table, string $first_key, string $second_key)
     {
-        $this->schema()->create($table, function (Blueprint $table) use ($first_table, $second_table, $first_key, $second_key) {
+        $this->create($table, function (Blueprint $table) use ($first_table, $second_table, $first_key, $second_key) {
             $table->unsignedBigInteger($first_key);
             $table->unsignedBigInteger($second_key);
 
@@ -48,7 +47,7 @@ class CreateRolesAndPermissionsTables extends BaseMigration
     protected function dropTables(...$tables)
     {
         foreach ($tables as $table) {
-            $this->schema()->dropIfExists($table);
+            $this->drop($table);
         }
     }
 }

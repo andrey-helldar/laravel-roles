@@ -31,4 +31,24 @@ abstract class BaseMigration extends Migration
             Config::connection()
         );
     }
+
+    protected function create(string $table, Closure $callback)
+    {
+        $this->schema()->create($table, $callback);
+    }
+
+    protected function drop(string $table)
+    {
+        $this->schema()->dropIfExists($table);
+    }
+
+    protected function table(string $table, Closure $callback)
+    {
+        $this->schema()->table($table, $callback);
+    }
+
+    protected function rename(string $from, string $to)
+    {
+        $this->schema()->rename($from, $to);
+    }
 }
