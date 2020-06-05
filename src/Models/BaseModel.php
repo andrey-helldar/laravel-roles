@@ -36,7 +36,7 @@ abstract class BaseModel extends Model
 
     /**
      * @param  \Illuminate\Database\Eloquent\Builder  $builder
-     * @param  \Helldar\Roles\Models\BaseModel|string|int  $value
+     * @param  \Helldar\Roles\Models\BaseModel|int|string  $value
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */

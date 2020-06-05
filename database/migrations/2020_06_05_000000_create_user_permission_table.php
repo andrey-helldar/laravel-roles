@@ -3,8 +3,6 @@
 use Helldar\Roles\Support\Database\BaseMigration;
 use Illuminate\Database\Schema\Blueprint;
 
-;
-
 class CreateUserPermissionTable extends BaseMigration
 {
     public function up()

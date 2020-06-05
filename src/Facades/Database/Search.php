@@ -9,8 +9,8 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @method static Builder|Relation by(Builder|Relation $builder, BaseModel|BaseModel[]|string|string[]|int|int[] $values)
- * @method static string|int getId(Builder|string|int $value)
+ * @method static Builder|Relation by(Builder|Relation $builder, BaseModel|BaseModel[]|int|int[]|string|string[] $values)
+ * @method static string|int getId(Builder|int|string $value)
  */
 class Search extends Facade
 {
