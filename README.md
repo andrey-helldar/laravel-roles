@@ -29,12 +29,13 @@ Basic roles and permissions handling for Laravel 5.5 and up.
         * [Syncing permissions](#syncing-permissions)
     * [Blade](#blade)
     * [Checking for permissions](#checking-for-permissions)
-        * [Checking the root role for user](#checking-the-root-role-for-user)
-        * [Checking one role for a user](#checking-one-role-for-a-user)
-        * [Checking multiple roles for a user](#checking-multiple-roles-for-a-user)
-        * [Checking one permission for a user](#checking-one-permission-for-a-user)
-        * [Check permissions for one role](#check-permissions-for-one-role)
-        * [Checking permissions for multiple roles](#checking-permissions-for-multiple-roles)
+        * [A `root` role](#a-root-role)
+        * [`user` » `role`](#user--role)
+        * [`user` » `roles`](#user--roles)
+        * [`user` » `permission`](#user--permission)
+        * [`user` » `permissions`](#user--permissions)
+        * [`role` » `permission`](#role--permission)
+        * [`role` » `permissions`](#role--permissions)
     * [Artisan commands](#artisan-commands)
 * [License](#license)
 
@@ -336,7 +337,7 @@ Note: use `@can()`, `@role()`, `@roles()`, `@permission()` and `@permissions()` 
 
 ### Checking for permissions
 
-#### Checking the `root` role for user:
+#### A `root` role:
 ```php
 $user = User::find(1);
 
@@ -344,7 +345,7 @@ $user = User::find(1);
 $user->hasRootRole(): bool
 ```
 
-#### Checking one role for a user:
+#### `user` » `role`:
 ```php
 $user = User::find(1);
 
@@ -356,19 +357,9 @@ $user->hasRole(1): bool
 
 // with role instance:
 $user->hasRole(Role::find(1)): bool
-
-// with permission slug:
-$user->hasPermission('permission_slug'): bool
-
-// with permission instance:
-$user->hasPermission(Permission::find(1)): bool
-
-// If the `use_can_directive` option is set to true in the settings,
-// then you can also check permissions through the `can` directive:
-auth()->user()->can('permission_slug'): bool
 ```
 
-#### Checking multiple roles for a user:
+#### `user` » `roles`:
 ```php
 $user = User::find(1);
 
@@ -383,18 +374,9 @@ $user->hasRoles(1, 2, 3): bool
 
 // with role instance:
 $user->hasRoles(Role::find(1), Role::find(2)): bool
-
-// with permission slug:
-$user->hasPermissions('permission_slug_1', 'permission_slug_2'): bool
-
-// with permission slug as array:
-$user->hasPermissions(['permission_slug_1', 'permission_slug_2']): bool
-
-// with permission instance:
-$user->hasPermissions(Permission::find(1), Permission::find(2)): bool
 ```
 
-#### Checking one permission for a user:
+#### `user` » `permission`:
 ```php
 $user = User::find(1);
 
@@ -412,7 +394,30 @@ $user->hasPermission(Permission::find(1)): bool
 auth()->user()->can('permission_slug'): bool
 ```
 
-#### Check permissions for one role:
+#### `user` » `permissions`:
+```php
+$user = User::find(1);
+
+// with permission slug:
+$user->hasPermissions('permission_slug_1', 'permission_slug_1'): bool
+
+// with permission slug as array:
+$user->hasPermissions(['permission_slug_1', 'permission_slug_1']): bool
+
+// with permission ID:
+$user->hasPermissions(1, 2, 3): bool
+
+// with permission ID as array:
+$user->hasPermissions([1, 2, 3]): bool
+
+// with permission instance:
+$user->hasPermissions(Permission::find(1), Permission::find(2)): bool
+
+// with permission instance as array:
+$user->hasPermissions([Permission::find(1), Permission::find(2)]): bool
+```
+
+#### `role` » `permission`:
 ```php
 $role = Role::find(1);
 
@@ -430,7 +435,7 @@ $role->hasPermission(Permission::find(1)): bool
 auth()->user()->can('permission_slug'): bool
 ```
 
-#### Checking permissions for multiple roles:
+#### `role` >> `permissions`:
 ```php
 $role = Role::find(1);
 
