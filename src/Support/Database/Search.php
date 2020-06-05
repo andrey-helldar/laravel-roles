@@ -11,7 +11,7 @@ class Search
 {
     /**
      * @param  \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Relations\Relation  $builder
-     * @param  \Helldar\Roles\Models\BaseModel|string|int  $values
+     * @param  \Helldar\Roles\Models\BaseModel|int|string  $values
      *
      * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Relations\Relation
      */
@@ -25,7 +25,7 @@ class Search
     }
 
     /**
-     * @param  \Helldar\Roles\Models\BaseModel|string|int  $value
+     * @param  \Helldar\Roles\Models\BaseModel|int|string  $value
      *
      * @return int|string
      */
@@ -37,7 +37,7 @@ class Search
     }
 
     /**
-     * @param  Collection|Arrayable|array|string|int  $values
+     * @param  array|Arrayable|Collection|int|string  $values
      *
      * @return array
      */
