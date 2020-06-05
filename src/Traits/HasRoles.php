@@ -8,7 +8,6 @@ use Helldar\Roles\Models\Role;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Support\Arr;
 
 /**
  * @property \Helldar\Roles\Models\Role[]|\Illuminate\Database\Eloquent\Collection $roles
@@ -107,13 +106,7 @@ trait HasRoles
     public function hasRole(...$roles): bool
     {
         return $this->cache(__FUNCTION__, function () use ($roles) {
-            foreach (Arr::flatten($roles) as $role) {
-                if ($this->roles->contains('name', $role)) {
-                    return true;
-                }
-            }
-
-            return false;
+            return Search::by($this->roles(), $roles)->exists();
         }, $roles);
     }
 
@@ -125,13 +118,9 @@ trait HasRoles
     public function hasRoles(...$roles): bool
     {
         return $this->cache(__FUNCTION__, function () use ($roles) {
-            foreach (Arr::flatten($roles) as $role) {
-                if (! $this->roles->contains('name', $role)) {
-                    return false;
-                }
-            }
+            $count = Search::by($this->roles(), $roles)->count();
 
-            return true;
+            return $count === count($roles);
         }, $roles);
     }
 
@@ -212,16 +201,14 @@ trait HasRoles
     public function hasPermission($permission): bool
     {
         return $this->cache(__FUNCTION__, function () use ($permission) {
-            $permission = $this->permissionId($permission);
+            $first = Search::by($this->permissions(), $permission)->exists();
 
-            return $this->permissions()
-                    ->searchBy($permission)
-                    ->exists()
-                ||
-                $this->roles()
-                    ->whereHas('permissions', function (Builder $builder) use ($permission) {
-                        return Search::by($builder, $permission);
-                    })->exists();
+            $second = $this->roles()
+                ->whereHas('permissions', function (Builder $builder) use ($permission) {
+                    return Search::by($builder, $permission);
+                })->exists();
+
+            return $first || $second;
         }, $permission);
     }
 
@@ -233,25 +220,9 @@ trait HasRoles
     public function hasPermissions(...$permissions): bool
     {
         return $this->cache(__FUNCTION__, function () use ($permissions) {
-            foreach (Arr::flatten($permissions) as $permission) {
-                if (! $this->hasPermission($permission)) {
-                    return false;
-                }
-            }
+            $count = Search::by($this->permissions(), $permissions)->count();
 
-            return true;
+            return $count === count($permissions);
         }, $permissions);
-    }
-
-    /**
-     * @param  \Helldar\Roles\Models\Permission|string  $permission
-     *
-     * @return int|string
-     */
-    protected function permissionId($permission)
-    {
-        return $permission instanceof Permission
-            ? $permission->id
-            : $permission;
     }
 }

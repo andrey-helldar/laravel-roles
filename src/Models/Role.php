@@ -2,6 +2,7 @@
 
 namespace Helldar\Roles\Models;
 
+use Helldar\Roles\Facades\Database\Search;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -90,13 +91,6 @@ class Role extends BaseModel
      */
     public function hasPermission($permission): bool
     {
-        if ($permission instanceof Permission) {
-            $permission = $permission->id;
-        }
-
-        return $this->permissions()
-            ->where('id', $permission)
-            ->orWhere('name', $permission)
-            ->exists();
+        return Search::by($this->permissions(), $permission)->exists();
     }
 }

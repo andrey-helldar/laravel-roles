@@ -22,27 +22,10 @@ class Permissions extends BaseMiddleware
     {
         $this->check();
 
-        if ($this->hasRoot($request) || $this->has($request, $permissions)) {
+        if ($this->hasRoot($request) || $request->user()->hasPermissions($permissions)) {
             return $next($request);
         }
 
         throw new PermissionAccessIsDeniedHttpException();
-    }
-
-    /**
-     * @param  \Illuminate\Http\Request  $request
-     * @param  array  $permissions
-     *
-     * @return bool
-     */
-    protected function has($request, array $permissions): bool
-    {
-        foreach ($permissions as $permission) {
-            if (! $request->user()->hasPermission($permission)) {
-                return false;
-            }
-        }
-
-        return true;
     }
 }

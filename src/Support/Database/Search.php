@@ -3,20 +3,21 @@
 namespace Helldar\Roles\Support\Database;
 
 use Helldar\Roles\Models\BaseModel;
-use Illuminate\Database\Eloquent\Builder as Eloquent;
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 
 class Search
 {
     /**
-     * @param  \Illuminate\Database\Eloquent\Builder  $builder
+     * @param  \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Relations\Relation  $builder
      * @param  \Helldar\Roles\Models\BaseModel|string|int  $values
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Relations\Relation
      */
-    public function by(Eloquent $builder, $values): Eloquent
+    public function by($builder, $values)
     {
-        $value = $this->toArray($values);
+        $value = $this->map($values);
 
         return $builder
             ->whereIn('id', $value)
@@ -35,10 +36,36 @@ class Search
             : $value;
     }
 
-    protected function toArray($values): array
+    /**
+     * @param  Collection|Arrayable|array|string|int  $values
+     *
+     * @return array
+     */
+    protected function map($values): array
     {
         return array_map(function ($value) {
             return $this->getId($value);
-        }, Arr::wrap($values));
+        }, $this->toArray($values));
+    }
+
+    protected function toArray($values): array
+    {
+        if ($this->isArrayable($values)) {
+            $values = $values->toArray();
+        } elseif (! $this->isArray($values)) {
+            $values = Arr::wrap($values);
+        }
+
+        return Arr::flatten($values);
+    }
+
+    protected function isArray($values): bool
+    {
+        return is_array($values);
+    }
+
+    protected function isArrayable($values): bool
+    {
+        return $values instanceof Arrayable || $values instanceof Collection;
     }
 }
