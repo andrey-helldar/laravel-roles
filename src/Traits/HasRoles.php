@@ -2,6 +2,7 @@
 
 namespace Helldar\Roles\Traits;
 
+use Helldar\Roles\Facades\Database\Search;
 use Helldar\Roles\Models\Permission;
 use Helldar\Roles\Models\Role;
 use Illuminate\Database\Eloquent\Builder;
@@ -219,9 +220,7 @@ trait HasRoles
                 ||
                 $this->roles()
                     ->whereHas('permissions', function (Builder $builder) use ($permission) {
-                        $builder
-                            ->where('id', $permission)
-                            ->orWhere('name', $permission);
+                        return Search::by($builder, $permission);
                     })->exists();
         }, $permission);
     }
