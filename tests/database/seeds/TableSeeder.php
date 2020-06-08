@@ -61,13 +61,13 @@ class TableSeeder
         ]);
     }
 
-    protected function role(string $name, bool $is_root = false): Model
+    protected function role(string $slug, bool $is_root = false): Model
     {
-        return Role::create(compact('name', 'is_root'));
+        return Role::create(compact('slug', 'is_root'));
     }
 
-    protected function permission(string $name): Model
+    protected function permission(string $slug): Model
     {
-        return Permission::create(compact('name'));
+        return Permission::create(compact('slug'));
     }
 }

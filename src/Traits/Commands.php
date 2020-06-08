@@ -12,12 +12,12 @@ trait Commands
 
     protected $slug;
 
-    protected function name(): string
+    protected function slug(): string
     {
         if (is_null($this->slug)) {
-            $name = $this->argument('name');
+            $slug = $this->argument('slug');
 
-            $this->slug = Str::slug($name, '_');
+            $this->slug = Str::slug($slug, '_');
         }
 
         return $this->slug;
@@ -25,7 +25,7 @@ trait Commands
 
     protected function roleIsExist(): bool
     {
-        return $this->searchExist(Role::class, $this->name());
+        return $this->searchExist(Role::class, $this->slug());
     }
 
     protected function roleIsDoesntExist(): bool
@@ -35,7 +35,7 @@ trait Commands
 
     protected function permissionIsExist(): bool
     {
-        return $this->searchExist(Permission::class, $this->name());
+        return $this->searchExist(Permission::class, $this->slug());
     }
 
     protected function permissionIsDoesntExist(): bool

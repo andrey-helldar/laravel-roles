@@ -10,14 +10,14 @@ class PermissionDelete extends Command
 {
     use Commands;
 
-    protected $signature = 'acl:permission-delete {name|ID or permission name}';
+    protected $signature = 'acl:permission-delete {slug|ID or permission slug}';
 
     protected $description = 'Deleting a permission';
 
     public function handle()
     {
         if ($this->permissionIsDoesntExist()) {
-            $this->error(sprintf('Permission "%s" doesn\'t exists!', $this->name()));
+            $this->error(sprintf('Permission "%s" doesn\'t exists!', $this->slug()));
 
             return;
         }
@@ -27,10 +27,10 @@ class PermissionDelete extends Command
 
     protected function remove()
     {
-        $name = $this->name();
+        $slug = $this->slug();
 
-        $this->searchBuilder(Permission::class, $name)->delete();
+        $this->searchBuilder(Permission::class, $slug)->delete();
 
-        $this->info(sprintf('Permission "%s" successfully deleted!', $name));
+        $this->info(sprintf('Permission "%s" successfully deleted!', $slug));
     }
 }

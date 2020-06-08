@@ -96,9 +96,9 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         }
 
         Permission::query()
-            ->get(['name'])
+            ->get(['slug'])
             ->each(function (Permission $permission) {
-                Gate::define($permission->name, function (Authenticatable $user) use ($permission) {
+                Gate::define($permission->slug, function (Authenticatable $user) use ($permission) {
                     return $user->hasPermission($permission);
                 });
             });

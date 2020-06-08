@@ -21,7 +21,7 @@ class Search
 
         return $builder
             ->whereIn('id', $value)
-            ->orWhereIn('name', $value);
+            ->orWhereIn('slug', $value);
     }
 
     /**

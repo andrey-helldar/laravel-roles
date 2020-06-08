@@ -37,9 +37,9 @@ trait HasRoles
         });
     }
 
-    public function createRole(string $name): Model
+    public function createRole(string $slug): Model
     {
-        return $this->roles()->create(compact('name'));
+        return $this->roles()->create(compact('slug'));
     }
 
     /**
@@ -132,9 +132,9 @@ trait HasRoles
         return $this->belongsToMany(Permission::class, 'user_permission');
     }
 
-    public function createPermission(string $name): Model
+    public function createPermission(string $slug): Model
     {
-        return $this->permissions()->create(compact('name'));
+        return $this->permissions()->create(compact('slug'));
     }
 
     /**

@@ -10,14 +10,14 @@ class PermissionCreate extends Command
 {
     use Commands;
 
-    protected $signature = 'acl:permission-create {name}';
+    protected $signature = 'acl:permission-create {slug}';
 
     protected $description = 'Create a new permission';
 
     public function handle()
     {
         if ($this->permissionIsExist()) {
-            $this->error(sprintf('Permission "%s" already exists!', $this->name()));
+            $this->error(sprintf('Permission "%s" already exists!', $this->slug()));
 
             return;
         }
@@ -27,10 +27,10 @@ class PermissionCreate extends Command
 
     protected function create()
     {
-        $name = $this->name();
-        $item = Permission::create(compact('name'));
+        $slug = $this->slug();
+        $item = Permission::create(compact('slug'));
 
-        $this->info(sprintf('Permission "%s" created successfully!', $name));
+        $this->info(sprintf('Permission "%s" created successfully!', $slug));
         $this->line($item);
     }
 }

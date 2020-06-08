@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  */
 class Role extends BaseModel
 {
-    protected $fillable = ['name', 'is_root'];
+    protected $fillable = ['slug', 'is_root'];
 
     protected $casts = [
         'is_root' => 'boolean',
@@ -23,9 +23,9 @@ class Role extends BaseModel
         return $this->belongsToMany(Permission::class, 'role_permission');
     }
 
-    public function createPermission(string $name): Model
+    public function createPermission(string $slug): Model
     {
-        return $this->permissions()->create(compact('name'));
+        return $this->permissions()->create(compact('slug'));
     }
 
     /**

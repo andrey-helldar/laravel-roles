@@ -10,14 +10,14 @@ class RoleDelete extends Command
 {
     use Commands;
 
-    protected $signature = 'acl:role-delete {name|ID or role name}';
+    protected $signature = 'acl:role-delete {slug|ID or role slug}';
 
     protected $description = 'Deleting a role';
 
     public function handle()
     {
         if ($this->roleIsDoesntExist()) {
-            $this->error(sprintf('Role "%s" doesn\'t exists!', $this->name()));
+            $this->error(sprintf('Role "%s" doesn\'t exists!', $this->slug()));
 
             return;
         }
@@ -27,10 +27,10 @@ class RoleDelete extends Command
 
     protected function remove()
     {
-        $name = $this->name();
+        $slug = $this->slug();
 
-        $this->searchBuilder(Role::class, $name)->delete();
+        $this->searchBuilder(Role::class, $slug)->delete();
 
-        $this->info(sprintf('Role "%s" successfully deleted!', $name));
+        $this->info(sprintf('Role "%s" successfully deleted!', $slug));
     }
 }

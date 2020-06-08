@@ -10,7 +10,7 @@ trait SetAttribute
     {
         $value = Str::slug(trim($value), '_');
 
-        $this->setManual('name', $value);
+        $this->setManual('slug', $value);
     }
 
     protected function setManual($key, $value)
