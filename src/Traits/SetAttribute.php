@@ -6,7 +6,7 @@ use Illuminate\Support\Str;
 
 trait SetAttribute
 {
-    protected function setNameAttribute($value)
+    protected function setSlugAttribute($value)
     {
         $value = Str::slug(trim($value), '_');
 
