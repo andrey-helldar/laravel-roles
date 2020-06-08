@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @property int $id
  * @property string $slug
+ * @property string $title
  *
  * @method static Model|self create(array $values)
  * @method static Builder|self searchBy(string $value)
@@ -23,7 +24,7 @@ abstract class BaseModel extends Model
 
     public $timestamps = false;
 
-    protected $fillable = ['slug'];
+    protected $fillable = ['slug', 'title'];
 
     public function __construct(array $attributes = [])
     {

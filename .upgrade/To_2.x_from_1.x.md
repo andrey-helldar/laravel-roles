@@ -30,6 +30,8 @@ Added the `is_root` column to the `roles` table.
 
 Removed columns `created_at` and `updated_at` from `roles` and `permissions` tables.
 
+The column `title` is added to the tables of `roles` and `permissions` (starting from version 2.4.0).
+
 
 ### Configuration
 

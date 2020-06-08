@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  */
 class Role extends BaseModel
 {
-    protected $fillable = ['slug', 'is_root'];
+    protected $fillable = ['slug', 'title', 'is_root'];
 
     protected $casts = [
         'is_root' => 'boolean',

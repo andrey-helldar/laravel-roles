@@ -28,15 +28,17 @@ class TableSeeder
 
         // Roles
         $role_1 = $this->role('foo');
-        $role_2 = $this->role('bar', true);
+        $role_2 = $this->role('bar', 'BaR', true);
         $role_3 = $this->role('baz');
         $role_4 = $this->role('bax');
+        $role_5 = $this->role('qwe rty');
 
         // Permissions
         $permission_1 = $this->permission('foo');
         $permission_2 = $this->permission('bar');
         $permission_3 = $this->permission('baz');
         $permission_4 = $this->permission('bax');
+        $permission_5 = $this->permission('qwe rty');
 
         $role_1->syncPermissions([$permission_1->id, $permission_2->id]);
         $role_2->syncPermissions([$permission_1->id, $permission_2->id]);
@@ -61,13 +63,13 @@ class TableSeeder
         ]);
     }
 
-    protected function role(string $slug, bool $is_root = false): Model
+    protected function role(string $slug, string $title = null, bool $is_root = false): Model
     {
-        return Role::create(compact('slug', 'is_root'));
+        return Role::create(compact('slug', 'title', 'is_root'));
     }
 
-    protected function permission(string $slug): Model
+    protected function permission(string $slug, string $title = null): Model
     {
-        return Permission::create(compact('slug'));
+        return Permission::create(compact('slug', 'title'));
     }
 }
