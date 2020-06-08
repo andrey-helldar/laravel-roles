@@ -9,7 +9,7 @@ trait SetAttribute
 {
     protected function setSlugAttribute($value)
     {
-        $value = Str::of($value)->trim()->slug('_');
+        $value = Str::slug(trim($value), '_');
 
         $this->setManual('slug', $value);
     }
@@ -26,6 +26,6 @@ trait SetAttribute
 
     protected function getTitleAttribute($value): string
     {
-        return $value ?: Str::of($this->slug)->title()->trim();
+        return $value ?: Str::title($this->slug);
     }
 }
