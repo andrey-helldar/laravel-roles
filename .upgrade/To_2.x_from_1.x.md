@@ -6,6 +6,12 @@
 
 ### Database
 
+#### Migrations
+
+Before you apply migration, you need to publish them by running the `php artisan vendor:publish --provider="Helldar\Roles\ServiceProvider"` command.
+
+> Note: the change has been introduced since version 2.4.0.
+
 #### Tables have been renamed:
 
 | Old Name | New Name |

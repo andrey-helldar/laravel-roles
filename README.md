@@ -61,8 +61,7 @@ Or manually update `require` block of `composer.json` and run `composer update`.
 }
 ```
 
-
-You can also publish the config file to change implementations (ie. interface to specific class):
+Now you can publish the configuration and migration file by running the command:
 ```
 php artisan vendor:publish --provider="Helldar\Roles\ServiceProvider"
 ```

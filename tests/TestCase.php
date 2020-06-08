@@ -18,11 +18,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     {
         parent::setUp();
 
-        $this->loadLaravelMigrations($this->database);
-
-        $this->refreshDatabase();
-
-        TableSeeder::run();
+        $this->migrate();
     }
 
     protected function getEnvironmentSetUp($app)
@@ -61,7 +57,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
             'prefix'   => '',
         ]);
 
-        Config::set('connection', $this->database);
+        $app['config']->set('roles.connection', $this->database);
     }
 
     protected function setRoutes($app)
@@ -90,5 +86,15 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
                 return 'ok';
             },
         ]);
+    }
+
+    protected function migrate()
+    {
+        $this->loadLaravelMigrations($this->database);
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+
+        $this->refreshDatabase();
+
+        TableSeeder::run();
     }
 }

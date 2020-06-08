@@ -19,8 +19,8 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
     public function boot()
     {
-        $this->loadMigrations();
         $this->publishConfig();
+        $this->publishMigrations();
         $this->bootCommands();
 
         $this->blade();
@@ -32,9 +32,11 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->mergeConfigFrom(__DIR__ . '/../config/roles.php', Config::name());
     }
 
-    protected function loadMigrations()
+    protected function publishMigrations()
     {
-        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+        $this->publishes([
+            __DIR__ . '/../database/migrations' => database_path('migrations'),
+        ], 'migrations');
     }
 
     protected function publishConfig()

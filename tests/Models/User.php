@@ -10,6 +10,8 @@ class User extends Authenticatable
 {
     use HasRoles;
 
+    public $timestamps = false;
+
     protected $fillable = ['name', 'email', 'password'];
 
     public function __construct(array $attributes = [])
