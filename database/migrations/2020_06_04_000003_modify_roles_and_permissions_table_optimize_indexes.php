@@ -20,8 +20,6 @@ class ModifyRolesAndPermissionsTableOptimizeIndexes extends BaseMigration
     protected function optimizeIndexes(string $table, string $first_key, string $second_key)
     {
         $this->table($table, function (Blueprint $table) use ($first_key, $second_key) {
-            $table->dropPrimary([$first_key, $second_key]);
-
             $table->index($first_key);
         });
     }
@@ -29,8 +27,6 @@ class ModifyRolesAndPermissionsTableOptimizeIndexes extends BaseMigration
     protected function revertIndexes(string $table, string $first_key, string $second_key)
     {
         $this->table($table, function (Blueprint $table) use ($first_key, $second_key) {
-            $table->dropIndex([$first_key]);
-
             $table->primary([$first_key, $second_key]);
         });
     }
