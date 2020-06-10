@@ -194,7 +194,7 @@ trait HasRoles
     }
 
     /**
-     * @param  \Helldar\Roles\Models\Permission[]|string[]|int[]  $permission
+     * @param  \Helldar\Roles\Models\Permission[]|int[]|string[]  $permission
      *
      * @return bool
      */
