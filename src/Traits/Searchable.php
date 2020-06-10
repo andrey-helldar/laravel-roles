@@ -5,6 +5,7 @@ namespace Helldar\Roles\Traits;
 use Closure;
 use Helldar\Roles\Exceptions\Core\PermissionNotFoundException;
 use Helldar\Roles\Exceptions\Core\RoleNotFoundException;
+use Helldar\Roles\Facades\Database\Search;
 use Helldar\Roles\Models\Permission;
 use Helldar\Roles\Models\Role;
 use Illuminate\Database\Eloquent\Builder;
@@ -64,7 +65,7 @@ trait Searchable
      */
     protected function searchBuilder($model, $value): Builder
     {
-        return $model::searchBy($value);
+        return Search::by($model::query(), $value);
     }
 
     /**

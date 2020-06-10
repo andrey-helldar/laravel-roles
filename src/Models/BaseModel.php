@@ -3,10 +3,8 @@
 namespace Helldar\Roles\Models;
 
 use Helldar\Roles\Facades\Config;
-use Helldar\Roles\Facades\Database\Search;
 use Helldar\Roles\Traits\Searchable;
 use Helldar\Roles\Traits\SetAttribute;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -15,7 +13,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $title
  *
  * @method static Model|self create(array $values)
- * @method static Builder|self searchBy(string $value)
  */
 abstract class BaseModel extends Model
 {
@@ -33,16 +30,5 @@ abstract class BaseModel extends Model
         );
 
         parent::__construct($attributes);
-    }
-
-    /**
-     * @param  \Illuminate\Database\Eloquent\Builder  $builder
-     * @param  \Helldar\Roles\Models\BaseModel|int|string  $value
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    protected function scopeSearchBy(Builder $builder, $value)
-    {
-        return Search::by($builder, $value);
     }
 }

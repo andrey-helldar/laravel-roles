@@ -4,6 +4,7 @@ namespace Helldar\Roles\Support\Database;
 
 use Helldar\Roles\Models\BaseModel;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
@@ -19,9 +20,11 @@ class Search
     {
         $value = $this->map($values);
 
-        return $builder
-            ->whereIn('id', $value)
-            ->orWhereIn('slug', $value);
+        return $builder->where(function (Builder $builder) use ($value) {
+            $builder
+                ->whereIn('id', $value)
+                ->orWhereIn('slug', $value);
+        });
     }
 
     /**

@@ -6,13 +6,16 @@ use Helldar\Roles\Facades\Config;
 use Helldar\Roles\ServiceProvider;
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Tests\database\seeds\TableSeeder;
+use Tests\Models\User;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
     use RefreshDatabase;
 
-    private $database = 'testing';
+    protected $database = 'testing';
 
     protected function setUp(): void
     {
@@ -96,5 +99,16 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
         $this->refreshDatabase();
 
         TableSeeder::run();
+    }
+
+    protected function newUser(): User
+    {
+        $name = Str::random();
+
+        return User::create([
+            'name'     => $name,
+            'email'    => $name,
+            'password' => Hash::make('qwerty'),
+        ]);
     }
 }

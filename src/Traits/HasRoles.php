@@ -194,11 +194,11 @@ trait HasRoles
     }
 
     /**
-     * @param  \Helldar\Roles\Models\Permission|string  $permission
+     * @param  \Helldar\Roles\Models\Permission[]|string[]|int[]  $permission
      *
      * @return bool
      */
-    public function hasPermission($permission): bool
+    public function hasPermission(...$permission): bool
     {
         return $this->cache(__FUNCTION__, function () use ($permission) {
             $first = Search::by($this->permissions(), $permission)->exists();
