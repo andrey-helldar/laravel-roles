@@ -56,7 +56,7 @@ Or manually update `require` block of `composer.json` and run `composer update`.
 ```json
 {
     "require-dev": {
-        "andrey-helldar/laravel-roles": "^2.3"
+        "andrey-helldar/laravel-roles": "^2.4"
     }
 }
 ```
