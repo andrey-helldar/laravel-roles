@@ -169,8 +169,8 @@ app('router')
 use Helldar\Roles\Models\Role;
 use Helldar\Roles\Models\Permission;
 
-$role = Role::create(['name' => 'admin']);
-$permission = Permission::create(['name' => 'update']);
+$role = Role::create(['slug' => 'admin']);
+$permission = Permission::create(['slug' => 'update']);
 
 $role->assignPermission($permission);
 
@@ -178,9 +178,9 @@ $role->assignPermission($permission);
 
 $user = User::find(1);
 
-$role = $user->createRole('Mega Admin'); // creating Role instance with "mega_admin" name.
+$role = $user->createRole('Mega Admin'); // creating Role instance with "mega_admin" slug.
 
-$role->createPermission('Post edit'); // creating Permission instance with "post_edit" name.
+$role->createPermission('Post edit'); // creating Permission instance with "post_edit" slug.
 ```
 
 
@@ -197,17 +197,17 @@ To add roles and permissions, use the following methods:
 use \Helldar\Roles\Models\Role;
 
 // For User
-$user->assignRole('role_name');
+$user->assignRole('role_slug');
 $user->assignRole(Role::find(1));
 $user->assignRole(1);
 
-$user->assignRoles($role_1, 'role_name_2', 3, ...);
+$user->assignRoles($role_1, 'role_slug_2', 3, ...);
 
 
 // For Role
 use \Helldar\Roles\Models\Permission;
 
-$role->assignPermission('permission_name');
+$role->assignPermission('permission_slug');
 $role->assignPermission(Permission::find(1));
 $role->assignPermission(1);
 
@@ -217,7 +217,7 @@ $role->assignPermissions($permission_1, 'permission_2', 3, ...);
 // For Permission
 use \Helldar\Roles\Models\Role;
 
-$permission->assignRole('role_name');
+$permission->assignRole('role_slug');
 $permission->assignRole(Role::find(1));
 $permission->assignRole(1);
 
@@ -233,17 +233,17 @@ To revoke roles and permissions, use the following methods:
 use \Helldar\Roles\Models\Role;
 
 // For User
-$user->revokeRole('role_name');
+$user->revokeRole('role_slug');
 $user->revokeRole(Role::find(1));
 $user->revokeRole(1);
 
-$user->revokeRoles($role_1, 'role_name_2', 3, ...);
+$user->revokeRoles($role_1, 'role_slug_2', 3, ...);
 
 
 // For Role
 use \Helldar\Roles\Models\Permission;
 
-$role->revokePermission('permission_name');
+$role->revokePermission('permission_slug');
 $role->revokePermission(Permission::find(1));
 $role->revokePermission(1);
 
@@ -253,7 +253,7 @@ $role->revokePermissions($permission_1, 'permission_2', 3, ...);
 // For Permission
 use \Helldar\Roles\Models\Role;
 
-$permission->revokeRole('role_name');
+$permission->revokeRole('role_slug');
 $permission->revokeRole(Role::find(1));
 $permission->revokeRole(1);
 
@@ -284,47 +284,47 @@ $permission->syncRoles([1, 2, 3, ...]);
 If you enabled the use of directives in the [config](src/config/settings.php) file, you can still using `can()` blade directive with additional `role()` and `permission()` directives:
 
 ```php
-@can('permission_name')
+@can('permission_slug')
     I can see this text
 @endcan
 
-@if(auth()->user()->can('permission_name'))
+@if(auth()->user()->can('permission_slug'))
     I can see this text
 @endif
 
 
-@role('role_name')
+@role('role_slug')
     I can see this text
 @endrole
 
-@role(auth()->user()->hasRole('role_name'))
+@role(auth()->user()->hasRole('role_slug'))
     I can see this text
 @endrole
 
 
-@roles('role_name_1', 'role_name_2', 'role_name_3')
+@roles('role_slug_1', 'role_slug_2', 'role_slug_3')
     I can see this text
 @endroles
 
-@roles(auth()->user()->hasRole('role_name'))
+@roles(auth()->user()->hasRole('role_slug'))
     I can see this text
 @endroles
 
 
-@permission('permission_name')
+@permission('permission_slug')
     I can see this text
 @endpermission
 
-@permission(auth()->user()->hasPermission('permission_name'))
+@permission(auth()->user()->hasPermission('permission_slug'))
     I can see this text
 @endpermission
 
 
-@permissions('permission_name_1', 'permission_name_2', 'permission_name_3')
+@permissions('permission_slug_1', 'permission_slug_2', 'permission_slug_3')
     I can see this text
 @endpermissions
 
-@permissions(auth()->user()->hasPermission('permission_name'))
+@permissions(auth()->user()->hasPermission('permission_slug'))
     I can see this text
 @endpermissions
 ```
@@ -463,20 +463,20 @@ $role->hasPermissions([Permission::find(1), Permission::find(2)]): bool
 You can create/delete a role or a permission from a console with artisan commands:
 
 ```
-php artisan acl:role-create {name}
-php artisan acl:role-delete {id|ID or role name}
+php artisan acl:role-create {slug}
+php artisan acl:role-delete {id|ID or role slug}
 
-php artisan acl:permission-create {name}
-php artisan acl:permission-delete {id|ID or permission name}
+php artisan acl:permission-create {slug}
+php artisan acl:permission-delete {id|ID or permission slug}
 ```
 
 You can also invoke the creation of roles and permissions from your application:
 ```php
-Artisan::call('acl:role-create', ['name' => $name]);
-Artisan::call('acl:role-delete', ['name' => $name]);
+Artisan::call('acl:role-create', ['slug' => $slug]);
+Artisan::call('acl:role-delete', ['slug' => $slug]);
 
-Artisan::call('acl:permission-create', ['name' => $name]);
-Artisan::call('acl:permission-delete', ['name' => $name]);
+Artisan::call('acl:permission-create', ['slug' => $slug]);
+Artisan::call('acl:permission-delete', ['slug' => $slug]);
 ```
 
 
