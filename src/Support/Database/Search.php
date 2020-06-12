@@ -20,10 +20,21 @@ class Search
     {
         $value = $this->map($values);
 
-        return $builder->where(function (Builder $builder) use ($value) {
+        $nums  = $this->filterNum($value);
+        $slugs = $this->filterSlugs($value);
+
+        if ($nums && ! $slugs) {
+            return $builder->whereIn('id', $nums);
+        }
+
+        if (! $nums && $slugs) {
+            return $builder->whereIn('slug', $slugs);
+        }
+
+        return $builder->where(function (Builder $builder) use ($nums, $slugs) {
             $builder
-                ->whereIn('id', $value)
-                ->orWhereIn('slug', $value);
+                ->whereIn('id', $nums)
+                ->orWhereIn('slug', $slugs);
         });
     }
 
@@ -49,6 +60,20 @@ class Search
         return array_map(function ($value) {
             return $this->getId($value);
         }, $this->toArray($values));
+    }
+
+    protected function filterNum(array $values): array
+    {
+        return array_filter($values, function ($value) {
+            return is_numeric($value);
+        });
+    }
+
+    protected function filterSlugs(array $values): array
+    {
+        return array_filter($values, function ($value) {
+            return ! is_numeric($value);
+        });
     }
 
     protected function toArray($values): array
