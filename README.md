@@ -178,9 +178,12 @@ $role->assignPermission($permission);
 
 $user = User::find(1);
 
-$role = $user->createRole('Mega Admin'); // creating Role instance with "mega_admin" slug.
+$role = $user->createRole('Mega Admin'); // creating Role instance with "mega_admin" slug and "Mega_Admin" title.
+$role = $user->createRole('Mega Admin', 'Mega Admin'); // creating Role instance with "mega_admin" slug and "Mega Admin" title.
+$role = $user->createRole('Mega Admin', 'Mega Admin', true); // creating Role instance with "mega_admin" slug and "Mega Admin" title and `is_root` role.
 
-$role->createPermission('Post edit'); // creating Permission instance with "post_edit" slug.
+$role->createPermission('Post edit'); // creating Permission instance with "post_edit" slug and "Post_Edit" title.
+$role->createPermission('Post edit', 'Post edit'); // creating Permission instance with "post_edit" slug and "Post edit" title.
 ```
 
 
