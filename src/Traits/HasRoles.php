@@ -2,6 +2,7 @@
 
 namespace Helldar\Roles\Traits;
 
+use Helldar\Roles\Facades\Config;
 use Helldar\Roles\Facades\Database\Search;
 use Helldar\Roles\Models\Permission;
 use Helldar\Roles\Models\Role;
@@ -62,6 +63,16 @@ trait HasRoles
     public function assignRoles(...$roles): void
     {
         foreach ($roles as $role) {
+            $this->assignRole($role);
+        }
+    }
+
+    /**
+     * @throws \Throwable
+     */
+    public function assignDefaultRole(): void
+    {
+        if ($role = Config::defaultRole()) {
             $this->assignRole($role);
         }
     }

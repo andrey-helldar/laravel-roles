@@ -2,6 +2,7 @@
 
 namespace Tests\PHPUnit;
 
+use Helldar\Roles\Facades\Config;
 use Tests\TestCase;
 
 class MethodsTest extends TestCase
@@ -28,6 +29,23 @@ class MethodsTest extends TestCase
 
         $this->assertTrue($user->hasRoles(1, 'bar'));
         $this->assertTrue($user->hasRoles('foo', 'bar'));
+    }
+
+    /**
+     * @throws \Throwable
+     */
+    public function testAssignDefaultRole()
+    {
+        $user = $this->newUser();
+
+        $this->assertFalse($user->hasRole(1));
+        $user->assignDefaultRole();
+        $this->assertFalse($user->hasRole(1));
+
+        Config::set('default_role', 'foo');
+
+        $user->assignDefaultRole();
+        $this->assertTrue($user->hasRole(1));
     }
 
     /**

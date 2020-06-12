@@ -53,6 +53,11 @@ class Config
         return $this->name() . '.php';
     }
 
+    public function defaultRole(): ?string
+    {
+        return $this->get('default_role');
+    }
+
     protected function compileKey($key): string
     {
         return $this->name() . '.' . $key;

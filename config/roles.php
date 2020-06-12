@@ -40,4 +40,13 @@ return [
      */
 
     'cache_ttl' => 3600,
+
+    /*
+     * When calling the attachDefault method, assign the user a role with this identifier.
+     * If `null`, the role will not be added.
+     *
+     * By default, `null`.
+     */
+
+    'default_role' => null,
 ];

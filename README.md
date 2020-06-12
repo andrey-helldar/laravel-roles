@@ -206,6 +206,11 @@ $user->assignRole(1);
 
 $user->assignRoles($role_1, 'role_slug_2', 3, ...);
 
+// Adds to the user the role specified in the `default_role`
+// parameter of the `config/roles.php` file.
+// If `null`, then no addition will be made.
+$user->assignDefaultRole();
+
 
 // For Role
 use \Helldar\Roles\Models\Permission;

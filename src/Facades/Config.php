@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static bool useCache()
  * @method static int cacheTtl()
  * @method static string filename()
+ * @method static string|null defaultRole()
  */
 class Config extends Facade
 {
