@@ -198,6 +198,7 @@ To add roles and permissions, use the following methods:
 
 ```php
 use \Helldar\Roles\Models\Role;
+use \Helldar\Roles\Models\Permission;
 
 // For User
 $user->assignRole('role_slug');
@@ -210,6 +211,12 @@ $user->assignRoles($role_1, 'role_slug_2', 3, ...);
 // parameter of the `config/roles.php` file.
 // If `null`, then no addition will be made.
 $user->assignDefaultRole();
+
+$user->assignPermission('permission_slug');
+$user->assignPermission(Permission::find(1));
+$user->assignPermission(1);
+
+$user->assignPermissions($permission_1, 'permission_2', 3, ...);
 
 
 // For Role
@@ -239,6 +246,7 @@ To revoke roles and permissions, use the following methods:
 
 ```php
 use \Helldar\Roles\Models\Role;
+use \Helldar\Roles\Models\Permission;
 
 // For User
 $user->revokeRole('role_slug');
@@ -246,6 +254,12 @@ $user->revokeRole(Role::find(1));
 $user->revokeRole(1);
 
 $user->revokeRoles($role_1, 'role_slug_2', 3, ...);
+
+$user->revokePermission('permission_slug');
+$user->revokePermission(Permission::find(1));
+$user->revokePermission(1);
+
+$user->revokePermissions($permission_1, 'permission_2', 3, ...);
 
 
 // For Role
@@ -276,6 +290,7 @@ To synchronization roles and permissions, use the following methods:
 ```php
 // For User
 $user->syncRoles([1, 2, 3, ...]);
+$user->syncPermissions([1, 2, 3, ...]);
 
 
 // For Role
