@@ -2,6 +2,7 @@
 
 namespace Helldar\Roles\Models;
 
+use Helldar\Roles\Constants\Tables;
 use Helldar\Roles\Facades\Database\Search;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -12,6 +13,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  */
 class Role extends BaseModel
 {
+    protected $table = Tables::ROLES;
+
     protected $fillable = ['slug', 'title', 'is_root'];
 
     protected $casts = [
@@ -20,7 +23,7 @@ class Role extends BaseModel
 
     public function permissions(): BelongsToMany
     {
-        return $this->belongsToMany(Permission::class, 'role_permission');
+        return $this->belongsToMany(Permission::class, Tables::ROLE_PERMISSION);
     }
 
     public function createPermission(string $slug): Model

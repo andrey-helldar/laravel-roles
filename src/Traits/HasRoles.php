@@ -2,6 +2,7 @@
 
 namespace Helldar\Roles\Traits;
 
+use Helldar\Roles\Constants\Tables;
 use Helldar\Roles\Facades\Config;
 use Helldar\Roles\Facades\Database\Search;
 use Helldar\Roles\Models\Permission;
@@ -26,7 +27,7 @@ trait HasRoles
      */
     public function roles(): BelongsToMany
     {
-        return $this->belongsToMany(Role::class, 'user_role');
+        return $this->belongsToMany(Role::class, Tables::USER_ROLE);
     }
 
     public function hasRootRole(): bool
@@ -140,7 +141,7 @@ trait HasRoles
      */
     public function permissions(): BelongsToMany
     {
-        return $this->belongsToMany(Permission::class, 'user_permission');
+        return $this->belongsToMany(Permission::class, Tables::USER_PERMISSION);
     }
 
     public function createPermission(string $slug, string $title = null): Model

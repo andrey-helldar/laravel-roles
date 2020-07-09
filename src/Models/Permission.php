@@ -2,6 +2,7 @@
 
 namespace Helldar\Roles\Models;
 
+use Helldar\Roles\Constants\Tables;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
@@ -10,9 +11,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  */
 class Permission extends BaseModel
 {
+    protected $table = Tables::PERMISSIONS;
+
     public function roles(): BelongsToMany
     {
-        return $this->belongsToMany(Role::class);
+        return $this->belongsToMany(Role::class, Tables::ROLE_PERMISSION);
     }
 
     /**

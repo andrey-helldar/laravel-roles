@@ -3,6 +3,7 @@
 namespace Helldar\Roles\Support\Database;
 
 use Closure;
+use Helldar\Roles\Constants\Tables;
 use Helldar\Roles\Facades\Config;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Builder;
@@ -10,17 +11,17 @@ use Illuminate\Support\Facades\Schema;
 
 abstract class BaseMigration extends Migration
 {
-    protected $permissions = 'permissions';
+    protected $permissions = Tables::PERMISSIONS;
 
-    protected $role_permission = 'role_permission';
+    protected $role_permission = Tables::ROLE_PERMISSION;
 
     protected $role_permissions = 'role_permissions';
 
-    protected $roles = 'roles';
+    protected $roles = Tables::ROLES;
 
-    protected $user_permission = 'user_permission';
+    protected $user_permission = Tables::USER_PERMISSION;
 
-    protected $user_role = 'user_role';
+    protected $user_role = Tables::USER_ROLE;
 
     protected $user_roles = 'user_roles';
 
