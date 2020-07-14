@@ -54,38 +54,38 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
         /* Role */
         Blade::directive('role', function ($role) {
-            return "<?php if(\auth()->check() && \auth()->user()->hasRole($role)) { ?>";
+            return "<?php if(\auth()->check() && \auth()->user()->hasRole($role)): ?>";
         });
 
         Blade::directive('endrole', function () {
-            return '<?php } ?>';
+            return '<?php endif; ?>';
         });
 
         /* Roles */
         Blade::directive('roles', function ($roles) {
-            return "<?php if(\auth()->check() && \auth()->user()->hasRoles($roles)) { ?>";
+            return "<?php if(\auth()->check() && \auth()->user()->hasRoles($roles)): ?>";
         });
 
         Blade::directive('endroles', function () {
-            return '<?php } ?>';
+            return '<?php endif; ?>';
         });
 
         /* Permission */
         Blade::directive('permission', function ($permission) {
-            return "<?php if(\auth()->check() && \auth()->user()->hasPermission($permission)) ?>";
+            return "<?php if(\auth()->check() && \auth()->user()->hasPermission($permission)): ?>";
         });
 
         Blade::directive('endpermission', function () {
-            return '<?php } ?>';
+            return '<?php endif; ?>';
         });
 
         /* Permissions */
         Blade::directive('permissions', function ($permissions) {
-            return "<?php if(\auth()->check() && \auth()->user()->hasPermissions($permissions)) ?>";
+            return "<?php if(\auth()->check() && \auth()->user()->hasPermissions($permissions)): ?>";
         });
 
         Blade::directive('endpermissions', function () {
-            return '<?php } ?>';
+            return '<?php endif; ?>';
         });
     }
 
