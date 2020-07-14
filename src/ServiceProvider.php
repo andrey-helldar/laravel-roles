@@ -100,7 +100,6 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
         foreach ($this->getPermissions() as $permission) {
             Gate::define($permission, function (Authenticatable $user) use ($permission) {
-                /* @var \Helldar\Roles\Traits\HasRoles $user */
                 return $user->hasPermission($permission);
             });
         }
@@ -128,9 +127,15 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
     protected function doesntExistPermissionsTable(): bool
     {
-        return Cache::remember(__FUNCTION__, $this->ttl(), static function () {
-            return ! Schema::connection(Config::connection())->hasTable(Tables::PERMISSIONS);
-        });
+        return Config::useCache()
+            ? Cache::remember(__FUNCTION__, $this->ttl(), static function () {
+                return ! $this->existPermissionsTable();
+            }) : ! $this->existPermissionsTable();
+    }
+
+    protected function existPermissionsTable(): bool
+    {
+        return Schema::connection(Config::connection())->hasTable(Tables::PERMISSIONS);
     }
 
     protected function ttl(): ?int

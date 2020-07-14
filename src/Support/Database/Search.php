@@ -3,6 +3,8 @@
 namespace Helldar\Roles\Support\Database;
 
 use Helldar\Roles\Models\BaseModel;
+use Helldar\Roles\Models\Permission;
+use Helldar\Roles\Models\Role;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
@@ -78,7 +80,9 @@ class Search
 
     protected function toArray($values): array
     {
-        if ($this->isArrayable($values)) {
+        if ($this->isRole($values) || $this->isPermission($values)) {
+            return [$values];
+        } elseif ($this->isArrayable($values)) {
             $values = $values->toArray();
         } elseif (! $this->isArray($values)) {
             $values = Arr::wrap($values);
@@ -95,5 +99,15 @@ class Search
     protected function isArrayable($values): bool
     {
         return $values instanceof Arrayable || $values instanceof Collection;
+    }
+
+    protected function isRole($value): bool
+    {
+        return $value instanceof Role;
+    }
+
+    protected function isPermission($value): bool
+    {
+        return $value instanceof Permission;
     }
 }
