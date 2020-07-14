@@ -62,7 +62,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
         });
 
         /* Roles */
-        Blade::directive('role', function ($roles) {
+        Blade::directive('roles', function ($roles) {
             return "<?php if(\auth()->check() && \auth()->user()->hasRoles($roles)) { ?>";
         });
 
