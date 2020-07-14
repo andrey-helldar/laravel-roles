@@ -100,7 +100,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
         foreach ($this->getPermissions() as $permission) {
             Gate::define($permission, function (Authenticatable $user) use ($permission) {
-                /** @var \Helldar\Roles\Traits\HasRoles $user */
+                /* @var \Helldar\Roles\Traits\HasRoles $user */
                 return $user->hasPermission($permission);
             });
         }
