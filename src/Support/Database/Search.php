@@ -25,14 +25,6 @@ class Search
         $nums  = $this->filterNum($value);
         $slugs = $this->filterSlugs($value);
 
-        if ($nums && ! $slugs) {
-            return $builder->whereIn('id', $nums);
-        }
-
-        if (! $nums && $slugs) {
-            return $builder->whereIn('slug', $slugs);
-        }
-
         return $builder->where(function (Builder $builder) use ($nums, $slugs) {
             $builder
                 ->whereIn('id', $nums)
