@@ -128,7 +128,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
     protected function doesntExistPermissionsTable(): bool
     {
         return Config::useCache()
-            ? Cache::remember(__FUNCTION__, $this->ttl(), static function () {
+            ? Cache::remember(__FUNCTION__, $this->ttl(), function () {
                 return ! $this->existPermissionsTable();
             }) : ! $this->existPermissionsTable();
     }
