@@ -6,6 +6,7 @@ use Helldar\Roles\Console\PermissionCreate;
 use Helldar\Roles\Console\PermissionDelete;
 use Helldar\Roles\Console\RoleCreate;
 use Helldar\Roles\Console\RoleDelete;
+use Helldar\Roles\Constants\Tables;
 use Helldar\Roles\Facades\Config;
 use Helldar\Roles\Models\Permission;
 use Helldar\Roles\Traits\Searchable;
@@ -13,6 +14,7 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Schema;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
@@ -49,7 +51,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
     protected function blade()
     {
-        if (! Config::useBlade()) {
+        if ($this->doesntExistPermissionsTable() || ! Config::useBlade()) {
             return;
         }
 
@@ -92,12 +94,13 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
     protected function can()
     {
-        if (! Config::useCanDirective()) {
+        if ($this->doesntExistPermissionsTable() || ! Config::useCanDirective()) {
             return;
         }
 
         foreach ($this->getPermissions() as $permission) {
             Gate::define($permission, function (Authenticatable $user) use ($permission) {
+                /** @var \Helldar\Roles\Traits\HasRoles $user */
                 return $user->hasPermission($permission);
             });
         }
@@ -115,11 +118,23 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
     protected function getPermissions(): array
     {
-        return Cache::remember('permissions-model', Config::cacheTtl(), static function () {
+        return Cache::remember('permissions-model', $this->ttl(), static function () {
             return Permission::query()
                 ->get(['slug'])
                 ->pluck('slug')
                 ->toArray();
         });
+    }
+
+    protected function doesntExistPermissionsTable(): bool
+    {
+        return Cache::remember(__FUNCTION__, $this->ttl(), static function () {
+            return ! Schema::connection(Config::connection())->hasTable(Tables::PERMISSIONS);
+        });
+    }
+
+    protected function ttl(): ?int
+    {
+        return Config::cacheTtl();
     }
 }
