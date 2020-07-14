@@ -11,6 +11,7 @@ use Helldar\Roles\Models\Permission;
 use Helldar\Roles\Traits\Searchable;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
@@ -95,13 +96,11 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             return;
         }
 
-        Permission::query()
-            ->get(['slug'])
-            ->each(function (Permission $permission) {
-                Gate::define($permission->slug, function (Authenticatable $user) use ($permission) {
-                    return $user->hasPermission($permission);
-                });
+        foreach ($this->getPermissions() as $permission) {
+            Gate::define($permission, function (Authenticatable $user) use ($permission) {
+                return $user->hasPermission($permission);
             });
+        }
     }
 
     protected function bootCommands()
@@ -112,5 +111,15 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
             RoleCreate::class,
             RoleDelete::class,
         ]);
+    }
+
+    protected function getPermissions(): array
+    {
+        return Cache::remember('permissions-model', Config::cacheTtl(), static function () {
+            return Permission::query()
+                ->get(['slug'])
+                ->pluck('slug')
+                ->toArray();
+        });
     }
 }
