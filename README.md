@@ -4,6 +4,8 @@ Basic roles and permissions handling for Laravel 5.5 and up.
 
 ![laravel roles](https://user-images.githubusercontent.com/10347617/56795701-ad270f00-6819-11e9-854c-df13a53d1e8c.png)
 
+This package is abandoned and no longer maintained. The author suggests using the [spatie/laravel-permission](https://github.com/spatie/laravel-permission) package instead.
+
 [![StyleCI Status][badge_styleci]][link_styleci]
 [![Github Workflow Status][badge_build]][link_build]
 [![Coverage Status][badge_coverage]][link_scrutinizer]
